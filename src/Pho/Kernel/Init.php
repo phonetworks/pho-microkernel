@@ -22,7 +22,7 @@ use Pho\Kernel\Services\Exceptions\AdapterNonExistentException;
  *  
  * @author Emre Sokullu <emre@phonetworks.org>
  */
-class Init extends KernelBase 
+class Init extends Container 
 {
   /**
    * @var boolean

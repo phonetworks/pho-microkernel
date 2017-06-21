@@ -21,7 +21,7 @@ namespace Pho\Kernel;
  * 
  * @author Emre Sokullu <emre@phonetworks.org>
  */
-class KernelBase extends \Pimple
+class Container extends \Pimple
 {
    /**
     * @internal
