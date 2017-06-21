@@ -7,7 +7,14 @@ use Pho\Framework;
 use Pho\Lib\Graph;
 use Pho\Lib\Graph\EntityInterface;
 
-class Query 
+/**
+ * Graphsystem
+ * 
+ * Gs is short for graphsystem; Pho's equivalent of UNIX' filesystem.
+ * 
+ * @author Emre Sokullu <emre@phonetworks.org>
+ */
+class Gs 
 {
     private $database;
     private $logger;
@@ -17,7 +24,6 @@ class Query
         $this->logger = $kernel->logger();
     }
 
-    
   /**
    * Retrieves a node
    *
@@ -66,6 +72,24 @@ class Query
       throw new Exceptions\NotAnEdgeException(sprintf("The id %s does not belong to a a valid edge entity.", (string) $edge_id));
     }
     return $edge;
+  }
+
+  /**
+   * Creates the entity in the graphsystem 
+   *
+   * @param Graph\EntityInterface $entity
+   * 
+   * @return void
+   */
+  public function touch(Graph\EntityInterface $entity): void
+  {
+    $key = "node";
+    if($entity instanceof Graph\EdgeInterface) {
+      $key = "edge";
+    }
+    $this->database->set(
+        sprintf("%s:%s", $key, (string) $entity->id()), serialize($entity)
+    );
   }
 
 }

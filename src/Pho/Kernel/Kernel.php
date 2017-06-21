@@ -108,30 +108,11 @@ class Kernel extends Init
     }
     $this->is_running = true;
     $this->setupServices();
-    $this["query"] = $this->share(function($c) {
-      return new Query($c);
+    $this["ns"] = $this->share(function($c) {
+      return new Ns($c);
     });
     $this->seedRoot();
     $this->registerListeners($this["graph"]);
-
     $this->events()->emit("kernel.booted_up");
   }
-
-
-   public function register(array $classes): void
-   {
-     $type = function(string $class): string
-     {
-        if($class instanceof Framework\Actor) return "actor";
-        if($class instanceof Framework\Object) return "object";
-        if($class instanceof Framework\Frame) return "graph";
-     };
-     foreach($classes as $class) {
-        if(!$class instanceof Framework\ParticleInterface) {
-          $this->logger()->warning();
-          continue;
-        }
-        $this->class_registry[$type($class)][] = $class;
-     }
-   }
 }
