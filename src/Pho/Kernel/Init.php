@@ -162,9 +162,9 @@ class Init extends Container
            $graph_id,
            $founder_id
          );
-         $founder = $this->utils()->node($founder_id);
+         $founder = $this->gs()->node($founder_id);
          $this["graph"] = $this->share(function($c) use($graph_id) {
-            return $c["utils"]->node($graph_id);
+            return $c["gs"]->node($graph_id);
           });
        }
        else {

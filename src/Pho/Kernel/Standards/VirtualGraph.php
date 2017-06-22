@@ -2,7 +2,6 @@
 
 namespace Pho\Kernel\Foundation;
 
-use Pho\Kernel\Traits\PersistentGraphTrait;
 use Pho\Framework;
 use Pho\Kernel\Kernel;
 use Pho\Kernel\Acl;
@@ -12,7 +11,8 @@ use Pho\Kernel\Acl;
  */
 class VirtualGraph extends Framework\Graph {
 
-    use PersistentGraphTrait;
+    use \Pho\Kernel\Bridge\SubGraphHydratorTrait;
+    use \Pho\Kernel\Traits\Node\PersistentTrait;
 
     /**
      * The owner can do anything,

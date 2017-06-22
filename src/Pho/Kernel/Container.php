@@ -35,7 +35,7 @@ class Container extends \Pimple
     */
    public function __call($name, $arguments) {
         if( $this->is_configured && 
-        ( in_array($name, ["config", "utils", "graph", "world"]) || // preset ones.
+        ( in_array($name, ["config", "gs", "graph", "space"]) || // preset ones.
           in_array($name, array_keys($this["config"]->services->toArray())))
         
         ) {
