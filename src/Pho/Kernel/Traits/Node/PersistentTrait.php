@@ -9,6 +9,15 @@ use Pho\Lib\Graph\ID;
 use Pho\Lib\Graph;
 use Pho\Kernel\Foundation;
 
+/**
+ * Persistent Trait
+ * 
+ * Persistent nodes are not volatile, which means, they are stored
+ * in the database, and they don't go away when the kernel 
+ * is halted for any reason --voluntary or by accident--.
+ * 
+ * @author Emre Sokullu <emre@phonetworks.org>
+ */
 trait PersistentTrait {
 
     use \Pho\Kernel\Bridge\NodeHydratorTrait;

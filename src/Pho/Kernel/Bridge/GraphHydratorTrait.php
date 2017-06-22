@@ -22,16 +22,12 @@ trait GraphHydratorTrait {
 
     protected function onAdd(Graph\NodeInterface $node): void
     {
-        // this must be a Graph or SubGraph
-        // persist it for members()
-        // update index
+        $this->persist();
     }
 
     protected function onRemove(ID $node_id): void
     {
-         // this must be a Graph or SubGraph
-        // persist it for members()
-        // update index
+        $this->persist();
     }
 
     // clustertrait

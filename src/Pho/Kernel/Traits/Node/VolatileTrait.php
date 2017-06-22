@@ -2,6 +2,14 @@
 
 namespace Pho\Kernel\Node;
 
+/**
+ * Volatile Trait
+ * 
+ * Volatile nodes are not persistent, which means, they 
+ * are lost once the kernel shuts down.
+ * 
+ * @author Emre Sokullu <emre@phonetworks.org>
+ */
 trait VolatileTrait  {
 
     use PersistentTrait;
