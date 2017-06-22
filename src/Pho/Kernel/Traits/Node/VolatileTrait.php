@@ -1,6 +1,6 @@
 <?php
 
-namespace Pho\Kernel\Node;
+namespace Pho\Kernel\Traits\Node;
 
 /**
  * Volatile Trait
@@ -11,8 +11,6 @@ namespace Pho\Kernel\Node;
  * @author Emre Sokullu <emre@phonetworks.org>
  */
 trait VolatileTrait  {
-
-    use PersistentTrait;
 
     public function persist(bool $skip = false): void {}
 

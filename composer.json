@@ -20,7 +20,7 @@
         "ptrofimov/zeroevents": "^3.0",
         "pimple/pimple": "^1.1",
         "phonetworks/pho-lib-graph": "^3.1",
-        "phonetworks/pho-framework": "~4.4",
+        "phonetworks/pho-framework": "~5.0",
         "zumba/json-serializer": "^2.1",
         "jeremeamia/superclosure": "^2.3"
     },

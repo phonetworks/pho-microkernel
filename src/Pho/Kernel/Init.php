@@ -27,17 +27,17 @@ class Init extends Container
   /**
    * @var boolean
    */
-  private $is_running = false;
+  protected $is_running = false;
 
   /**
    * @var bool
    */
-  private $is_configured = false;
+  protected $is_configured = false;
 
   /**
    * @var array
    */
-  private $class_registry = [];
+  protected $class_registry = [];
 
 
 
@@ -150,40 +150,38 @@ class Init extends Container
     */
    protected function seedRoot(): void
    {  
-       $this["universe"] = $this->share(function($c) {
-        return new Standards\Universe($c);
+       $this["space"] = $this->share(function($c) {
+        return new Standards\Space($c);
        });
-       $network_id = $this->database()->get("configs:network_id");
-       $creator_id = $this->database()->get("configs:creator_id");
+       $graph_id = $this->database()->get("configs:graph_id");
+       $founder_id = $this->database()->get("configs:founder_id");
 
-       if(isset($network_id) && isset($creator_id)) {
+       if(isset($graph_id) && isset($founder_id)) {
          $this->logger()->info(
            "Existing network with id: %s and creator: %s", 
-           $network_id,
-           $creator_id
+           $graph_id,
+           $founder_id
          );
-         $creator = $this->utils()->node($creator_id);
-         $this["graph"] = $this->share(function($c) use($network_id) {
-            return $c["utils"]->node($network_id);
+         $founder = $this->utils()->node($founder_id);
+         $this["graph"] = $this->share(function($c) use($graph_id) {
+            return $c["utils"]->node($graph_id);
           });
        }
        else {
-          if(isset($network_id)) 
-              throw new Exceptions\LostCreatorException();
-          else if (isset($creator_id)) 
+          if(isset($graph_id)) 
+              throw new Exceptions\LostFounderException();
+          else if (isset($founder_id)) 
               throw new Exceptions\LostNetworkException();
 
-          $creator = new Standards\Founder($this); // will turn into admin by Network
-          $this["graph"] = $this->share(function($c) use($creator) {
-            return new Standards\Graph($c, $creator);
+          $founder = new Standards\Founder($this); // will turn into admin by Network
+          $this["graph"] = $this->share(function($c) use($founder) {
+            return new Standards\Graph($c, $founder);
           });
-         $this->database()->set("configs:network_id", $this->graph()->id());
-         $this->database()->set("configs:creator_id", $creator->id());
-         $this->logger()->info(sprintf(
-           "New network with id: %s and creator: %s", 
-           $this->graph()->id(),
-           $creator->id()
-         ));
+         $this->database()->set("configs:graph_id", $this->graph()->id());
+         $this->database()->set("configs:founder_id", $founder->id());
+         $this->logger()->info(
+           "New graph with id: %s and founder: %s", $this->graph()->id(), $founder->id()
+         );
        }
        
    }

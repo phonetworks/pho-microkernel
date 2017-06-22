@@ -10,7 +10,7 @@ use Pho\Kernel\Acl;
 /**
  * do not extend group, 
  */
-class VirtualGraph extends Framework\Frame {
+class VirtualGraph extends Framework\Graph {
 
     use PersistentGraphTrait;
 

@@ -54,7 +54,7 @@ class Kernel extends Init
   public function halt(): void
   {
     if(!$this->is_running) {
-      throw new Exceptions\KernetNotRunningException();
+      throw new Exceptions\KernelNotRunningException();
     }
     $this->is_running = false;
     unset($GLOBALS["kernel"]);

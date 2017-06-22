@@ -5,12 +5,12 @@ namespace Pho\Kernel\Standards;
 use Pho\Framework;
 use Pho\Kernel\Kernel;
 
-class Graph extends Group {
+class Graph extends \Pho\Framework\Graph {
 
-    public function __construct(Kernel $kernel, Framework\Actor $creator)
+    public function __construct(Kernel $kernel, Framework\Actor $founder)
     { 
-        parent::__construct($kernel, $creator, $kernel["universe"]);
-        $creator->changeContext($this);
+        parent::__construct($founder, $kernel["space"]);
+        $founder->changeContext($this);
     }
 
 }
