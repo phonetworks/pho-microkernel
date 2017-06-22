@@ -1,0 +1,44 @@
+{
+  "name": "phonetworks/pho-kernel",
+  "type": "library",
+  "description": "Social-Enabled App Infrastructure",
+  "homepage": "https://phonetworks.org",
+  "license": "Apache",
+  "authors": [
+        {
+            "name": "Emre Sokullu",
+            "email": "emre@phonetworks.org",
+            "homepage": "http://www.emresokullu.com"
+        }
+    ],
+    "require": {
+        "php":"^7.1",
+        "monolog/monolog": "^1.22",
+        "sabre/event": "^5.0",
+	    "predis/predis": "^1.1",
+	    "zendframework/zend-config": "*",
+        "ptrofimov/zeroevents": "^3.0",
+        "pimple/pimple": "^1.1",
+        "phonetworks/pho-lib-graph": "^3.1",
+        "phonetworks/pho-framework": "~4.4",
+        "zumba/json-serializer": "^2.1",
+        "jeremeamia/superclosure": "^2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7",
+	    "phpdocumentor/phpdocumentor": "*",
+         "fzaninotto/faker": "^1.6",
+         "psy/psysh": "*",
+         "squizlabs/php_codesniffer": "^2.5"
+    },
+    "autoload": {
+	     "psr-4": {
+		       "Pho\\Kernel\\": "src/Pho/Kernel/"
+	     }
+    },
+    "autoload-dev": {
+        "psr-4": {
+           "Pho\\Kernel\\": "tests/Pho/Kernel/"
+        }
+    }
+}

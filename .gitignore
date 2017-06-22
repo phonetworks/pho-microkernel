@@ -1,0 +1,8 @@
+dump.rdb
+/docs
+*.DS_Store
+/composer.lock
+/.git
+/vendor
+.vagrant
+*.log
