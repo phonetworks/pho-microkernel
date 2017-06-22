@@ -10,7 +10,7 @@ trait EdgeHydratorTrait {
     private function persist(): void
     {
         $this->ensureKernel();
-        $this->kernel->database()->set(sprintf("edge:%s", $this->id()), serialize($this));
+        $this->kernel->gs()->touch($this);
         $this->persist();
     }
 
@@ -23,14 +23,14 @@ trait EdgeHydratorTrait {
     public function hydratedHead(): Graph\NodeInterface 
     {
         $this->_ensureKernel();
-        $this->head = $this->kernel->utils()->node($this->head_id);
+        $this->head = $this->kernel->gs()->node($this->head_id);
         return $this->head;
     }
     
     public function hydratedTail(): Graph\NodeInterface
     {
         $this->_ensureKernel();
-        $this->tail =  $this->kernel->utils()->node($this->tail_id);
+        $this->tail =  $this->kernel->gs()->node($this->tail_id);
         return $this->tail;
     }
     
@@ -43,6 +43,6 @@ trait EdgeHydratorTrait {
     public function destroy(): void
    {
         $this->_ensureKernel();
-        $this->kernel->database()->del(sprintf("edge:%s", $this->id()));
+        $this->kernel->gs()->delEdge($this->id());
    }
 }

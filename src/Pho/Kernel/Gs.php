@@ -92,4 +92,14 @@ class Gs
     );
   }
 
+  public function delEdge(Graph\ID $id): void
+  {
+      $this->kernel->database()->del(sprintf("edge:%s", $id));
+  }
+
+  public function delNode(Graph\ID $id): void
+  {
+      $this->kernel->database()->del(sprintf("node:%s", $id));
+  }
+
 }

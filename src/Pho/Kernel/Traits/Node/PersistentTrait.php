@@ -40,9 +40,7 @@ trait PersistentTrait {
     public function persist(bool $skip = false): void
     {
         if($skip) return;
-        $this->kernel->database()->set(
-            sprintf("node:%s", $this->id()), serialize($this)
-        );
+        $this->kernel->gs()->touch($this);
     }
 
     public function toArray(): array
@@ -80,7 +78,7 @@ trait PersistentTrait {
     
     $this->creator_id = $data["creator"];
     if(isset($data["current_context"])) { // Actor
-        $this->current_context = $this->kernel->utils()->node($data["current_context"]);
+        $this->current_context = $this->kernel->gs()->node($data["current_context"]);
     }
     if(isset($data["members"])) { // Frame
         $this->kernel->logger()->info(
@@ -95,9 +93,8 @@ trait PersistentTrait {
     }
 
     if(isset($data["editors"])) {
-        $this->editors = $this->kernel->utils()->node($data["editors"]);
+        $this->editors = $this->kernel->gs()->node($data["editors"]);
     }
-
     $this->setupEdges();
   }
 
@@ -106,7 +103,7 @@ trait PersistentTrait {
      {
          $edge = parent::_callSetter($name, $args);
          $this->kernel->logger()->info("Saving edge %s", $edge->id());
-         $this->kernel->database()->set(sprintf("edge:%s", $edge->id()), serialize($edge));
+         $this->kernel->gs()->touch($edge);
          $this->persist();
          if($edge->tail()->id()==$this->id()) {
             $edge->head()->persist();
