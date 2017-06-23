@@ -2,6 +2,8 @@
 
 namespace Pho\Kernel\Traits\Node;
 
+use Pho\Kernel\Standards;
+
 /**
  * Editable Trait
  * 
@@ -24,7 +26,7 @@ trait EditableTrait {
     {
         if(!static::T_EDITABLE)
             return;
-        $this->editors = new Standards\VirtualGroup($this->kernel, $this->creator(), $this->context());
+        $this->editors = new Standards\VirtualGraph($this->kernel, $this->creator(), $this->context());
         //if($this->acl()->sticky()) echo "x";
         //$this->acl()->sticky() ? $this->acl()->get("a::") : $this->acl()->get("u::");
         $this->acl()->set("g:".(string) $this->editors->id().":", 
@@ -33,7 +35,7 @@ trait EditableTrait {
     }
 
     // not hydrated, can be .
-    public function editors(): Foundation\VirtualGroup
+    public function editors(): Standards\VirtualGraph
     {
         return $this->editors;
     }
