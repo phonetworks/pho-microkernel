@@ -2,13 +2,10 @@
 
 namespace Pho\Kernel\Standards;
 
-use Pho\Framework;
+use Pho\Kernel\Foundation;
 use Pho\Kernel\Kernel;
 
-class Founder extends Framework\Actor {
-
-    use \Pho\Kernel\Bridge\NodeHydratorTrait;
-    use \Pho\Kernel\Traits\Node\PersistentTrait;
+class Founder extends Foundation\AbstractActor {
 
     /**
      * u:: (myself) f -- can do anything
@@ -29,11 +26,15 @@ class Founder extends Framework\Actor {
     // https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html
     const DEFAULT_MASK = 0xff888;
 
+    const T_EDITABLE = false;
+    const T_PERSISTENT = true;
+    const T_EXPIRATION = 0;
+    const T_VERSIONABLE = false;
+
+
     public function __construct(Kernel $kernel)
     { 
-        $this->graph = $kernel["space"];
-        Framework\Actor::__construct($this->graph);
-        $this->loadNodeTrait($kernel);
+        parent::__construct($kernel, $kernel->space());
     }
 
 }

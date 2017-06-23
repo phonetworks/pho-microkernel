@@ -20,46 +20,23 @@ use Pho\Kernel\Standards;
  */
 trait PersistentTrait {
 
-    protected $kernel, $graph, $acl;
 
-    public function loadNodeTrait(Kernel $kernel): void
-    {
-        $this->kernel = $kernel;
-        $this->acl = Acl\AclFactory::seed($kernel, $this, self::DEFAULT_MODE);
-        $this->persist($this->loadEditorsFrame());
-    }
 
-    public function loadEditorsFrame(): bool
+    
+    public function persist(): void
     {
-        return false; // placeholder
-    }
-
-    public function observeAttributeBagUpdate(\SplSubject $subject): void
-    {
-        $this->persist();
-    }
-
-    public function acl(): Acl\AbstractAcl
-    {
-        return $this->acl;
-    }
-
-    public function persist(bool $skip = false): void
-    {
-        if($skip) return;
+        if(!static::T_PERSISTENT)
+            return;
         $this->kernel->gs()->touch($this);
     }
 
-    public function toArray(): array
-    {
-        $array = parent::toArray();
-        if(isset($this->acl))
-            $array["acl"] = $this->acl->toArray();
-        return $array;
-    }
+    
 
     public function serialize(): string
     {
+        if(!static::T_PERSISTENT) {
+            return parent::serialize();
+       }
         $this->kernel->logger()->info("About to serialize the node  %s, a %s", $this->id(), $this->label());
         $x = serialize($this->toArray());
         $this->kernel->logger()->info("The node serialized as: %s", $x);
@@ -68,6 +45,10 @@ trait PersistentTrait {
 
   public function unserialize(/* mixed */ $data): void
   {
+      if(!static::T_PERSISTENT) {
+            parent::unserialize($data);
+            return;
+       }
     $this->kernel = $GLOBALS["kernel"];
     $data = unserialize($data);
     $this->id = ID::fromString($data["id"]);
@@ -108,6 +89,9 @@ trait PersistentTrait {
 
      protected function _callSetter(string $name, array $args): \Pho\Lib\Graph\EntityInterface
      {
+         if(!static::T_PERSISTENT)
+            return parent::_callSetter($name, $args);
+
          $edge = parent::_callSetter($name, $args);
          $this->kernel->logger()->info("Saving edge %s", $edge->id());
          $this->kernel->gs()->touch($edge);
@@ -125,6 +109,10 @@ trait PersistentTrait {
 
    public function destroy(): void
    {
+       if(!static::T_PERSISTENT) {
+           parent::destroy();
+            return;
+       }
     $edges_in = $this->edges()->in();
     $edges_out = $this->edges()->out();
     foreach($edges_in as $edge) {

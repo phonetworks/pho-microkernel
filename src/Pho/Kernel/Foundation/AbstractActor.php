@@ -4,20 +4,19 @@ namespace Pho\Kernel\Foundation;
 
 use Pho\Framework;
 use Pho\Kernel\Kernel;
+use Pho\Kernel\Standards;
 
-abstract class Actor extends Framework\Actor {
+abstract class AbstractActor extends Framework\Actor {
 
     use \Pho\Kernel\Bridge\NodeHydratorTrait;
+    use ParticleTrait;
 
-    protected $kernel, $graph, $acl;
-
-    public function __construct(Kernel $kernel, Framework\GraphInterface $graph)
+    public function __construct(Kernel $kernel, Framework\ContextInterface $graph)
     { 
-        $this->kernel = $kernel;
-        $this->graph = $graph;
-        $this->acl = Acl\AclFactory::seed($kernel, $this, static::DEFAULT_MODE);
         parent::__construct($graph);
-        $this->persist($this->loadEditorsFrame());
+        $this->particlize($kernel, $graph);
+        
     }
+
 
 }

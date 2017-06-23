@@ -28,6 +28,7 @@ trait EphemeralTrait
 
     protected function expire(): void
     {
-        $this->kernel->gs()->expire($this->id(), self::LIFETIME);
+        if(static::T_EXPIRATION>0)
+            $this->kernel->gs()->expire($this->id(), self::LIFETIME);
     }
 }

@@ -1,18 +1,14 @@
 <?php
 
-namespace Pho\Kernel\Foundation;
+namespace Pho\Kernel\Standards;
 
-use Pho\Framework;
+use Pho\Kernel\Foundation;
 use Pho\Kernel\Kernel;
-use Pho\Kernel\Acl;
 
 /**
  * do not extend group, 
  */
-class VirtualGraph extends Framework\Graph {
-
-    use \Pho\Kernel\Bridge\SubGraphHydratorTrait;
-    use \Pho\Kernel\Traits\Node\PersistentTrait;
+class VirtualGraph extends Foundation\AbstractGraph {
 
     /**
      * The owner can do anything,
@@ -25,10 +21,9 @@ class VirtualGraph extends Framework\Graph {
      */
     const DEFAULT_MASK = 0xfffff;
 
-    public function __construct(Kernel $kernel, Framework\Actor $actor, Framework\ContextInterface $context)
-    { 
-        parent::__construct($actor, $context);
-        $this->loadNodeTrait($kernel);
-    }
+    const T_EDITABLE = false; // not recursive please!
+    const T_PERSISTENT = true;
+    const T_EXPIRATION = 0;
+    const T_VERSIONABLE = false;
 
 }
