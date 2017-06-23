@@ -39,24 +39,14 @@ trait PersistentTrait {
         $this->persist();
     }
 
-    public function acl(): Acl\AbstractAcl
-    {
-        return $this->acl;
-    }
-
+    
     public function persist(bool $skip = false): void
     {
         if($skip) return;
         $this->kernel->gs()->touch($this);
     }
 
-    public function toArray(): array
-    {
-        $array = parent::toArray();
-        if(isset($this->acl))
-            $array["acl"] = $this->acl->toArray();
-        return $array;
-    }
+    
 
     public function serialize(): string
     {
