@@ -20,39 +20,22 @@ namespace Pho\Kernel\Traits\Node;
  */
 trait EditableTrait {
 
-    use PersistentTrait {
-        PersistentTrait::toArray as _toArray;
-    }
-
-    /**
-     * The list of editors
-     *
-     * @var VirtualGroup
-     */
-    protected $editors;
-
-    public function loadEditorsFrame(): bool
+    public function setEditability(): void
     {
+        if(!static::T_EDITABLE)
+            return;
         $this->editors = new Standards\VirtualGroup($this->kernel, $this->creator(), $this->context());
         //if($this->acl()->sticky()) echo "x";
         //$this->acl()->sticky() ? $this->acl()->get("a::") : $this->acl()->get("u::");
         $this->acl()->set("g:".(string) $this->editors->id().":", 
             $this->acl()->sticky() ? $this->acl()->get("a::") : $this->acl()->get("u::")
         );
-        return false;
     }
 
     // not hydrated, can be .
     public function editors(): Foundation\VirtualGroup
     {
         return $this->editors;
-    }
-
-    public function toArray(): array
-    {
-        $array = $this->_toArray();
-        $array["editors"] = $this->editors->id();
-        return $array;
     }
 
 }

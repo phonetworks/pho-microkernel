@@ -7,8 +7,6 @@ use Pho\Kernel\Kernel;
 
 class Founder extends Foundation\AbstractActor {
 
-    use \Pho\Kernel\Traits\Node\PersistentTrait;
-
     /**
      * u:: (myself) f -- can do anything
      * s:: (subscribers or friends) 7 -- read profile, send message, see friends
@@ -28,10 +26,10 @@ class Founder extends Foundation\AbstractActor {
     // https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html
     const DEFAULT_MASK = 0xff888;
 
-    const EDITABLE = false;
-    const PERSISTENT = false;
-    const EXPIRATION = 0;
-    const VERSIONABLE = false;
+    const T_EDITABLE = false;
+    const T_PERSISTENT = true;
+    const T_EXPIRATION = 0;
+    const T_VERSIONABLE = false;
 
 
     public function __construct(Kernel $kernel)

@@ -30,7 +30,7 @@ class Graph extends \Pho\Framework\Graph {
 
     public function __construct(Kernel $kernel, Framework\Actor $founder)
     { 
-        parent::__construct($founder, $kernel["space"]);
+        parent::__construct($founder, $kernel->space());
         $founder->changeContext($this);
         $this->loadNodeTrait($kernel);
 
