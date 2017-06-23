@@ -16,7 +16,11 @@ abstract class AbstractActor extends Framework\Actor {
         $this->graph = $graph;
         $this->acl = Acl\AclFactory::seed($kernel, $this, static::DEFAULT_MODE);
         parent::__construct($graph);
-        $this->persist($this->loadEditorsFrame());
+        if(static::T_EDITABLE) {
+            $this->makeEditable(); // protected
+        }
+        $this->persist(); //
+        // expiration
     }
 
     public function acl(): Acl\AbstractAcl
