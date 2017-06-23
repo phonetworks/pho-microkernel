@@ -12,8 +12,8 @@ class AclFactory {
         if($particle instanceof Framework\Actor) {
             return new ActorAcl($kernel, $particle, $permissions);
         }
-        else if($particle instanceof Framework\Frame) {
-            return new FrameAcl($kernel, $particle, $permissions);
+        else if($particle instanceof Framework\Graph) {
+            return new GraphAcl($kernel, $particle, $permissions);
         }
         else if($particle instanceof Framework\Object) {
             return new ObjectAcl($kernel, $particle, $permissions);

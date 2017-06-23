@@ -7,7 +7,7 @@ use Pho\Kernel\Acl;
 use Pho\Framework;
 use Pho\Lib\Graph\ID;
 use Pho\Lib\Graph;
-use Pho\Kernel\Foundation;
+use Pho\Kernel\Standards;
 
 /**
  * Persistent Trait
@@ -19,8 +19,6 @@ use Pho\Kernel\Foundation;
  * @author Emre Sokullu <emre@phonetworks.org>
  */
 trait PersistentTrait {
-
-    use \Pho\Kernel\Bridge\NodeHydratorTrait;
 
     protected $kernel, $graph, $acl;
 
@@ -78,7 +76,7 @@ trait PersistentTrait {
     $this->kernel->logger()->info("The edge list is as follows: %s", print_r($data["edge_list"], true));
     $this->edge_list = new Graph\EdgeList($this, $data["edge_list"]);
     if((string) ID::root() == $data["context"]) {
-        $this->context = new Foundation\World($this->kernel);
+        $this->context = new Standards\Space($this->kernel);
         $this->context_id = $data["context"];
     }
     else {

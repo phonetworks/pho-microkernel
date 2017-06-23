@@ -14,7 +14,7 @@ namespace Pho\Kernel\Acl;
 use Pho\Lib\Graph;
 use Pho\Framework;
 
-class FrameAcl extends AbstractAcl implements AclInterface {
+class GraphAcl extends AbstractAcl implements AclInterface {
 
    
 
