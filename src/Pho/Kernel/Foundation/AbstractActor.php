@@ -5,11 +5,9 @@ namespace Pho\Kernel\Foundation;
 use Pho\Framework;
 use Pho\Kernel\Kernel;
 
-abstract class Actor extends Framework\Actor {
+abstract class AbstractActor extends Framework\Actor {
 
     use \Pho\Kernel\Bridge\NodeHydratorTrait;
-
-    protected $kernel, $graph, $acl;
 
     public function __construct(Kernel $kernel, Framework\GraphInterface $graph)
     { 
@@ -18,6 +16,19 @@ abstract class Actor extends Framework\Actor {
         $this->acl = Acl\AclFactory::seed($kernel, $this, static::DEFAULT_MODE);
         parent::__construct($graph);
         $this->persist($this->loadEditorsFrame());
+    }
+
+    public function acl(): Acl\AbstractAcl
+    {
+        return $this->acl;
+    }
+
+    public function toArray(): array
+    {
+        $array = parent::toArray();
+        if(isset($this->acl))
+            $array["acl"] = $this->acl->toArray();
+        return $array;
     }
 
 }

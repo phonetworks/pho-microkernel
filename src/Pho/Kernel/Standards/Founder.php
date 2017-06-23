@@ -2,12 +2,11 @@
 
 namespace Pho\Kernel\Standards;
 
-use Pho\Framework;
+use Pho\Kernel\Foundation;
 use Pho\Kernel\Kernel;
 
-class Founder extends Framework\Actor {
+class Founder extends Foundation\AbstractActor {
 
-    use \Pho\Kernel\Bridge\NodeHydratorTrait;
     use \Pho\Kernel\Traits\Node\PersistentTrait;
 
     /**
@@ -31,9 +30,7 @@ class Founder extends Framework\Actor {
 
     public function __construct(Kernel $kernel)
     { 
-        $this->graph = $kernel["space"];
-        Framework\Actor::__construct($this->graph);
-        $this->loadNodeTrait($kernel);
+        parent::__construct($kernel, $kernel->space());
     }
 
 }
