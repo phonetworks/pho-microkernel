@@ -7,8 +7,6 @@ use Pho\Kernel\Kernel;
 
 class Founder extends Foundation\AbstractActor {
 
-    use \Pho\Kernel\Traits\Node\PersistentTrait;
-
     /**
      * u:: (myself) f -- can do anything
      * s:: (subscribers or friends) 7 -- read profile, send message, see friends
@@ -29,7 +27,7 @@ class Founder extends Foundation\AbstractActor {
     const DEFAULT_MASK = 0xff888;
 
     const T_EDITABLE = false;
-    const T_PERSISTENT = false;
+    const T_PERSISTENT = true;
     const T_EXPIRATION = 0;
     const T_VERSIONABLE = false;
 
