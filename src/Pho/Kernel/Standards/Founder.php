@@ -28,6 +28,12 @@ class Founder extends Foundation\AbstractActor {
     // https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html
     const DEFAULT_MASK = 0xff888;
 
+    const EDITABLE = false;
+    const PERSISTENT = false;
+    const EXPIRATION = 0;
+    const VERSIONABLE = false;
+
+
     public function __construct(Kernel $kernel)
     { 
         parent::__construct($kernel, $kernel->space());
