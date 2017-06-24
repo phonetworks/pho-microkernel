@@ -60,6 +60,20 @@ class Kernel extends Init
     unset($GLOBALS["kernel"]);
   }
 
+  /**
+   * Retrieves the current status of the kernel
+   *
+   * It's "on" if the kernel is running, "off" if it is not.
+   * 
+   * @todo add more options such as "shutting down", "frozen" etc.
+   * 
+   * @return string "on" or "off"
+   */
+  public function status(): string
+  {
+    return $this->is_running ? "on" : "off";
+  }
+
 
   /**
    * Sets up the kernel settings.

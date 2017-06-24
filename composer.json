@@ -14,10 +14,7 @@
     "require": {
         "php":"^7.1",
         "monolog/monolog": "^1.22",
-        "sabre/event": "^5.0",
-	    "predis/predis": "^1.1",
 	    "zendframework/zend-config": "*",
-        "ptrofimov/zeroevents": "^3.0",
         "pimple/pimple": "^1.1",
         "phonetworks/pho-lib-graph": "^3.1",
         "phonetworks/pho-framework": "~5.0",
@@ -25,6 +22,9 @@
         "jeremeamia/superclosure": "^2.3"
     },
     "require-dev": {
+        "pho-adapters/storage-filesystem": "dev-master",
+        "pho-adapters/database-redis": "dev-master",
+        "pho-adapters/events-local": "dev-master",
         "phpunit/phpunit": "^5.7",
 	    "phpdocumentor/phpdocumentor": "*",
          "fzaninotto/faker": "^1.6",
