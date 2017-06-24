@@ -14,7 +14,7 @@ use Pho\Lib\Graph\EntityInterface;
  * 
  * @author Emre Sokullu <emre@phonetworks.org>
  */
-class Gs 
+class Graphsystem 
 {
     private $database;
     private $logger;

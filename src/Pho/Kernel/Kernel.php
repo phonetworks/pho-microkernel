@@ -109,7 +109,7 @@ class Kernel extends Init
     $this->is_running = true;
     $this->setupServices();
     $this["gs"] = $this->share(function($c) {
-      return new Gs($c);
+      return new Graphsystem($c);
     });
     $this->seedRoot();
     $this->registerListeners($this["graph"]);
