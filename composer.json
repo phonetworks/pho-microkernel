@@ -16,8 +16,8 @@
         "monolog/monolog": "^1.22",
 	    "zendframework/zend-config": "*",
         "pimple/pimple": "^1.1",
-        "phonetworks/pho-lib-graph": "^3.1",
-        "phonetworks/pho-framework": "~5.0",
+        "phonetworks/pho-lib-graph": "^3.6",
+        "phonetworks/pho-framework": "~6.0",
         "zumba/json-serializer": "^2.1",
         "jeremeamia/superclosure": "^2.3"
     },

@@ -9,9 +9,8 @@ trait EdgeHydratorTrait {
 
     private function persist(): void
     {
-        $this->ensureKernel();
+        $this->_ensureKernel();
         $this->kernel->gs()->touch($this);
-        $this->persist();
     }
 
     private function _ensureKernel(): void

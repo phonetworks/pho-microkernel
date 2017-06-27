@@ -17,6 +17,4 @@ abstract class AbstractActor extends Framework\Actor {
         $this->particlize($kernel, $graph);
         
     }
-
-
 }

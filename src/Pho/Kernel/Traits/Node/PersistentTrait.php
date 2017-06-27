@@ -8,6 +8,7 @@ use Pho\Framework;
 use Pho\Lib\Graph\ID;
 use Pho\Lib\Graph;
 use Pho\Kernel\Standards;
+use Pho\Kernel\Bridge;
 
 /**
  * Persistent Trait
@@ -82,6 +83,21 @@ trait PersistentTrait {
 
     if(isset($data["editors"])) {
         $this->editors = $this->kernel->gs()->node($data["editors"]);
+    }
+    if(isset($data["notifications"]) && $this instanceof Framework\Actor) {
+        $notifications = array();
+        foreach($data["notifications"] as $notification) {
+            // let's recreate the objects
+            $class = $notification["class"];
+            if(!class_exists($class) || !preg_match("/^[a-z0-9_\\\\]+$/i", $class)) {
+                continue;
+            }
+            $edge_id = (string) ID::fromString($notification["edge"]);
+            $notifications[] = eval("new class(\"".$edge_id."\") extends ".$class." {
+                use Bridge\NotificationHydratorTrait;
+            };");
+        }
+        $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
     }
     $this->setupEdges();
   }

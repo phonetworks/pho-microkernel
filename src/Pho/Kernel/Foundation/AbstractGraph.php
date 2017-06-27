@@ -19,5 +19,4 @@ abstract class AbstractGraph extends Framework\Graph {
         
     }
 
-
 }
