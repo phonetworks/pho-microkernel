@@ -21,9 +21,6 @@ use Pho\Kernel\Bridge;
  */
 trait PersistentTrait {
 
-
-
-    
     public function persist(): void
     {
         if(!static::T_PERSISTENT)

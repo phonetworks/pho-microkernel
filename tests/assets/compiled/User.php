@@ -17,7 +17,7 @@ use Pho\Kernel\Foundation;
 
 class User extends Foundation\AbstractActor {
 
-    const T_EDITABLE = true;
+    const T_EDITABLE = false;
     const T_PERSISTENT = true;
     const T_EXPIRATION =  0;
     const T_VERSIONABLE = false;

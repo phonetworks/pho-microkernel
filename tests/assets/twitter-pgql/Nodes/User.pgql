@@ -3,7 +3,7 @@
 type User implements ActorNode 
 @edges(in:"User:Follow, Status:Mention", out:"Post, Like, Follow")
 @permissions(mod: "0x0e554", mask: "0xeeeee") # user themselves, can manage, members can subscribe, outsiders can just read.
-@properties(editable: true, volatile: false, revisionable: false)
+@properties(editable: false, volatile: false, revisionable: false)
 {
     id: ID,
     birthday: Date,

@@ -43,7 +43,7 @@ trait ParticleTrait
         if(isset($this->acl))
             $array["acl"] = $this->acl->toArray();
         if(static::T_EDITABLE)
-            $array["editors"] = $this->editors->id();
+            $array["editors"] = (string) $this->editors->id();
         return $array;
     }
 
