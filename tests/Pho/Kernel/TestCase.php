@@ -38,14 +38,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
       $this->configs = $this->getKernelConfig();
       $this->kernel = new Kernel($this->configs);
       $this->kernel->boot();
-      $this->network = $this->kernel->graph();
+      $this->graph = $this->kernel->graph();
     }
 
     protected function stopKernel(): void
     {
       unset($this->redis);
       unset($this->configs);
-      unset($this->network);
+      unset($this->graph);
       $this->kernel->halt();
       unset($this->kernel);
     }
@@ -53,8 +53,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function setupRedis(): void
     {
       $config = $this->getKernelConfig();
-      if($config["services"]["database"]["type"]=="redis") {
-        $this->redis  = new \Predis\Client($config["services"]["database"]["uri"]);
+      if(substr($config["services"]["database"],0,8)=="redis://") {
+        $this->redis  = new \Predis\Client($config["services"]["database"]);
       }
     }
 
