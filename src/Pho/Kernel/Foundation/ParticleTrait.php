@@ -24,7 +24,7 @@ trait ParticleTrait
     {  
        $this->kernel = $kernel;
         $this->graph = $graph;
-        $this->acl = Acl\AclFactory::seed($kernel, $this, static::DEFAULT_MODE); 
+        $this->acl = Acl\AclFactory::seed($kernel, $this, static::DEFAULT_MOD); 
         $this->setEditability();
         $this->persist();
         $this->expire();

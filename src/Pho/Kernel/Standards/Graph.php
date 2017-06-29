@@ -13,7 +13,7 @@ class Graph extends Foundation\AbstractGraph {
      * g:: (people in the same context) (space) 5 -- read contents, ..., join (and see  all members because 4 is  enabled)
      * o:: (people outside) (irrelevant) 1 -- ..., ..., subscribe (read limited group info and friends? who are members)
      */
-    const DEFAULT_MODE = 0x0f751;
+    const DEFAULT_MOD = 0x0f751;
 
     /**
      * how owner can change the settings

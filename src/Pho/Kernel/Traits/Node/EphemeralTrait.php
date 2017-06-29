@@ -21,7 +21,7 @@ trait EphemeralTrait
     public function loadNodeTrait(Kernel $kernel): void
     {
         $this->kernel = $kernel;
-        $this->acl = Acl\AclFactory::seed($kernel, $this, self::DEFAULT_MODE);
+        $this->acl = Acl\AclFactory::seed($kernel, $this, self::DEFAULT_MOD);
         $this->persist($this->loadEditorsFrame());
         $this->expire();
     }

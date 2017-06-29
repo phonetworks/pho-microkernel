@@ -13,7 +13,7 @@ class Founder extends Foundation\AbstractActor {
      * g:: (people in the same context) 5 -- read profile, ..., subscribe (and see friends because 4 is enabled)
      * o:: (people outside) 2 -- ..., ..., subscribe (read limited profile)
      */
-    const DEFAULT_MODE = 0x0f751;
+    const DEFAULT_MOD = 0x0f751;
 
     /**
      * how owner can change the settings

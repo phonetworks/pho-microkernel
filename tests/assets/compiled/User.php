@@ -23,20 +23,19 @@ class User extends Foundation\AbstractActor {
     const T_VERSIONABLE = false;
     
     const DEFAULT_MOD = 0x0e554;
-
     const DEFAULT_MASK = 0xeeeee;
 
     protected function onIncomingEdgeRegistration(): void
     {
-        $this->registerIncomingEdges(Follow::class);
-        $this->registerIncomingEdges(Mention::class);
+        $this->registerIncomingEdges(UserOut\Follow::class);
+        $this->registerIncomingEdges(StatusOut\Mention::class);
     }
 
 }
 
 /*****************************************************
- * Timestamp: 1498707978
- * Size (in bytes): 996
- * Compilation Time: 46595
- * 2bca71b02685a18e2c2240991191e376
+ * Timestamp: 1498724736
+ * Size (in bytes): 1012
+ * Compilation Time: 7290
+ * b5b104e740c8a7398567056308eae272
  ******************************************************/

@@ -23,20 +23,19 @@ class Status extends Foundation\AbstractObject {
     const T_VERSIONABLE = false;
     
     const DEFAULT_MOD = 0x0e444;
-
     const DEFAULT_MASK = 0xeeeee;
 
     protected function onIncomingEdgeRegistration(): void
     {
-        $this->registerIncomingEdges(Post::class);
-        $this->registerIncomingEdges(Like::class);
+        $this->registerIncomingEdges(UserOut\Post::class);
+        $this->registerIncomingEdges(UserOut\Like::class);
     }
 
 }
 
 /*****************************************************
- * Timestamp: 1498707978
- * Size (in bytes): 995
- * Compilation Time: 46595
- * 87ab5ba9813e06d87f8aa179dad13aa4
+ * Timestamp: 1498724736
+ * Size (in bytes): 1009
+ * Compilation Time: 7290
+ * 3bf0ecdfbcb0d0d0c7e76daf17570e84
  ******************************************************/
