@@ -1,0 +1,10 @@
+# pho-graphql-v1
+
+type Status implements ObjectNode 
+@edges(in:"Post, Like", out:"Mention")
+@permissions(mod: "0x0e444", mask: "0xeeeee") # owner can write, all others can read.
+@properties(expires: 0, editable: false, volatile: false, revisionable: false)
+{
+    id: ID,
+    status: String @constraints(maxLength: 140)
+}

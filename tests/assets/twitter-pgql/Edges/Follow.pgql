@@ -1,0 +1,10 @@
+# pho-graphql-v1
+
+type Follow implements SubscribeEdge 
+@nodes(head:"User", tail:"User")
+@properties(binding: false, persistent: true, consumer: true)
+@labels(headSingular:"follow", headPlural: "follows", tailSingular: "follower", tailPlural: "followers")
+{
+    id: ID,
+    status: String @constraints(maxLength:140)
+}

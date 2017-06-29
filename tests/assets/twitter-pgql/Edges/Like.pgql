@@ -1,0 +1,10 @@
+# pho-graphql-v1
+
+type Like implements SubscribeEdge 
+@nodes(head:"Status", tail:"User")
+@properties(binding: false, persistent: true, consumer: true)
+@labels(headSingular:"like", headPlural: "likes", tailSingular: "liker", tailPlural: "likers")
+{
+    id: ID,
+    status: String @constraints(maxLength:140)
+}
