@@ -94,17 +94,17 @@ class Graphsystem
 
   public function delEdge(Graph\ID $id): void
   {
-      $this->kernel->database()->del(sprintf("edge:%s", $id));
+      $this->database->del(sprintf("edge:%s", $id));
   }
 
   public function delNode(Graph\ID $id): void
   {
-      $this->kernel->database()->del(sprintf("node:%s", $id));
+      $this->database->del(sprintf("node:%s", $id));
   }
 
   public function expire(Graph\ID $id, int $timeout = (60*60*24)): void
   {
-    $this->kernel->database()->expire((string) $id, $timeout);
+    $this->database->expire((string) $id, $timeout);
   }
 
 }

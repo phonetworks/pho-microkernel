@@ -18,6 +18,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
 {
     protected $kernel, $redis, $configs, $network;
 
+    protected $created = [];
+
     /**
      * @var array
      */
@@ -64,6 +66,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     public function tearDown() {
+      foreach($this->created as $c) {
+            $this->kernel->gs()->delNode($c);
+      }
       $this->stopKernel();
     }
 

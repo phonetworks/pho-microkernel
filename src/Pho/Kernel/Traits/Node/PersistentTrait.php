@@ -115,9 +115,32 @@ trait PersistentTrait {
          else {
             $edge->tail()->persist();
          }
-         return $edge;
+         return $edge->return();
      }
 
+
+     protected function _callFormer(string $name, array $args): \Pho\Lib\Graph\EntityInterface
+     {
+         if(!static::T_PERSISTENT)
+            return parent::_callFormer($name, $args);
+
+            //var $node, $edge, $tail;
+            if( defined("static::T_CONSUMER") && static::T_CONSUMER ) {
+                $node = parent::_callFormer($name, $args);
+                $node->persist();
+                $edge = $node->edges()->in()->current();
+                $edge->tail()->persist();
+                $edge->persist();
+                return $node;
+            }
+            else {
+                $edge = parent::_callFormer($name, $args);
+                $edge->tail()->persist();
+                $edge->head()->persist();
+                $edge->persist();
+                return $edge->return();
+            }
+     }
      
 
    public function destroy(): void
