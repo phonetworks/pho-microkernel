@@ -6,6 +6,7 @@ use Pho\Framework;
 use Pho\Kernel\Kernel;
 use Pho\Kernel\Traits;
 use Pho\Kernel\Foundation;
+use Webmozart\Assert\Assert;
 
 
 
@@ -25,6 +26,15 @@ class Status extends Foundation\AbstractObject {
     const DEFAULT_MOD = 0x0e444;
     const DEFAULT_MASK = 0xeeeee;
 
+    public function __construct(\Pho\Kernel\Kernel $kernel, \Pho\Kernel\Foundation\AbstractActor $actor, \Pho\Lib\Graph\GraphInterface $graph , string $status)
+    {
+        parent::__construct($kernel, $actor, $graph);
+        Assert::maxLength($status, 140);
+$this->attributes()->status = $status;
+$this->attributes()->create_time = time();
+
+    }
+
     protected function onIncomingEdgeRegistration(): void
     {
         $this->registerIncomingEdges(UserOut\Post::class);
@@ -34,8 +44,8 @@ class Status extends Foundation\AbstractObject {
 }
 
 /*****************************************************
- * Timestamp: 1499250346
- * Size (in bytes): 1010
- * Compilation Time: 26891
- * 1ff0a87deeead9ffc3c84fef96233657
+ * Timestamp: 1499811736
+ * Size (in bytes): 1392
+ * Compilation Time: 3840
+ * 86399bc4d75a6ce0d18c900e1654dce3
  ******************************************************/

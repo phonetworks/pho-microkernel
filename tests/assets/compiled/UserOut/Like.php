@@ -53,7 +53,7 @@ class LikePredicate extends Framework\ActorOut\SubscribePredicate
 
 /*****************************************************
  * Timestamp: 
- * Size (in bytes): 1462
- * Compilation Time: 26889
- * 32d29df7938dcb2e87b78df16398bba2
+ * Size (in bytes): 1461
+ * Compilation Time: 3839
+ * 43c8414f748fda8726f9b87fd8e1dbc8
  ******************************************************/

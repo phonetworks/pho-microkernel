@@ -6,6 +6,7 @@ use Pho\Framework;
 use Pho\Kernel\Kernel;
 use Pho\Kernel\Traits;
 use Pho\Kernel\Foundation;
+use Webmozart\Assert\Assert;
 
 
 
@@ -25,6 +26,18 @@ class User extends Foundation\AbstractActor {
     const DEFAULT_MOD = 0x0e554;
     const DEFAULT_MASK = 0xeeeee;
 
+    public function __construct(\Pho\Kernel\Kernel $kernel, \Pho\Lib\Graph\GraphInterface $graph , string $password, ?int $birthday = 411436800, ?string $about = "")
+    {
+        parent::__construct($kernel, $graph);
+        Assert::regex($password,  "/^[a-zA-Z0-9_]{4,12}$/");
+$this->attributes()->password = md5($password);
+$this->attributes()->join_time = time();
+$this->attributes()->birthday = $birthday;
+Assert::maxLength($about, 255);
+$this->attributes()->about = $about;
+
+    }
+
     protected function onIncomingEdgeRegistration(): void
     {
         $this->registerIncomingEdges(UserOut\Follow::class);
@@ -34,8 +47,8 @@ class User extends Foundation\AbstractActor {
 }
 
 /*****************************************************
- * Timestamp: 1499250346
- * Size (in bytes): 1014
- * Compilation Time: 26891
- * bbadc1a06350a4e257ba4878c292c14d
+ * Timestamp: 1499811736
+ * Size (in bytes): 1536
+ * Compilation Time: 3841
+ * 0097f6db9b6f752c5dc05199e4b3bfe3
  ******************************************************/

@@ -16,10 +16,9 @@
         "monolog/monolog": "^1.22",
 	    "zendframework/zend-config": "*",
         "pimple/pimple": "^1.1",
-        "phonetworks/pho-lib-graph": "^3.6",
-        "phonetworks/pho-framework": "~6.0",
-        "zumba/json-serializer": "^2.1",
-        "jeremeamia/superclosure": "^2.3"
+        "phonetworks/pho-lib-graph": "^4.0",
+        "phonetworks/pho-framework": "~7.0",
+        "webmozart/assert": "^1.2"
     },
     "require-dev": {
         "pho-adapters/storage-filesystem": "dev-master",

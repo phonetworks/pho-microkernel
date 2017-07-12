@@ -124,22 +124,26 @@ trait PersistentTrait {
          if(!static::T_PERSISTENT)
             return parent::_callFormer($name, $args);
 
-            //var $node, $edge, $tail;
-            if( defined("static::T_CONSUMER") && static::T_CONSUMER ) {
-                $node = parent::_callFormer($name, $args);
-                $node->persist();
-                $edge = $node->edges()->in()->current();
-                $edge->tail()->persist();
-                $edge->persist();
-                return $node;
-            }
-            else {
-                $edge = parent::_callFormer($name, $args);
-                $edge->tail()->persist();
-                $edge->head()->persist();
-                $edge->persist();
-                return $edge->return();
-            }
+            $class = $this->__findFormativeClass($name, $args);
+        if(count($args)>0) {
+            $head = new $class($this->kernel, $this, $this->where(), ...$args);
+        }
+        else {
+            $head = new $class($this->kernel, $this, $this->where());
+        }
+        
+        $edge_class = $this->edge_out_formative_edge_classes[$name];
+        $edge = new $edge_class($this, $head);
+        $this->kernel->gs()->touch($edge);
+        $this->kernel->gs()->touch($head);
+        $this->kernel->gs()->touch($edge->tail());
+        return $edge->return();
+
+     }
+
+     public function registerEdgeOutClass(string $class, int $trim = 3): void
+     {
+        parent::registerEdgeOutClass($class, $trim);
      }
      
 
