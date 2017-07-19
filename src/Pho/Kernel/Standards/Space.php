@@ -17,6 +17,11 @@ final class Space extends \Pho\Framework\Space implements \Serializable {
         $this->on("node.added", [$this, "handleNodeCreation"]);
     }
 
+    protected function handleNodeCreation($node): void
+    {
+        
+    }
+
     public function label(): string
     {
         return "Space";
