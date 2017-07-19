@@ -43,10 +43,7 @@ class Post extends Framework\ActorOut\Write {
 class PostPredicate extends Framework\ActorOut\WritePredicate
 {
     protected $binding = true;
-    
     const T_CONSUMER = true;
-    const T_NOTIFIER = false;
-    const T_SUBSCRIBER = false;
     const T_FORMATIVE = true;
     const T_PERSISTENT = true;
 }
@@ -59,7 +56,7 @@ class PostNotification extends Framework\ActorOut\WriteNotification
 
 /*****************************************************
  * Timestamp: 
- * Size (in bytes): 1594
- * Compilation Time: 15702
- * 8aa1b42cf669bdaff012499e086f97d1
+ * Size (in bytes): 1526
+ * Compilation Time: 3840
+ * 284f50702811b777606d2a7ff764e9bd
  ******************************************************/

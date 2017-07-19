@@ -96,7 +96,7 @@ trait PersistentTrait {
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
     }
-    $this->setupEdges();
+    $this->initializeMethodHandler();
   }
 
 

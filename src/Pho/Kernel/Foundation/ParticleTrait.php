@@ -62,4 +62,9 @@ trait ParticleTrait
         $this->persist();
     }
 
+    public function kernel(): Kernel
+    {
+        return $this->kernel;
+    }
+
 }
