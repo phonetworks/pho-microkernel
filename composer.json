@@ -17,7 +17,7 @@
 	    "zendframework/zend-config": "*",
         "pimple/pimple": "^1.1",
         "phonetworks/pho-lib-graph": "^4.1",
-        "phonetworks/pho-framework": "dev-master",
+        "phonetworks/pho-framework": "^7.0",
         "webmozart/assert": "^1.2"
     },
     "require-dev": {

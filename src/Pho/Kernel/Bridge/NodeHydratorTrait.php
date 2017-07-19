@@ -21,20 +21,20 @@ use Pho\Framework;
 trait NodeHydratorTrait {
 
     // node
-    protected function hydratedContext(): Graph\GraphInterface
+    protected function hyContext(): Graph\GraphInterface
     {
         $this->context = $this->kernel->gs()->node($this->context_id);
         return $this->context;
     }
 
     // particletrait
-    protected function hydratedCreator(): Framework\Actor
+    protected function hyCreator(): Framework\Actor
     {
         $this->creator = $this->kernel->gs()->node($this->creator_id);
         return $this->creator;
     }
 
-    public function hydratedEdge(string $id): Graph\EdgeInterface
+    public function hyEdge(string $id): Graph\EdgeInterface
    {
         $this->kernel->logger()->info("Hydrating edge %s", $id);
         return $this->kernel->gs()->edge($id);

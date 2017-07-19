@@ -19,21 +19,21 @@ trait EdgeHydratorTrait {
             $this->kernel = $GLOBALS["kernel"];
     }
 
-    public function hydratedHead(): Graph\NodeInterface 
+    public function hyHead(): Graph\NodeInterface 
     {
         $this->_ensureKernel();
         $this->head = $this->kernel->gs()->node($this->head_id);
         return $this->head;
     }
     
-    public function hydratedTail(): Graph\NodeInterface
+    public function hyTail(): Graph\NodeInterface
     {
         $this->_ensureKernel();
         $this->tail =  $this->kernel->gs()->node($this->tail_id);
         return $this->tail;
     }
     
-    public function hydratedPredicate(): Graph\PredicateInterface
+    public function hyPredicate(): Graph\PredicateInterface
     {
         $this->predicate = (new $this->predicate);
         return $this->predicate;

@@ -14,6 +14,7 @@ final class Space extends \Pho\Framework\Space implements \Serializable {
 
     public function __construct(Kernel $kernel) {
         $this->kernel = $kernel;
+        $this->on("node.added", [$this, "handleNodeCreation"]);
     }
 
     public function label(): string

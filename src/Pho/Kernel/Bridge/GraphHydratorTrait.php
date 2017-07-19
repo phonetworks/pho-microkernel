@@ -31,7 +31,7 @@ trait GraphHydratorTrait {
     }
 
     // clustertrait
-    protected function hydratedGet(ID $node_id): Graph\NodeInterface
+    protected function hyGet(ID $node_id): Graph\NodeInterface
     {
         return $this->kernel->utils()->node($node_id);
     }
@@ -39,7 +39,7 @@ trait GraphHydratorTrait {
     // clustertrait
     // not caching on purpose. 
     // [?] it is now.
-    protected function hydratedMembers(): array
+    protected function hyMembers(): array
     {
         foreach($this->node_ids as $node_id) {
             $this->nodes[$node_id] = $this->kernel->gs()->node($node_id);

@@ -29,7 +29,7 @@ trait NotificationHydratorTrait {
             $this->kernel = $GLOBALS["kernel"];
     }
 
-    protected function hydratedEdge(): EdgeInterface
+    protected function hyEdge(): EdgeInterface
     {
         $this->_ensureKernel();
         return $this->kernel->ns()->edge($this->edge_id);
