@@ -20,6 +20,25 @@ use Pho\Framework;
  */
 trait GraphHydratorTrait {
 
+    protected function setupGraphHooks(): void
+    {
+        $this->hook("add", function(Graph\NodeInterface $node): void {
+            $this->persist();
+        });
+        $this->hook("remove", function(Graph\NodeInterface $node): void {
+            $this->persist();
+        });
+        $this->hook("get", function(ID $node_id): Graph\NodeInterface {
+            return $this->kernel->utils()->node($node_id);
+        });
+        $this->hook("members", function(): array {
+            foreach($this->node_ids as $node_id) {
+                $this->nodes[$node_id] = $this->kernel->gs()->node($node_id);
+            }
+            return $this->nodes;
+        });
+    }
+
     protected function onAdd(Graph\NodeInterface $node): void
     {
         $this->persist();
@@ -31,7 +50,7 @@ trait GraphHydratorTrait {
     }
 
     // clustertrait
-    protected function hydratedGet(ID $node_id): Graph\NodeInterface
+    protected function hyGet(ID $node_id): Graph\NodeInterface
     {
         return $this->kernel->utils()->node($node_id);
     }
@@ -39,7 +58,7 @@ trait GraphHydratorTrait {
     // clustertrait
     // not caching on purpose. 
     // [?] it is now.
-    protected function hydratedMembers(): array
+    protected function hyMembers(): array
     {
         foreach($this->node_ids as $node_id) {
             $this->nodes[$node_id] = $this->kernel->gs()->node($node_id);

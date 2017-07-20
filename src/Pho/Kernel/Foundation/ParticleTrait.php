@@ -20,7 +20,7 @@ trait ParticleTrait
     protected $acl;
     protected $editors;
 
-    protected function particlize(Kernel $kernel, Framework\ContextInterface $graph): void
+    protected function hydrate(Kernel $kernel, Framework\ContextInterface $graph): void
     {  
        $this->kernel = $kernel;
         $this->graph = $graph;
@@ -28,6 +28,19 @@ trait ParticleTrait
         $this->setEditability();
         $this->persist();
         $this->expire();
+        $this->on("modified", function() {
+            $this->persist();
+        });
+        $this->on("edge.created", function($edge) {
+            $this->persist();
+            $edge->persist();
+            if(!$edge->orphan())
+                $edge->head()->persist();
+        });
+        $this->on("edge.connected", function($edge) { // this must be the head.
+            $this->persist();
+            $edge->persist();
+        });
         // versionable trait -- work in progress.
     }
 
@@ -64,6 +77,8 @@ trait ParticleTrait
 
     public function kernel(): Kernel
     {
+        if(!isset($this->kernel))
+            $this->kernel = $GLOBALS["kernel"];
         return $this->kernel;
     }
 
