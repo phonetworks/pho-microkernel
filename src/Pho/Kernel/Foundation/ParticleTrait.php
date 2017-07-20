@@ -21,7 +21,9 @@ trait ParticleTrait
     protected $acl;
     protected $editors;
 
-    protected function hydrate(Kernel $kernel, Framework\ContextInterface $graph): void
+    protected function hydrate(
+        Kernel $kernel, 
+        Framework\ContextInterface $graph): void
     {  
        $this->kernel = $kernel;
         $this->graph = $graph;
@@ -38,6 +40,8 @@ trait ParticleTrait
         });
         $this->on("edge.created", function($edge) {
             $this->persist();
+            $edge->inject("kernel", $this->kernel);
+            $edge->setupEdgeHooks();
             $edge->persist();
             if(!$edge->orphan())
                 $edge->head()->persist();

@@ -15,22 +15,44 @@ use Pho\Kernel\Kernel;
  */
 trait PersistentTrait {
 
-    protected $kernel;
-
-    public function kernel(): Kernel
-    {
-        return $this->kernel;
-    }
-
     public function persist(): void
     {
-        $this->kernel()->gs()->touch($this);
+        $this->injection("kernel")->gs()->touch($this);
     }
 
-   public function destroy(): void
+    public function setupEdgeHooks(): void
+    {
+        $this->hook("add", function(Graph\NodeInterface $node): void {
+            $this->persist();
+        });
+        $this->hook("remove", function(Graph\NodeInterface $node): void {
+            $this->persist();
+        });
+        $this->hook("get", function(ID $node_id): Graph\NodeInterface {
+            return $this->injection("kernel")->gs()->node($node_id);
+        });
+        $this->hook("members", function(): array {
+            foreach($this->node_ids as $node_id) {
+                $this->nodes[$node_id] = 
+                    $this->injection("kernel")->gs()->node($node_id);
+            }
+            return $this->nodes;
+        });
+    }
+
+    public function destroy(): void
    {
-       $this->kernel->gs()->delEdge($this->id());
+        $this->injection("kernel")->gs()->delEdge($this->id());
+        parent::destroy();
    }
 
+    /**
+     * {@inheritDoc}
+     */
+   public function unserialize(/* mixed */ $data): void
+    {
+        parent::unserialize($data);
+        $this->inject("kernel", $GLOBALS["kernel"]);
+    }
 
 }

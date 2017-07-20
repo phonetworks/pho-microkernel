@@ -21,13 +21,15 @@ class Edge implements HookInterface
     public static function setup(/*Graph\EdgeInterface*/ $edge): void
     {
         $edge->hook("head", (function(): Graph\NodeInterface  {
-                $this->head = $this->kernel->gs()->node($this->head_id);
+                $this->head = 
+                $this->injection("kernel")->gs()->node($this->head_id);
                 return $this->head;
             })
         );
 
         $edge->hook("tail", (function(): Graph\NodeInterface {
-                $this->tail =  $this->kernel->gs()->node($this->tail_id);
+                $this->tail =  
+                $this->injection("kernel")->gs()->node($this->tail_id);
                 return $this->tail;
             })
         );

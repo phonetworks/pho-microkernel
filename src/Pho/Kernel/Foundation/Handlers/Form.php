@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phở package.
+ * 
+ * (c) Emre Sokullu <emre@phonetworks.org> 
+ *
+ * For the full copyright and license information, please view the LICENSE 
+ * file that was distributed with this source code.
+ */
+
 namespace Pho\Kernel\Foundation\Handlers;
 
 use Pho\Framework\ParticleInterface;
@@ -14,8 +23,7 @@ class Form extends \Pho\Framework\Handlers\Form {
 
     /**
      * {@inheritDoc}
-     */
-        /**
+     * 
      * Forms the head particle.
      *
      * @param ParticleInterface $particle The particle that this handler is working on.
@@ -33,7 +41,12 @@ class Form extends \Pho\Framework\Handlers\Form {
     {
         $class = static::findFormativeClass($name, $args, $pack);
         if(count($args)>0) {
-            return new $class($particle->kernel(), $particle, $particle->where(), ...$args);
+            return new $class(
+                $particle->kernel(), 
+                $particle, 
+                $particle->where(), 
+                ...$args
+            );
         }
         return new $class($particle->kernel(), $particle, $particle->where());
     }
