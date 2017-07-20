@@ -35,7 +35,7 @@ class Node
             })
         );
 
-        $node->hook("edge", (function(): EdgeInterface {
+        $node->hook("edge", (function(string $id): EdgeInterface {
                 $this->kernel->logger()->info("Hydrating edge %s", $id);
                 return $this->kernel->gs()->edge($id);
             })

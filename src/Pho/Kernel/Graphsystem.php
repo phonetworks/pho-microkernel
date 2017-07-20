@@ -87,6 +87,7 @@ class Graphsystem
     if($entity instanceof Graph\EdgeInterface) {
       $key = "edge";
     }
+    
     $this->database->set(
         sprintf("%s:%s", $key, (string) $entity->id()), serialize($entity)
     );
