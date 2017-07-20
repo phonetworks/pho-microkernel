@@ -173,14 +173,14 @@ class Init extends Container
           else if (isset($founder_id)) 
               throw new Exceptions\LostNetworkException();
 
-          $founder = new Standards\Founder($this); // will turn into admin by Network
-          $this["graph"] = $this->share(function($c) use($founder) {
-            return new Standards\Graph($c, $founder);
+          $this["founder"] = new Standards\Founder($this); // will turn into admin by Network
+          $this["graph"] = $this->share(function($c) {
+            return new Standards\Graph($c, $c["founder"]);
           });
          $this->database()->set("configs:graph_id", $this->graph()->id());
-         $this->database()->set("configs:founder_id", $founder->id());
+         $this->database()->set("configs:founder_id", $this->founder()->id());
          $this->logger()->info(
-           "New graph with id: %s and founder: %s", $this->graph()->id(), $founder->id()
+           "New graph with id: %s and founder: %s", $this->graph()->id(), $this->founder->id()
          );
        }
        
