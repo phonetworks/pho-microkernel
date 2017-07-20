@@ -180,7 +180,7 @@ class Init extends Container
          $this->database()->set("configs:graph_id", $this->graph()->id());
          $this->database()->set("configs:founder_id", $this->founder()->id());
          $this->logger()->info(
-           "New graph with id: %s and founder: %s", $this->graph()->id(), $this->founder->id()
+           "New graph with id: %s and founder: %s", $this->graph()->id(), $this->founder()->id()
          );
        }
        
