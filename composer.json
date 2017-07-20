@@ -16,8 +16,8 @@
         "monolog/monolog": "^1.22",
 	    "zendframework/zend-config": "*",
         "pimple/pimple": "^1.1",
-        "phonetworks/pho-lib-graph": "^4.1",
-        "phonetworks/pho-framework": "dev-master",
+        "phonetworks/pho-lib-graph": "^5.0",
+        "phonetworks/pho-framework": "^7.4",
         "webmozart/assert": "^1.2"
     },
     "require-dev": {
