@@ -19,6 +19,25 @@ trait EdgeHydratorTrait {
             $this->kernel = $GLOBALS["kernel"];
     }
 
+    protected function setupEdgeHooks(): void
+    {
+        $this->hook("add", function(Graph\NodeInterface $node): void {
+            $this->persist();
+        });
+        $this->hook("remove", function(Graph\NodeInterface $node): void {
+            $this->persist();
+        });
+        $this->hook("get", function(ID $node_id): Graph\NodeInterface {
+            return $this->kernel->utils()->node($node_id);
+        });
+        $this->hook("members", function(): array {
+            foreach($this->node_ids as $node_id) {
+                $this->nodes[$node_id] = $this->kernel->gs()->node($node_id);
+            }
+            return $this->nodes;
+        });
+    }
+
     public function hyHead(): Graph\NodeInterface 
     {
         $this->_ensureKernel();
