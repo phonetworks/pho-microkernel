@@ -14,12 +14,10 @@ final class Space extends \Pho\Framework\Space implements \Serializable {
 
     public function __construct(Kernel $kernel) {
         $this->kernel = $kernel;
-        $this->on("node.added", [$this, "handleNodeCreation"]);
-    }
-
-    protected function handleNodeCreation($node): void
-    {
-        
+        $this->on("particle.added", function($node) {
+            $node->persist();
+        });
+        // skip modified because the Space is stateless anyway.
     }
 
     public function label(): string

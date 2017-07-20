@@ -25,10 +25,8 @@ trait PersistentTrait {
     {
         if(!static::T_PERSISTENT)
             return;
-        $this->kernel->gs()->touch($this);
+        $this->kernel()->gs()->touch($this);
     }
-
-    
 
     public function serialize(): string
     {
@@ -99,47 +97,6 @@ trait PersistentTrait {
     $this->initializeMethodHandler();
   }
 
-
-     protected function _callSetter(string $name, array $args): \Pho\Lib\Graph\EntityInterface
-     {
-         if(!static::T_PERSISTENT)
-            return parent::_callSetter($name, $args);
-
-         $edge = parent::_callSetter($name, $args);
-         $this->kernel->logger()->info("Saving edge %s", $edge->id());
-         $this->kernel->gs()->touch($edge);
-         $this->persist();
-         if($edge->tail()->id()==$this->id()) {
-            $edge->head()->persist();
-         }
-         else {
-            $edge->tail()->persist();
-         }
-         return $edge->return();
-     }
-
-
-     protected function _callFormer(string $name, array $args): \Pho\Lib\Graph\EntityInterface
-     {
-         if(!static::T_PERSISTENT)
-            return parent::_callFormer($name, $args);
-
-            $class = $this->__findFormativeClass($name, $args);
-        if(count($args)>0) {
-            $head = new $class($this->kernel, $this, $this->where(), ...$args);
-        }
-        else {
-            $head = new $class($this->kernel, $this, $this->where());
-        }
-        
-        $edge_class = $this->edge_out_formative_edge_classes[$name];
-        $edge = new $edge_class($this, $head);
-        $this->kernel->gs()->touch($edge);
-        $this->kernel->gs()->touch($head);
-        $this->kernel->gs()->touch($edge->tail());
-        return $edge->return();
-
-     }
 
      public function registerEdgeOutClass(string $class, int $trim = 3): void
      {

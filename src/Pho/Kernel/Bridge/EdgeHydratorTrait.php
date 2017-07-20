@@ -7,7 +7,7 @@ trait EdgeHydratorTrait {
     
     private $kernel;
 
-    private function persist(): void
+    public function persist(): void
     {
         $this->_ensureKernel();
         $this->kernel->gs()->touch($this);

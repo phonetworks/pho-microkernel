@@ -32,8 +32,9 @@ abstract class AbstractActor extends Framework\Actor {
         parent::__construct($graph);
         $this->registerHandlerAdapter(
             "form",
-            \Pho\Kernel\Foundation\Handlers\Form::class);
-        $this->particlize($kernel, $graph);
-        
+            \Pho\Kernel\Foundation\Handlers\Form::class
+        );
+        $this->hydrate($kernel, $graph);
+        $this->context()->emit("particle.added", [$this]);
     }
 }
