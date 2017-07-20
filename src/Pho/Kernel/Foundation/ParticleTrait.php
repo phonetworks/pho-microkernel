@@ -6,6 +6,7 @@ use Pho\Framework;
 use Pho\Kernel\Kernel;
 use Pho\Kernel\Standards;
 use Pho\Kernel\Acl;
+use Pho\Kernel\Hooks;
 
 trait ParticleTrait
 {
@@ -25,9 +26,13 @@ trait ParticleTrait
        $this->kernel = $kernel;
         $this->graph = $graph;
         $this->acl = Acl\AclFactory::seed($kernel, $this, static::DEFAULT_MOD); 
+        
         $this->setEditability();
         $this->persist();
         $this->expire();
+
+        Hooks::setup($this);
+
         $this->on("modified", function() {
             $this->persist();
         });
@@ -42,6 +47,8 @@ trait ParticleTrait
             $edge->persist();
         });
         // versionable trait -- work in progress.
+
+        $this->kernel()->space()->emit("particle.added", [$this]);
     }
 
     public function acl(): Acl\AbstractAcl

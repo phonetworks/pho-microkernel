@@ -12,6 +12,14 @@
 
 namespace Pho\Kernel;
 
+
+      include("tests/assets/compiled/User.php");
+      include("tests/assets/compiled/Status.php");
+      include("tests/assets/compiled/StatusOut/Mention.php");
+      include("tests/assets/compiled/UserOut/Follow.php");
+      include("tests/assets/compiled/UserOut/Like.php");
+      include("tests/assets/compiled/UserOut/Post.php");
+
 use Pho\Kernel\Kernel;
 
 class TestCase extends \PHPUnit\Framework\TestCase

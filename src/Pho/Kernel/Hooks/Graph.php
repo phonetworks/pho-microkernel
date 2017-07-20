@@ -1,10 +1,20 @@
 <?php
 
+/**
+ * This file is part of the Phở package.
+ * 
+ * (c) Emre Sokullu <emre@phonetworks.org> 
+ *
+ * For the full copyright and license information, please view the LICENSE 
+ * file that was distributed with this source code.
+ */
+
 namespace Pho\Kernel\Hooks;
 
 use Pho\Lib\Graph\ID;
 use Pho\Lib\Graph\EdgeInterface;
 use Pho\Lib\Graph\NodeInterface;
+use Pho\Lib\Graph\GraphInterface;
 
 /**
  * Compat layer between the kernel and lower level packages
@@ -20,22 +30,30 @@ use Pho\Lib\Graph\NodeInterface;
  */
 class Graph
 {
-    public static function setup(EdgeInterface $edge): void
+    public static function setup(GraphInterface $graph): void
     {
-        $this->hook("add", function(NodeInterface $node): void {
-            $this->persist();
-        });
-        $this->hook("remove", function(NodeInterface $node): void {
-            $this->persist();
-        });
-        $this->hook("get", function(ID $node_id): Graph\NodeInterface {
-            return $this->kernel->utils()->node($node_id);
-        });
-        $this->hook("members", function(): array {
-            foreach($this->node_ids as $node_id) {
-                $this->nodes[$node_id] = $this->kernel->gs()->node($node_id);
-            }
-            return $this->nodes;
-        });
+        $graph->hook("add", (function(NodeInterface $node): void {
+                $this->persist();
+            })
+        );
+
+        $graph->hook("remove", (function(NodeInterface $node): void {
+                $this->persist();
+            })
+        );
+
+        $graph->hook("get", (function(ID $node_id): NodeInterface {
+                return $this->kernel->gs()->node($node_id);
+            })
+        );
+
+        $graph->hook("members", (function(): array {
+                foreach($this->node_ids as $node_id) {
+                    $this->nodes[$node_id] = 
+                        $this->kernel->gs()->node($node_id);
+                }
+                return $this->nodes;
+            })
+        );
     }
 }

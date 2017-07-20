@@ -21,21 +21,24 @@ use Pho\Framework\Actor;
  */
 class Node 
 {
-    public static function Node(NodeInterface $node): void
+    public static function setup(NodeInterface $node): void
     {
-        $node->hook("context", function(): GraphInterface {
-            $this->context = $this->kernel->gs()->node($this->context_id);
-            return $this->context;
-        });
+        $node->hook("context", (function(): GraphInterface {
+                $this->context = $this->kernel->gs()->node($this->context_id);
+                return $this->context;
+            })
+        );
 
-        $node->hook("creator", function(): Actor {
-            $this->creator = $this->kernel->gs()->node($this->creator_id);
-            return $this->creator;
-        });
+        $node->hook("creator", (function(): Actor {
+                $this->creator = $this->kernel->gs()->node($this->creator_id);
+                return $this->creator;
+            })
+        );
 
-        $node->hook("edge", function(): EdgeInterface {
-            $this->kernel->logger()->info("Hydrating edge %s", $id);
-            return $this->kernel->gs()->edge($id);
-        });
+        $node->hook("edge", (function(): EdgeInterface {
+                $this->kernel->logger()->info("Hydrating edge %s", $id);
+                return $this->kernel->gs()->edge($id);
+            })
+        );
     }
 }

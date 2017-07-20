@@ -8,7 +8,6 @@ use Pho\Kernel\Standards;
 
 abstract class AbstractActor extends Framework\Actor {
 
-    use \Pho\Kernel\Bridge\NodeHydratorTrait;
     use ParticleTrait;
 
     /**
@@ -35,6 +34,5 @@ abstract class AbstractActor extends Framework\Actor {
             \Pho\Kernel\Foundation\Handlers\Form::class
         );
         $this->hydrate($kernel, $graph);
-        $this->context()->emit("particle.added", [$this]);
     }
 }
