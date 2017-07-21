@@ -3,6 +3,7 @@
 namespace Pho\Kernel\Traits\Edge;
 
 use Pho\Kernel\Kernel;
+use Pho\Kernel\Hooks;
 
 /**
  * Persistent Trait
@@ -20,26 +21,6 @@ trait PersistentTrait {
         $this->injection("kernel")->gs()->touch($this);
     }
 
-    public function setupEdgeHooks(): void
-    {
-        $this->hook("add", function(Graph\NodeInterface $node): void {
-            $this->persist();
-        });
-        $this->hook("remove", function(Graph\NodeInterface $node): void {
-            $this->persist();
-        });
-        $this->hook("get", function(ID $node_id): Graph\NodeInterface {
-            return $this->injection("kernel")->gs()->node($node_id);
-        });
-        $this->hook("members", function(): array {
-            foreach($this->node_ids as $node_id) {
-                $this->nodes[$node_id] = 
-                    $this->injection("kernel")->gs()->node($node_id);
-            }
-            return $this->nodes;
-        });
-    }
-
     public function destroy(): void
    {
         $this->injection("kernel")->gs()->delEdge($this->id());
@@ -53,6 +34,14 @@ trait PersistentTrait {
     {
         parent::unserialize($data);
         $this->inject("kernel", $GLOBALS["kernel"]);
+    }
+
+
+        public function rewire(): self
+    {
+        Hooks::setup($this);
+        
+        return $this;
     }
 
 }

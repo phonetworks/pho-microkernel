@@ -34,5 +34,6 @@ abstract class AbstractActor extends Framework\Actor {
             \Pho\Kernel\Foundation\Handlers\Form::class
         );
         $this->hydrate($kernel, $graph);
+        $this->kernel()->space()->emit("particle.added", [$this]);
     }
 }

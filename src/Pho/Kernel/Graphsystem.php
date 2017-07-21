@@ -45,7 +45,7 @@ class Graphsystem
     if(!$node instanceof Framework\ParticleInterface && !$node instanceof Foundation\World) {
       throw new Exceptions\InvalidTypeException(sprintf("The id \"%s\" does not pertain to a Node.", (string) $node_id));
     }
-    return $node;
+    return $node->rewire();
   }
 
   /**
@@ -71,7 +71,7 @@ class Graphsystem
     if(!$edge instanceof Graph\EdgeInterface) {
       throw new Exceptions\NotAnEdgeException(sprintf("The id %s does not belong to a a valid edge entity.", (string) $edge_id));
     }
-    return $edge;
+    return $edge->rewire();
   }
 
   /**

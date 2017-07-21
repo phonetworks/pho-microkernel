@@ -25,14 +25,19 @@ trait ParticleTrait
         Kernel $kernel, 
         Framework\ContextInterface $graph): void
     {  
-       $this->kernel = $kernel;
+        $this->kernel = $kernel;
         $this->graph = $graph;
         $this->acl = Acl\AclFactory::seed($kernel, $this, static::DEFAULT_MOD); 
         
         $this->setEditability();
         $this->persist();
         $this->expire();
+        $this->rewire();
+        // versionable trait -- work in progress.
+    }
 
+    public function rewire(): self
+    {
         Hooks::setup($this);
 
         $this->on("modified", function() {
@@ -41,7 +46,7 @@ trait ParticleTrait
         $this->on("edge.created", function($edge) {
             $this->persist();
             $edge->inject("kernel", $this->kernel);
-            $edge->setupEdgeHooks();
+            $edge->rewire();
             $edge->persist();
             if(!$edge->orphan())
                 $edge->head()->persist();
@@ -50,9 +55,8 @@ trait ParticleTrait
             $this->persist();
             $edge->persist();
         });
-        // versionable trait -- work in progress.
 
-        $this->kernel()->space()->emit("particle.added", [$this]);
+        return $this;
     }
 
     public function acl(): Acl\AbstractAcl

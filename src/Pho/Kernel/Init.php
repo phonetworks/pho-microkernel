@@ -162,7 +162,9 @@ class Init extends Container
            $graph_id,
            $founder_id
          );
-         $founder = $this->gs()->node($founder_id);
+         $this["founder"] = $this->share(function($c) use($founder_id) { 
+           return $c["gs"]->node($founder_id);
+         });
          $this["graph"] = $this->share(function($c) use($graph_id) {
             return $c["gs"]->node($graph_id);
           });
@@ -173,7 +175,9 @@ class Init extends Container
           else if (isset($founder_id)) 
               throw new Exceptions\LostNetworkException();
 
-          $this["founder"] = new Standards\Founder($this); // will turn into admin by Network
+          $this["founder"] = $this->share(function($c) {
+              return new Standards\Founder($c); // will turn into admin by Network
+          });
           $this["graph"] = $this->share(function($c) {
             return new Standards\Graph($c, $c["founder"]);
           });
