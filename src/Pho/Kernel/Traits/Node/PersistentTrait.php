@@ -94,14 +94,8 @@ trait PersistentTrait {
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
     }
-    $this->initializeMethodHandler();
+    $this->initializeHandler();
   }
-
-
-     public function registerEdgeOutClass(string $class, int $trim = 3): void
-     {
-        parent::registerEdgeOutClass($class, $trim);
-     }
      
 
    public function destroy(): void

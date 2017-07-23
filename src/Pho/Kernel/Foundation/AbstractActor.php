@@ -29,7 +29,7 @@ abstract class AbstractActor extends Framework\Actor {
     public function __construct(Kernel $kernel, Framework\ContextInterface $graph)
     { 
         parent::__construct($graph);
-        $this->registerHandlerAdapter(
+        $this->registerHandler(
             "form",
             \Pho\Kernel\Foundation\Handlers\Form::class
         );
