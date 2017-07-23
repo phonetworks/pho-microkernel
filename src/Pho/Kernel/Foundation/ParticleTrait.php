@@ -46,8 +46,7 @@ trait ParticleTrait
         $this->on("edge.created", function($edge) {
             $this->persist();
             $edge->inject("kernel", $this->kernel);
-            $edge->rewire();
-            $edge->persist();
+            $edge->rewire()->persist();
             if(!$edge->orphan())
                 $edge->head()->persist();
         });
