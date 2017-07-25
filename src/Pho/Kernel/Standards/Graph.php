@@ -30,10 +30,23 @@ class Graph extends Foundation\AbstractGraph {
     const T_EXPIRATION = 0;
     const T_VERSIONABLE = false;
 
-    public function __construct(Kernel $kernel, Foundation\AbstractActor $founder)
+    const FIELDS = [
+        "founder"=>[
+            "constraints" => [],
+            "directives" => []
+        ]
+    ];
+    //"{\"founder\":{\"constraints\":{\"minLength\":null,\"maxLength\":null,\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":false,\"now\":false,\"default\":\"|_~_~NO!-!VALUE!-!SET~_~_|\"}}}";
+
+    public function __construct(
+        Kernel $kernel, 
+        Foundation\AbstractActor $founder, 
+        ? \Pho\Lib\Graph\GraphInterface $context = null,
+        ? Foundation\AbstractActor $founder_to_set = null)
     { 
         parent::__construct($kernel, $founder, $kernel->space());
-        $founder->changeContext($this);
+        $this->setFounder($founder);
+        // $founder->changeContext($this);
     }
 
 }

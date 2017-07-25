@@ -155,37 +155,32 @@ class Init extends Container
         return new $space_class($c);
        });
        $graph_id = $this->database()->get("configs:graph_id");
-       $founder_id = $this->database()->get("configs:founder_id");
 
-       if(isset($graph_id) && isset($founder_id)) {
+       if(isset($graph_id)) {
          $this->logger()->info(
-           "Existing network with id: %s and creator: %s", 
-           $graph_id,
-           $founder_id
+           "Existing network with id: %s", 
+           $graph_id
          );
-         $this["founder"] = $this->share(function($c) use($founder_id) { 
-           return $c["gs"]->node($founder_id);
-         });
          $this["graph"] = $this->share(function($c) use($graph_id) {
             return $c["gs"]->node($graph_id);
           });
+          $this["founder"] = $this->share(function($c) { 
+           return $c["graph"]->getFounder();
+         });
        }
        else {
-          if(isset($graph_id)) 
-              throw new Exceptions\LostFounderException();
-          else if (isset($founder_id)) 
-              throw new Exceptions\LostNetworkException();
-
+          $this->logger()->info("Creating a new graph from scratch");
           $this["founder"] = $this->share(function($c) {
               $founder_class = $c["config"]->default_objects->founder;
               return new $founder_class($c); // will turn into admin by Network
           });
           $this["graph"] = $this->share(function($c) {
             $graph_class = $c["config"]->default_objects->graph;
-            return new $graph_class($c, $c["founder"]);
+            $graph = new $graph_class($c, $c["founder"], $c["space"], $c["founder"]);
+            $c["founder"]->changeContext($graph);
+            return $graph;
           });
          $this->database()->set("configs:graph_id", $this->graph()->id());
-         $this->database()->set("configs:founder_id", $this->founder()->id());
          $this->logger()->info(
            "New graph with id: %s and founder: %s", $this->graph()->id(), $this->founder()->id()
          );
