@@ -151,7 +151,8 @@ class Init extends Container
    protected function seedRoot(): void
    {  
        $this["space"] = $this->share(function($c) {
-        return new Standards\Space($c);
+         $space_class = $c["config"]->default_objects->space;
+        return new $space_class($c);
        });
        $graph_id = $this->database()->get("configs:graph_id");
        $founder_id = $this->database()->get("configs:founder_id");
@@ -176,10 +177,12 @@ class Init extends Container
               throw new Exceptions\LostNetworkException();
 
           $this["founder"] = $this->share(function($c) {
-              return new Standards\Founder($c); // will turn into admin by Network
+              $founder_class = $c["config"]->default_objects->founder;
+              return new $founder_class($c); // will turn into admin by Network
           });
           $this["graph"] = $this->share(function($c) {
-            return new Standards\Graph($c, $c["founder"]);
+            $graph_class = $c["config"]->default_objects->graph;
+            return new $graph_class($c, $c["founder"]);
           });
          $this->database()->set("configs:graph_id", $this->graph()->id());
          $this->database()->set("configs:founder_id", $this->founder()->id());

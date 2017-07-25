@@ -53,7 +53,8 @@ trait PersistentTrait {
     $this->kernel->logger()->info("The edge list is as follows: %s", print_r($data["edge_list"], true));
     $this->edge_list = new Graph\EdgeList($this, $data["edge_list"]);
     if((string) ID::root() == $data["context"]) {
-        $this->context = new Standards\Space($this->kernel);
+        $space_class = $this->kernel->config()->default_objects->space;
+        $this->context = new $space_class($this->kernel);
         $this->context_id = $data["context"];
     }
     else {
