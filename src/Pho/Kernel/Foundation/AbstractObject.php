@@ -14,7 +14,8 @@ abstract class AbstractObject extends Framework\Object {
     { 
         parent::__construct($actor, $graph);
         $this->hydrate($kernel, $graph);
-        $this->kernel()->space()->emit("particle.added", [$this]);
+        $this->kernel->space()->emit("particle.added", [$this]); 
+
     }
 
 }

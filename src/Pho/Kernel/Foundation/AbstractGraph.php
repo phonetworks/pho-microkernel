@@ -14,7 +14,7 @@ abstract class AbstractGraph extends Framework\Graph {
     { 
         parent::__construct($actor, $graph);
         $this->hydrate($kernel, $graph);
-        $this->kernel()->space()->emit("particle.added", [$this]);
+        $this->kernel->space()->emit("particle.added", [$this]); 
     }
 
 }

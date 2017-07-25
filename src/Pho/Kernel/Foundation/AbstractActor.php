@@ -35,11 +35,7 @@ abstract class AbstractActor extends Framework\Actor {
         );
         $this->hydrate($kernel, $graph);
         if($kernel->live()) {
-            
             $this->kernel()->space()->emit("particle.added", [$this]);
-        }
-        else {
-            //$kernel->events()->on()
         }
        
     }

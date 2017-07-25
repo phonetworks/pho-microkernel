@@ -177,6 +177,7 @@ class Init extends Container
           $this->logger()->info("Creating a new graph from scratch");
           $this["founder"] = $this->share(function($c) use ($founder) {
               if(!is_null($founder)) {
+                  $founder->persist();
                   return $founder;
               }
               $founder_class = $c["config"]->default_objects->founder;
@@ -186,6 +187,7 @@ class Init extends Container
             $graph_class = $c["config"]->default_objects->graph;
             $graph = new $graph_class($c, $c["founder"], $c["space"], $c["founder"]);
             $c["founder"]->changeContext($graph);
+            //$c["founder"]->hydrate($c, $c["graph"]); // // to make sure that is set up, since the services are now available.
             return $graph;
           });
          $this->database()->set("configs:graph_id", $this->graph()->id());
