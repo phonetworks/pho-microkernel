@@ -21,16 +21,21 @@ use Pho\Kernel\Bridge;
  */
 trait PersistentTrait {
 
+    protected function persistable(): bool
+    {
+        return (static::T_PERSISTENT && $this->kernel->live());
+    }
+
     public function persist(): void
     {
-        if(!static::T_PERSISTENT)
+        if(!$this->persistable())
             return;
         $this->kernel()->gs()->touch($this);
     }
 
     public function serialize(): string
     {
-        if(!static::T_PERSISTENT) {
+        if(!$this->persistable()) {
             return parent::serialize();
        }
         $this->kernel->logger()->info("About to serialize the node  %s, a %s", $this->id(), $this->label());
@@ -41,11 +46,11 @@ trait PersistentTrait {
 
   public function unserialize(/* mixed */ $data): void
   {
-      if(!static::T_PERSISTENT) {
+      $this->kernel = $GLOBALS["kernel"];
+      if(!$this->persistable()) {
             parent::unserialize($data);
             return;
        }
-    $this->kernel = $GLOBALS["kernel"];
     $data = unserialize($data);
     $this->id = ID::fromString($data["id"]);
     $this->kernel->logger()->info("Unserialization begins for %s", $this->id());
@@ -101,7 +106,7 @@ trait PersistentTrait {
 
    public function destroy(): void
    {
-       if(!static::T_PERSISTENT) {
+       if(!$this->persistable()) {
            parent::destroy();
             return;
        }

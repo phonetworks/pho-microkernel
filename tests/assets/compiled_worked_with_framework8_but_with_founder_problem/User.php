@@ -42,8 +42,8 @@ class User extends Foundation\AbstractActor {
 }
 
 /*****************************************************
- * Timestamp: 1500994218
- * Size (in bytes): 2233
- * Compilation Time: 15589
- * 1a6758e829102ec97f9fe91afdda4e98
+ * Timestamp: 1500589146
+ * Size (in bytes): 2232
+ * Compilation Time: 3063
+ * 1e1244b2879e5d2d758ac54cc20dae6d
  ******************************************************/

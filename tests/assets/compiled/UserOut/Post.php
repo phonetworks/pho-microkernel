@@ -34,7 +34,6 @@ class Post extends Framework\ActorOut\Write {
     {
         parent::__construct($tail, $head, $predicate);
         $this->kernel = $GLOBALS["kernel"];
-        //$this->persist();
     }
 
 }
@@ -59,7 +58,7 @@ class PostNotification extends Framework\ActorOut\WriteNotification
 
 /*****************************************************
  * Timestamp: 
- * Size (in bytes): 1594
- * Compilation Time: 3060
- * 18ca895e97a503926424c1aeef4341c4
+ * Size (in bytes): 1567
+ * Compilation Time: 15586
+ * dbe58c6fc5edc8f7b87631d6493a3b6d
  ******************************************************/

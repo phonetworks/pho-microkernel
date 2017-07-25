@@ -74,33 +74,16 @@ class Kernel extends Init
     return $this->is_running ? "on" : "off";
   }
 
-
   /**
-   * Sets up the kernel settings.
+   * Retrieves the current status of the kernel in boolean
    * 
-   * Configuration variables can be passed to the kernel either
-   * at construction (e.g. ```$kernel = new Kernel(...);```)
-   * or afterwards, using this function ```$kernel->reconfigure(...);```
-   * Please note, this function should be run before calling the
-   * *boot* function, or otherwise it will not have an effect
-   * and throw the {@link Pho\Kernel\Exceptions\KernelIsAlreadyRunningException} exception.
-   *
-   * @param array $settings Service configurations.
-   *
-   * @throws KernelIsAlreadyRunningException When run after the kernel has booted up.
+   * True if it's on, false otherwise.
+   * 
+   * @return bool
    */
-  public function reconfigure( array $settings = [] ): void
+  public function live(): bool
   {
-    if($this->is_running) {
-      throw new Exceptions\KernelAlreadyRunningException("You cannot reconfigure a running kernel.");
-    }
-    $this["settings"] = $settings;
-    $this["config"] = $this->share(function($c) {
-        $config =  new \Zend\Config\Config(include __DIR__ . DIRECTORY_SEPARATOR . "Defaults.php");
-        $config->merge(new \Zend\Config\Config($c["settings"]));
-        return $config;
-    });
-    $this->is_configured = true;
+    return (bool) $this->is_running;
   }
 
   /**
@@ -111,11 +94,16 @@ class Kernel extends Init
    * register new nodes after this point, or you will encounter the
    * {@link Pho\Kernel\Exceptions\KernelIsAlreadyRunningException} 
    * exception.
+   * 
+   * @param ?Foundation\AbstractActor The founder object or null (to set 
+   * it up with default values or retrieve from the database)
+   *
+   * @return void
    *
    * @throws KernelIsAlreadyRunningException When run after the kernel has booted up.
    *
    */
-  public function boot(): void
+  public function boot(? Foundation\AbstractActor $founder = null): void
   {
     if($this->is_running) {
       throw new Exceptions\KernelAlreadyRunningException();
@@ -125,7 +113,7 @@ class Kernel extends Init
     $this["gs"] = $this->share(function($c) {
       return new Graphsystem($c);
     });
-    $this->seedRoot();
+    $this->seedRoot($founder);
     $this->registerListeners($this["graph"]);
     $this->events()->emit("kernel.booted_up");
   }

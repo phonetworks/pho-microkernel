@@ -40,8 +40,8 @@ class Status extends Foundation\AbstractObject {
 }
 
 /*****************************************************
- * Timestamp: 1500994218
- * Size (in bytes): 1732
- * Compilation Time: 15588
- * 1a871e966b66d313322fbe8be002661b
+ * Timestamp: 1500589146
+ * Size (in bytes): 1731
+ * Compilation Time: 3062
+ * b050a20c43130d5fac00f5f1fbeaa0e8
  ******************************************************/

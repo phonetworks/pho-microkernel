@@ -12,7 +12,7 @@
 
 namespace Pho\Kernel;
 
-
+      include("tests/assets/compiled/Graph.php");
       include("tests/assets/compiled/User.php");
       include("tests/assets/compiled/Status.php");
       include("tests/assets/compiled/StatusOut/Mention.php");
@@ -33,7 +33,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     private $log_db_entries = [];
 
-    private function getKernelConfig()
+    protected function getKernelConfig()
     {
         return array(
           "services"=>array(
@@ -43,11 +43,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function startKernel(): void
+    protected function startKernel($founder=null): void
     {
       $this->configs = $this->getKernelConfig();
       $this->kernel = new Kernel($this->configs);
-      $this->kernel->boot();
+      $this->kernel->boot($founder);
       $this->graph = $this->kernel->graph();
     }
 
@@ -78,6 +78,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
             $this->kernel->gs()->delNode($c);
       }
       $this->stopKernel();
+    }
+
+     protected function flushDBandRestart()
+    {
+        $this->kernel->database()->flushdb();
+        $this->stopKernel();
+        $this->startKernel();
     }
 
 }

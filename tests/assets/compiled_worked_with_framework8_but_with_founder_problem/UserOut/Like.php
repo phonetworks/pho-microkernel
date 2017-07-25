@@ -34,6 +34,7 @@ class Like extends Framework\ActorOut\Subscribe {
     {
         parent::__construct($tail, $head, $predicate);
         $this->kernel = $GLOBALS["kernel"];
+        //$this->persist();
     }
 
 }
@@ -55,7 +56,7 @@ class LikePredicate extends Framework\ActorOut\SubscribePredicate
 
 /*****************************************************
  * Timestamp: 
- * Size (in bytes): 1509
- * Compilation Time: 15584
- * 93d8882e7c174f412058cec79eb54b9b
+ * Size (in bytes): 1536
+ * Compilation Time: 3058
+ * 6c745a2df2c638e96977da86e1df7928
  ******************************************************/

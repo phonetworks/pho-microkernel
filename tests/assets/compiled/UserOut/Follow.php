@@ -34,7 +34,6 @@ class Follow extends Framework\ActorOut\Subscribe {
     {
         parent::__construct($tail, $head, $predicate);
         $this->kernel = $GLOBALS["kernel"];
-        //$this->persist();
     }
 
 }
@@ -56,7 +55,7 @@ class FollowPredicate extends Framework\ActorOut\SubscribePredicate
 
 /*****************************************************
  * Timestamp: 
- * Size (in bytes): 1548
- * Compilation Time: 3057
- * 19d1d62ca7303d8f8e65d46b02c784b6
+ * Size (in bytes): 1521
+ * Compilation Time: 15584
+ * fcec609c2204ff066671d018b6216a91
  ******************************************************/

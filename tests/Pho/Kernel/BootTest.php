@@ -51,10 +51,9 @@ class BootTest extends \PHPUnit\Framework\TestCase
       $this->kernel->boot();
       $redis_configs = $this->redis->keys("configs:*");
       $this->assertContains("configs:graph_id", $redis_configs);
-      //$this->assertContains("configs:founder_id", $redis_configs);
       $graph_recreated = $this->kernel->gs()->node($this->redis->get("configs:graph_id"));
-      //$founder_recreated = $this->kernel->gs()->node($this->redis->get("configs:founder_id"));
-      //$this->assertInstanceOf(Standards\Founder::class, $founder_recreated);
+      $founder_recreated = $this->kernel->founder();
+      $this->assertInstanceOf(Foundation\AbstractActor::class, $founder_recreated);
       $this->assertInstanceOf(Standards\Graph::class, $graph_recreated);
     }
 }

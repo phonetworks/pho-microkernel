@@ -34,7 +34,6 @@ class Mention extends Framework\ObjectOut\Mention {
     {
         parent::__construct($tail, $head, $predicate);
         $this->kernel = $GLOBALS["kernel"];
-        //$this->persist();
     }
 
 }
@@ -59,7 +58,7 @@ class MentionNotification extends Framework\ObjectOut\MentionNotification
 
 /*****************************************************
  * Timestamp: 
- * Size (in bytes): 1638
- * Compilation Time: 3059
- * 91c666cadbcce9f8bfc72d3382f1dfee
+ * Size (in bytes): 1611
+ * Compilation Time: 15585
+ * ec2ed0944549cb278a3d39dcbdb8d28c
  ******************************************************/

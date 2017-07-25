@@ -66,6 +66,10 @@ class Init extends Container
         $config->merge(new \Zend\Config\Config($c["settings"]));
         return $config;
     });
+    $this["space"] = $this->share(function($c) {
+         $space_class = $c["config"]->default_objects->space;
+        return new $space_class($c);
+       });
     $this->is_configured = true;
   }
 
@@ -147,13 +151,14 @@ class Init extends Container
    /**
     * Ensures that there is a root Graph attached to the kernel.
     * Used privately by the kernel.
+    *
+    * @param ?Foundation\AbstractActor The founder object or null (to set 
+    * it up with default values or retrieve from the database)
+    *
+    * @return void
     */
-   protected function seedRoot(): void
+   protected function seedRoot(? Foundation\AbstractActor $founder = null): void
    {  
-       $this["space"] = $this->share(function($c) {
-         $space_class = $c["config"]->default_objects->space;
-        return new $space_class($c);
-       });
        $graph_id = $this->database()->get("configs:graph_id");
 
        if(isset($graph_id)) {
@@ -170,7 +175,10 @@ class Init extends Container
        }
        else {
           $this->logger()->info("Creating a new graph from scratch");
-          $this["founder"] = $this->share(function($c) {
+          $this["founder"] = $this->share(function($c) use ($founder) {
+              if(!is_null($founder)) {
+                  return $founder;
+              }
               $founder_class = $c["config"]->default_objects->founder;
               return new $founder_class($c); // will turn into admin by Network
           });
