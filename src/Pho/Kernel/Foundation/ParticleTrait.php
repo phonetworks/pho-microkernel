@@ -20,6 +20,7 @@ trait ParticleTrait
     protected $graph;
     protected $acl;
     protected $editors;
+    protected $deferred_persistence = false;
 
     protected function hydrate(
         Kernel $kernel, 
@@ -30,7 +31,7 @@ trait ParticleTrait
         $this->acl = Acl\AclFactory::seed($kernel, $this, static::DEFAULT_MOD); 
         
         $this->setEditability();
-        if(!$this instanceof Standards\VirtualGraphInterface) // not at construction.
+        if( !$this->deferred_persistence || !$this instanceof Standards\VirtualGraphInterface ) // not at construction.
             $this->persist();
         else $this->kernel->logger()->info("Working on a VirtualGraphInterface object");
         $this->expire();

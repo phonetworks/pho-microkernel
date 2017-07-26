@@ -32,8 +32,9 @@ class Status extends Foundation\AbstractObject {
         $this->registerIncomingEdges(UserOut\Post::class);
         $this->registerIncomingEdges(UserOut\Like::class);
         parent::__construct($kernel, $actor, $graph);
-                $this->setStatus($status);
-        $this->setCreateTime(time());
+        $this->setStatus($status);
+
+        $this->setCreateTime(time());
 
     }
 

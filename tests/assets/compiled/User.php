@@ -33,9 +33,12 @@ class User extends Foundation\AbstractActor {
         $this->registerIncomingEdges(StatusOut\Mention::class);
         parent::__construct($kernel, $graph);
                 $this->setPassword($password);
-        $this->setJoinTime(time());
-        $this->setBirthday($birthday);
-        $this->setAbout($about);
+
+        $this->setJoinTime(time());
+
+        $this->setBirthday($birthday);
+
+        $this->setAbout($about);
 
     }
 
