@@ -114,7 +114,7 @@ class Kernel extends Init
       return new Graphsystem($c);
     });
     $this->seedRoot($founder);
-    $this->registerListeners($this["graph"]);
+    //$this->registerListeners($this["graph"]);
     $this->events()->emit("kernel.booted_up");
   }
 }

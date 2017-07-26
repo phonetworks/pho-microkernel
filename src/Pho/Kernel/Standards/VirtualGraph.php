@@ -4,11 +4,12 @@ namespace Pho\Kernel\Standards;
 
 use Pho\Kernel\Foundation;
 use Pho\Kernel\Kernel;
+use Pho\Lib\Graph\ID;
 
 /**
  * do not extend group, 
  */
-class VirtualGraph extends Foundation\AbstractGraph {
+class VirtualGraph extends Foundation\AbstractGraph implements VirtualGraphInterface {
 
     /**
      * The owner can do anything,
@@ -25,5 +26,24 @@ class VirtualGraph extends Foundation\AbstractGraph {
     const T_PERSISTENT = true;
     const T_EXPIRATION = 0;
     const T_VERSIONABLE = false;
+
+    protected $master;
+
+    public function toArray(): array
+    {
+        $array = parent::toArray();
+        $array["master"] = (string) $this->master;
+        return $array;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function withMaster(ID $id): VirtualGraphInterface
+    {
+        $this->master = (string) $id;
+        $this->persist();
+        return $this;
+    }
 
 }

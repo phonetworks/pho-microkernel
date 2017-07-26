@@ -15,6 +15,7 @@ use Pho\Lib\Graph\ID;
 use Pho\Lib\Graph\EdgeInterface;
 use Pho\Lib\Graph\NodeInterface;
 use Pho\Lib\Graph\GraphInterface;
+use Pho\Kernel\Exceptions\NodeDoesNotExistException;
 
 /**
  * Compat layer between the kernel and lower level packages
@@ -48,10 +49,22 @@ class Graph
         );
 
         $graph->hook("members", (function(): array {
+                $node_ids = [];
                 foreach($this->node_ids as $node_id) {
-                    $this->nodes[$node_id] = 
-                        $this->kernel->gs()->node($node_id);
+                    try {
+                        $this->nodes[$node_id] = 
+                            $this->kernel->gs()->node($node_id);
+                        $node_ids[] = $node_id;
+                    }
+                    catch(NodeDoesNotExistException $e) {
+                        $this->kernel->logger()->info(
+                            "Can't find the node %s. It's removed from graph %s",
+                            $node_id,
+                            (string) $this->id()
+                            );
+                    }
                 }
+                $this->node_ids = $node_ids;
                 return $this->nodes;
             })
         );

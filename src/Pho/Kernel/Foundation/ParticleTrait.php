@@ -30,7 +30,9 @@ trait ParticleTrait
         $this->acl = Acl\AclFactory::seed($kernel, $this, static::DEFAULT_MOD); 
         
         $this->setEditability();
-        $this->persist();
+        if(!$this instanceof Standards\VirtualGraphInterface) // not at construction.
+            $this->persist();
+        else $this->kernel->logger()->info("Working on a VirtualGraphInterface object");
         $this->expire();
         $this->rewire();
         // versionable trait -- work in progress.

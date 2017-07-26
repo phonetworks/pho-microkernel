@@ -3,6 +3,7 @@
 namespace Pho\Kernel\Traits\Node;
 
 use Pho\Kernel\Foundation;
+use Pho\Kernel\Standards\VirtualGraphInterface;
 
 /**
  * Editable Trait
@@ -27,9 +28,23 @@ trait EditableTrait {
         if(!static::T_EDITABLE)
             return;
         $editors_class = $this->kernel->config()->default_objects->editors;
-        $this->editors = new $editors_class(
+        if(!class_exists($editors_class)) {
+            $this->kernel->logger()->warning(
+                "The editors class %s can't be found.",
+                $editors_class
+            );
+            return;
+        }
+        if(!in_array(VirtualGraphInterface::class, class_implements($editors_class))) {
+            $this->kernel->logger()->warning(
+                "The editors class %s does not implement VirtualGraphInterface. Thus, it won't be used.",
+                $editors_class
+            );
+            return;
+        }
+        $this->editors = (new $editors_class(
             $this->kernel, $this->creator(), $this->context()
-        );
+        ))->withMaster($this->id());
         //if($this->acl()->sticky()) echo "x";
         //$this->acl()->sticky() ? $this->acl()->get("a::") : $this->acl()->get("u::");
         $this->acl()->set("g:".(string) $this->editors->id().":", 

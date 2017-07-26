@@ -16,7 +16,7 @@ final class Space extends \Pho\Framework\Space implements \Serializable {
         $this->kernel = $kernel;
         $this->on("particle.added", function($node) use ($kernel) {
             // $kernel->logger()->info("Node added %s", $node->id()->toString());
-            $node->persist();
+            // $node->persist();
         });
         // skip modified because the Space is stateless anyway.
     }

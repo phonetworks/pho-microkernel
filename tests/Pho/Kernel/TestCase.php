@@ -49,6 +49,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
       $this->kernel = new Kernel($this->configs);
       $this->kernel->boot($founder);
       $this->graph = $this->kernel->graph();
+      $this->kernel->logger()->info("Test started for: %s", get_class($this));
     }
 
     protected function stopKernel(): void

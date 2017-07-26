@@ -70,6 +70,9 @@ trait PersistentTrait {
     if(isset($data["current_context"])) { // Actor
         $this->current_context = $this->kernel->gs()->node($data["current_context"]);
     }
+    if(isset($data["master"])) { // VirtualGraph
+        $this->master = $data["master"];
+    }
     if(isset($data["members"])) { // Frame
         $this->kernel->logger()->info(
             "Extracting members for the frame %s: %s",

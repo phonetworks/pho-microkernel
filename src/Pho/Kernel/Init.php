@@ -170,7 +170,8 @@ class Init extends Container
             return $c["gs"]->node($graph_id);
           });
           $this["founder"] = $this->share(function($c) { 
-           return $c["graph"]->getFounder();
+           $founder = $c["graph"]->getFounder();
+           return $founder->rewire();
          });
        }
        else {
