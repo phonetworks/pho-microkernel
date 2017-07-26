@@ -15,7 +15,7 @@ use Pho\Kernel\Foundation;
  * For more information, visit http://phonetworks.org
  ******************************************************/
 
-class Status extends Foundation\AbstractObject {
+class Status extends Foundation\AbstractObjectDP {
 
     const T_EDITABLE = false;
     const T_PERSISTENT = true;
@@ -32,17 +32,17 @@ class Status extends Foundation\AbstractObject {
         $this->registerIncomingEdges(UserOut\Post::class);
         $this->registerIncomingEdges(UserOut\Like::class);
         parent::__construct($kernel, $actor, $graph);
-        $this->setStatus($status);
+                $this->setStatus($status, true);
+        $this->setCreateTime(time(), true);
 
-        $this->setCreateTime(time());
-
+        $this->persist();
     }
 
 }
 
 /*****************************************************
- * Timestamp: 1500994218
- * Size (in bytes): 1732
- * Compilation Time: 15588
- * 1a871e966b66d313322fbe8be002661b
+ * Timestamp: 1501092606
+ * Size (in bytes): 1772
+ * Compilation Time: 28334
+ * 223e4f2828179de17930818e0f9b9620
  ******************************************************/

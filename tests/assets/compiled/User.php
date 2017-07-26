@@ -15,7 +15,7 @@ use Pho\Kernel\Foundation;
  * For more information, visit http://phonetworks.org
  ******************************************************/
 
-class User extends Foundation\AbstractActor {
+class User extends Foundation\AbstractActorDP {
 
     const T_EDITABLE = false;
     const T_PERSISTENT = true;
@@ -32,21 +32,19 @@ class User extends Foundation\AbstractActor {
         $this->registerIncomingEdges(UserOut\Follow::class);
         $this->registerIncomingEdges(StatusOut\Mention::class);
         parent::__construct($kernel, $graph);
-                $this->setPassword($password);
+                $this->setPassword($password, true);
+        $this->setJoinTime(time(), true);
+        $this->setBirthday($birthday, true);
+        $this->setAbout($about, true);
 
-        $this->setJoinTime(time());
-
-        $this->setBirthday($birthday);
-
-        $this->setAbout($about);
-
+        $this->persist();
     }
 
 }
 
 /*****************************************************
- * Timestamp: 1500994218
- * Size (in bytes): 2233
- * Compilation Time: 15589
- * 1a6758e829102ec97f9fe91afdda4e98
+ * Timestamp: 1501092606
+ * Size (in bytes): 2285
+ * Compilation Time: 28335
+ * 76122cda4db0bb5c382d3b585a5c009c
  ******************************************************/
