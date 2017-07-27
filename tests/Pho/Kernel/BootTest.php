@@ -19,12 +19,6 @@ class BootTest extends TestCase
       $this->setupRedis();
     }
 
-    public function tearDown() {
-      if($this->kernel->status()=="on")
-        $this->kernel->halt();
-      unset($this->kernel);
-    }
-
     public function testSimple() {
         $this->assertInstanceOf(Kernel::class, $this->kernel);        
     }
@@ -52,8 +46,11 @@ class BootTest extends TestCase
       $node_id = $node->id()->toString();
       $this->assertCount(2, $this->kernel->graph()->members());
       //eval(\Psy\sh());
-      $this->tearDown();
+      //eval(\Psy\sh());
+      $this->kernel->halt();
+      unset($this->kernel);
       $this->setUp();
+      
       $this->kernel->boot();
       $this->assertEquals($graph_id, $this->kernel->graph()->id()->toString());
       $this->assertEquals($founder_id, $this->kernel->founder()->id()->toString());

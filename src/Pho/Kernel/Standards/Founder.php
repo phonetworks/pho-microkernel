@@ -5,7 +5,7 @@ namespace Pho\Kernel\Standards;
 use Pho\Kernel\Foundation;
 use Pho\Kernel\Kernel;
 
-class Founder extends Foundation\AbstractActor {
+class Founder extends Foundation\AbstractActorDP {
 
     /**
      * u:: (myself) f -- can do anything

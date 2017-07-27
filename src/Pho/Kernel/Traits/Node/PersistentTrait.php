@@ -8,7 +8,9 @@ use Pho\Framework;
 use Pho\Lib\Graph\ID;
 use Pho\Lib\Graph;
 use Pho\Kernel\Standards;
+use Pho\Kernel\Foundation;
 use Pho\Kernel\Bridge;
+use Pho\Kernel\Foundation\AttributeBag;
 
 /**
  * Persistent Trait
@@ -39,9 +41,9 @@ trait PersistentTrait {
             return parent::serialize();
        }
         $this->kernel->logger()->info("About to serialize the node  %s, a %s", $this->id(), $this->label());
-        $x = serialize($this->toArray());
-        $this->kernel->logger()->info("The node serialized as: %s", $x);
-        return $x;
+        $_ = serialize($this->toArray());
+        $this->kernel->logger()->info("The node serialized as: %s", $_);
+        return $_;
     }
 
   public function unserialize(/* mixed */ $data): void
@@ -54,7 +56,6 @@ trait PersistentTrait {
     $data = unserialize($data);
     $this->id = ID::fromString($data["id"]);
     $this->kernel->logger()->info("Unserialization begins for %s", $this->id());
-    $this->attributes = new Graph\AttributeBag($this, $data["attributes"]);
     $this->kernel->logger()->info("The edge list is as follows: %s", print_r($data["edge_list"], true));
     $this->edge_list = new Graph\EdgeList($this, $data["edge_list"]);
     if((string) ID::root() == $data["context"]) {
@@ -79,7 +80,7 @@ trait PersistentTrait {
             $this->id(),
             print_r($data["members"], true)
         );
-        $this->loadNodesFromIDArray($data["members"]);
+        $this->rewire()->loadNodesFromIDArray($data["members"]);
     }
     if(isset($data["acl"])) {
         $this->acl = Acl\AclFactory::seed($this->kernel, $this, $data["acl"]["permissions"]);
@@ -103,7 +104,10 @@ trait PersistentTrait {
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
     }
+    $this->kernel->logger()->info("Attributes as follows: %s", print_r($data["attributes"], true));
+    $this->attributes = new AttributeBag($this, $data["attributes"]);
     $this->initializeHandler();
+    $this->rewire();
   }
      
 

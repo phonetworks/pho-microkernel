@@ -1,7 +1,11 @@
 <?php
 
+namespace Pho\Kernel\Foundation;
+
+use Pho\Kernel\Acl\AbstractAcl;
+
 interface ParticleInterface
 {
     
-    public function acl(): Acl\AbstractAcl;
+    public function acl(): AbstractAcl;
 }

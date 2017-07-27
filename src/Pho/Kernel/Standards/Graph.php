@@ -5,7 +5,7 @@ namespace Pho\Kernel\Standards;
 use Pho\Kernel\Foundation;
 use Pho\Kernel\Kernel;
 
-class Graph extends Foundation\AbstractGraph {
+class Graph extends Foundation\AbstractGraphDP {
 
     /**
      * u:: (group owner) f -- can do anything
@@ -45,6 +45,7 @@ class Graph extends Foundation\AbstractGraph {
         ? Foundation\AbstractActor $founder_to_set = null)
     { 
         parent::__construct($kernel, $founder, $kernel->space());
+        $this->kernel->logger()->info("Setting up the founder as %s", (string) $founder->id());
         $this->setFounder($founder);
         // $founder->changeContext($this);
     }

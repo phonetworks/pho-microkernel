@@ -39,6 +39,16 @@ class Container extends \Pimple
           in_array($name, array_keys($this["config"]->services->toArray())))
         
         ) {
+            if(!isset($this->values[$name])) {
+              if($name=='logger') {
+                echo "Logger is not available yet".PHP_EOL;
+                return new class() { public function __call(string $name, array $arguments) {
+                    // printf($arguments[0], ...array_shift($arguments));
+                  } 
+                };
+              }
+              throw new \InvalidArgumentException("The method %s is not defined", $name);
+            }
             return $this[$name];
         }
    }

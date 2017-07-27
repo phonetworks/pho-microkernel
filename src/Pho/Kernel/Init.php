@@ -169,9 +169,9 @@ class Init extends Container
          $this["graph"] = $this->share(function($c) use($graph_id) {
             return $c["gs"]->node($graph_id);
           });
-          $this["founder"] = $this->share(function($c) { 
+           $this["founder"] = $this->share(function($c) { 
            $founder = $c["graph"]->getFounder();
-           return $founder->rewire();
+           return $founder;
          });
        }
        else {
@@ -187,6 +187,7 @@ class Init extends Container
           $this["graph"] = $this->share(function($c) {
             $graph_class = $c["config"]->default_objects->graph;
             $graph = new $graph_class($c, $c["founder"], $c["space"], $c["founder"]);
+            $c["logger"]->info("Changing founder context as graph");
             $c["founder"]->changeContext($graph);
             //$c["founder"]->hydrate($c, $c["graph"]); // // to make sure that is set up, since the services are now available.
             return $graph;

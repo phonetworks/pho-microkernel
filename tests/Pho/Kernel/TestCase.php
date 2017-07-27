@@ -57,7 +57,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
       unset($this->redis);
       unset($this->configs);
       unset($this->graph);
-      $this->kernel->halt();
+      if($this->kernel->status()=="on")
+        $this->kernel->halt();
       unset($this->kernel);
     }
 

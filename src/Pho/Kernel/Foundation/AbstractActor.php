@@ -6,7 +6,7 @@ use Pho\Framework;
 use Pho\Kernel\Kernel;
 use Pho\Kernel\Standards;
 
-abstract class AbstractActor extends Framework\Actor {
+abstract class AbstractActor extends Framework\Actor implements ParticleInterface {
 
     use ParticleTrait;
 

@@ -21,6 +21,7 @@ trait ParticleTrait
     protected $acl;
     protected $editors;
     protected $deferred_persistence = false;
+    protected $rewired = false;
 
     protected function hydrate(
         Kernel $kernel, 
@@ -33,14 +34,29 @@ trait ParticleTrait
         $this->setEditability();
         if( !$this->deferred_persistence && !$this instanceof Standards\VirtualGraphInterface ) // not at construction.
             $this->persist();
-        else $this->kernel->logger()->info("Working on a VirtualGraphInterface object");
+        else {
+            $this->kernel->logger()->info("Persistence skipped with %s. Deferred persistence: %s",
+                get_class($this),
+                (string) (int) $this->deferred_persistence
+            );
+        }
         $this->expire();
         $this->rewire();
         // versionable trait -- work in progress.
     }
 
-    public function rewire(): self
+    /**
+     * Undocumented function
+     *
+     * Can be forced to work multiple times, otherwise there's a lock.
+     * 
+     * @return self
+     */
+    public function rewire($force=false): self
     {
+        if(!$force && $this->rewired)
+            return $this;
+
         Hooks::setup($this);
 
         $this->on("modified", function() {
@@ -58,6 +74,7 @@ trait ParticleTrait
             $edge->persist();
         });
 
+        $this->rewired = true;
         return $this;
     }
 
@@ -70,10 +87,22 @@ trait ParticleTrait
     public function toArray(): array
     {
         $array = parent::toArray();
+
         if(isset($this->acl))
             $array["acl"] = $this->acl->toArray();
+
         if(static::T_EDITABLE)
             $array["editors"] = (string) $this->editors->id();
+        
+        // deflating attributes
+        $tpl = implode("%s", Kernel::PARTICLE_IN_ATTRIBUTEBAG_TPL);
+        foreach($array["attributes"] as $key=>$value) {
+            if($value instanceof ParticleInterface) {
+                $this->kernel->logger()->info("Deflating the attribute: %s", $key);
+                $array["attributes"][$key] = sprintf($tpl, (string) $value->id());
+            }
+        }
+
         return $array;
     }
 
@@ -83,15 +112,7 @@ trait ParticleTrait
     {
         $this->persist();
     }
-
-    //  overriding pho-lib-graph node.php
-    // adds persistence
-    public function changeContext(\Pho\Lib\Graph\GraphInterface $context): void
-    {
-        parent::changeContext($context);
-        $this->persist();
-    }
-
+    
     public function kernel(): Kernel
     {
         if(!isset($this->kernel))

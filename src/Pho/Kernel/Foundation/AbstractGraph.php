@@ -6,7 +6,7 @@ use Pho\Framework;
 use Pho\Kernel\Kernel;
 use Pho\Kernel\Standards;
 
-abstract class AbstractGraph extends Framework\Graph {
+abstract class AbstractGraph extends Framework\Graph implements ParticleInterface {
 
     use ParticleTrait;
 

@@ -34,6 +34,7 @@ trait PersistentTrait {
     {
         parent::unserialize($data);
         $this->inject("kernel", $GLOBALS["kernel"]);
+        $this->rewire();
     }
 
 

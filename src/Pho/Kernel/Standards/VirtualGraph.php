@@ -9,7 +9,7 @@ use Pho\Lib\Graph\ID;
 /**
  * do not extend group, 
  */
-class VirtualGraph extends Foundation\AbstractGraph implements VirtualGraphInterface {
+class VirtualGraph extends Foundation\AbstractGraphDP implements VirtualGraphInterface {
 
     /**
      * The owner can do anything,
