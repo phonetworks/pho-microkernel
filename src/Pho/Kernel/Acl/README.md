@@ -54,8 +54,8 @@ So for example, if this $node was a group (like a Facebook Group), this means:
 
 (work-in-progress)
 
-|           | Admin       | Read               | Write          | Execute (Subscribe)
-| --------- | ----------- | ------------------ | -------------- | --------------------
-| Actor     |             | See full profile.  | Change profile | Follow/become friends (or if friends already, react)
-| Object    |             | Read               | Edit contents  | Subscribe/React
-| Graph     | Moderate    | Read contents      | Change info    | Subscribe/post content
+|           | Admin            | Read               | Write          | Execute (Subscribe)
+| --------- | ---------------- | ------------------ | -------------- | --------------------
+| Actor     | Manage profile   | See full profile.  | Send message   | Follow/become friends (or if friends already, react)
+| Object    | Manage reactions | Read               | Edit           | Subscribe/*react*
+| Graph     | Moderate/profile | Read contents      | Post content   | Subscribe
