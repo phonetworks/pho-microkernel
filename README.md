@@ -14,3 +14,8 @@ that can be found at [pho-adapters](https://github.com/pho-adapters) Github repo
 
 microkernel [ACL](https://github.com/phonetworks/pho-microkernel/blob/master/src/Pho/Kernel/Acl/README.md)
  is heavily inspired by UNIX.
+ 
+ 
+## License
+
+MIT, see [LICENSE](https://github.com/phonetworks/pho-microkernel/blob/master/LICENSE).
