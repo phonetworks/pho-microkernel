@@ -1,4 +1,4 @@
-# pho-kernel
+# Pho-Kernel
 
 A simple microkernel implementation with Twitter-like functionality.
 
