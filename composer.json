@@ -1,9 +1,9 @@
 {
-  "name": "phonetworks/pho-kernel",
+  "name": "phonetworks/pho-microkernel",
   "type": "library",
   "description": "Social-Enabled App Infrastructure",
   "homepage": "https://phonetworks.org",
-  "license": "Apache",
+  "license": "MIT",
   "authors": [
         {
             "name": "Emre Sokullu",
