@@ -2,6 +2,12 @@
 
 A simple microkernel implementation with Twitter-like functionality.
 
+## Install
+
+The recommended way to install pho-kernel is through composer.
+
+```composer require phonetworks/pho-kernel```
+
 ## Getting Started
 
 Run ```php -a``` on your terminal to switch to PHP shell. Then,
@@ -23,3 +29,7 @@ var_dump($tweet->getAuthors());
 var_dump($new_user->getLikes());
 var_dump($founder->getPosts());
 ```
+
+## License
+
+MIT, see [LICENSE](https://github.com/phonetworks/pho-kernel/blob/master/LICENSE).
