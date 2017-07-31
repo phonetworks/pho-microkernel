@@ -56,6 +56,6 @@ So for example, if this $node was a group (like a Facebook Group), this means:
 
 |           | Admin            | Read               | Write          | Execute (Subscribe)
 | --------- | ---------------- | ------------------ | -------------- | --------------------
-| Actor     | Manage profile   | See full profile.  | Send message   | Follow/become friends (or if friends already, react)
+| Actor     | Manage profile   | See full profile.  | Edit profile   | Follow/become friends (or if friends already, react)
 | Object    | Manage reactions | Read               | Edit           | Subscribe/*react*
 | Graph     | Moderate/profile | Read contents      | Post content   | Subscribe
