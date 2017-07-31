@@ -49,3 +49,13 @@ So for example, if this $node was a group (like a Facebook Group), this means:
 * The members (subscribers) of this group can post (write) and read anything.
 * The people who are part of this network can read and subscribe the contents of this group, which means it's a read-only public one.
 * The outsiders can only see the description of ../. 
+
+## Permissions Table
+
+(work-in-progress)
+
+|           | Admin            | Read               | Write          | Execute (Subscribe)
+| --------- | ---------------- | ------------------ | -------------- | --------------------
+| Actor     | Manage profile   | See full profile.  | Send message   | Follow/become friends (or if friends already, react)
+| Object    | Manage reactions | Read               | Edit           | Subscribe/*react*
+| Graph     | Moderate/profile | Read contents      | Post content   | Subscribe
