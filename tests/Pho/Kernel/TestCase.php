@@ -19,6 +19,7 @@ namespace Pho\Kernel;
       include("tests/assets/compiled/UserOut/Follow.php");
       include("tests/assets/compiled/UserOut/Like.php");
       include("tests/assets/compiled/UserOut/Post.php");
+      include("tests/assets/compiled/UserOut/Consume.php");
 
 use Pho\Kernel\Kernel;
 

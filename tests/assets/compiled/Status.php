@@ -22,8 +22,8 @@ class Status extends Foundation\AbstractObjectDP {
     const T_EXPIRATION =  0;
     const T_VERSIONABLE = false;
     
-    const DEFAULT_MOD = 0x0e444;
-    const DEFAULT_MASK = 0xeeeee;
+    const DEFAULT_MOD = 0x07555;
+    const DEFAULT_MASK = 0xfffff;
 
     const FIELDS = "{\"status\":{\"constraints\":{\"minLength\":null,\"maxLength\":\"140\",\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":false,\"now\":false,\"default\":\"|_~_~NO!-!VALUE!-!SET~_~_|\"}},\"create_time\":{\"constraints\":{\"minLength\":null,\"maxLength\":null,\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":false,\"now\":true,\"default\":\"|_~_~NO!-!VALUE!-!SET~_~_|\"}}}";
 
@@ -31,6 +31,7 @@ class Status extends Foundation\AbstractObjectDP {
     {
         $this->registerIncomingEdges(UserOut\Post::class);
         $this->registerIncomingEdges(UserOut\Like::class);
+        $this->registerIncomingEdges(UserOut\Consume::class);
         parent::__construct($kernel, $actor, $graph);
                 $this->setStatus($status, true);
         $this->setCreateTime(time(), true);
@@ -41,8 +42,8 @@ class Status extends Foundation\AbstractObjectDP {
 }
 
 /*****************************************************
- * Timestamp: 1501092606
- * Size (in bytes): 1772
- * Compilation Time: 28334
- * 223e4f2828179de17930818e0f9b9620
+ * Timestamp: 1501461738
+ * Size (in bytes): 1833
+ * Compilation Time: 3434
+ * cf52e48a155147fce09f80486c4c8cb0
  ******************************************************/

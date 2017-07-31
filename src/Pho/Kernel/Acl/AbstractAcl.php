@@ -244,7 +244,18 @@ abstract class AbstractAcl {
             }
         }
         
-        if($this->core->hasSubscriber($actor->id())) {
+        if(
+            (
+                in_array(Pho\Framework\ActorOut\Subscribe::class, $this->core->getRegisteredIncomingEdges()) 
+                && $this->core->hasSubscriber($actor->id())
+            )
+            ||
+            (
+                $this->core instanceof \Pho\Lib\Graph\GraphInterface
+                &&
+                $this->core->contains($actor->id())
+            )
+        ) {
             return "s::";
         }
         if($this->core->context()->contains($actor->id())) {

@@ -2,7 +2,7 @@
 
 type Status implements ObjectNode 
 @edges(in:"User:Post, User:Like", out:"Mention")
-@permissions(mod: "0x0e444", mask: "0xeeeee") # owner can write, all others can read.
+@permissions(mod: "0x0f444", mask: "0xeeeee") # owner can write, all others can read.
 @properties(expires: 0, editable: false, volatile: false, revisionable: false)
 {
     id: ID,

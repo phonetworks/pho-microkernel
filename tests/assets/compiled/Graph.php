@@ -22,8 +22,8 @@ class Graph extends Foundation\AbstractGraphDP {
     const T_EXPIRATION =  0;
     const T_VERSIONABLE = false;
     
-    const DEFAULT_MOD = 0x0f751;
-    const DEFAULT_MASK = 0xef8aa;
+    const DEFAULT_MOD = 0x0f755;
+    const DEFAULT_MASK = 0xfffff;
 
     const FIELDS = "{\"founder\":{\"constraints\":{\"minLength\":null,\"maxLength\":null,\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":false,\"now\":false,\"default\":\"|_~_~NO!-!VALUE!-!SET~_~_|\"}}}";
 
@@ -38,8 +38,8 @@ class Graph extends Foundation\AbstractGraphDP {
 }
 
 /*****************************************************
- * Timestamp: 1501092606
- * Size (in bytes): 1403
- * Compilation Time: 28333
- * 2d19b50f5c87f2f2f93842e96db02b4f
+ * Timestamp: 1501461738
+ * Size (in bytes): 1402
+ * Compilation Time: 3433
+ * 7bb78184c6c5e0e93044d15394ec8433
  ******************************************************/
