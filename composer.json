@@ -17,6 +17,7 @@
         "pho-adapters/storage-filesystem": "dev-master",
         "pho-adapters/database-redis": "dev-master",
         "pho-adapters/events-local": "dev-master",
+	    "vlucas/phpdotenv": "^2.4"
     }
     "autoload": {
 	     "psr-4": {
