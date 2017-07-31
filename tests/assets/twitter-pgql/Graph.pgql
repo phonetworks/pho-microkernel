@@ -1,7 +1,7 @@
 # pho-graphql-v1
 
 type Graph implements GraphNode 
-@permissions(mod: "0x0f751", mask: "0xef8aa") # user themselves, can manage, members can subscribe, outsiders can just read.
+@permissions(mod: "0x0f755", mask: "0xfffff") 
 {
     id: ID,
     founder: User!

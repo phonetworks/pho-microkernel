@@ -2,9 +2,8 @@
 
 type Mention implements MentionEdge 
 @nodes(tail:"Status", head:"User")
-@properties(binding: false, persistent: true, consumer: true)
+@properties(binding: false, persistent: true, consumer: true, multiplicable: false)
 @labels(headSingular:"mention", headPlural: "mentions", tailSingular: "notification", tailPlural: "notifications")
 {
-    id: ID,
-    status: String @constraints(maxLength:140)
+    id: ID!
 }
