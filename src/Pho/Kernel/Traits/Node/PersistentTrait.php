@@ -74,6 +74,10 @@ trait PersistentTrait {
     if(isset($data["master"])) { // VirtualGraph
         $this->master = $data["master"];
     }
+    if(isset($data["registered_edges"])&&isset($data["registered_edges"]["out"])&&isset($data["registered_edges"]["in"])) { // VirtualGraph
+        $this->incoming_edges = $data["registered_edges"]["in"];
+        $this->outgoing_edges = $data["registered_edges"]["out"];
+    }
     if(isset($data["members"])) { // Frame
         $this->kernel->logger()->info(
             "Extracting members for the frame %s: %s",
