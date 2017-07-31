@@ -15,6 +15,12 @@ that can be found at [pho-adapters](https://github.com/pho-adapters) Github repo
 microkernel [ACL](https://github.com/phonetworks/pho-microkernel/blob/master/src/Pho/Kernel/Acl/README.md)
  is heavily inspired by UNIX.
  
+ ## Install
+
+The recommended way to install pho-microkernel is through composer.
+
+```composer require phonetworks/pho-microkernel```
+ 
  
 ## License
 
