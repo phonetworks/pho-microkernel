@@ -51,4 +51,42 @@ class DeniedPermissionAclTest extends AclTestCase
         $this->stranger->consume($post);
     }
 
+    public function testWriteByPermissionExceptionNegative() {
+        $post = $this->user->post("my first post");
+        $this->user->edit($post)->setStatus("something else");
+        $this->assertEquals("something else", $this->user->consume($post)->getStatus());
+        $this->expectException(Exceptions\WriteByPermissionException::class);
+        $this->stranger->edit($post)->setStatus("X");
+    }
+
+    public function testWriteByStrangerPermissionExceptionPositive() {
+        $content = "some content";
+        $post = $this->user->post("my first post");
+        $post->acl()->chmod(0x07575);
+        $this->stranger->edit($post)->setStatus($content);
+        $this->assertEquals($content, $this->stranger->consume($post)->getStatus());
+    }
+
+    public function testWriteByAnonymousPermissionExceptionNegative() {
+        $content = "some content";
+        $post = $this->user->post("my first post");
+        $post->acl()->chmod(0x07575);
+        $this->expectException(Exceptions\WriteByPermissionException::class);
+        $this->anonymous->edit($post)->setStatus($content);
+    }
+
+    public function testWriteBySubscriberPermissionExceptionPositive() {
+        $content = "some content";
+        $post = $this->user->post("my first post");
+        $post->acl()->chmod(0x07755);
+        $this->subscriber->edit($post)->setStatus($content);
+        $this->assertEquals($content, $this->subscriber->consume($post)->getStatus());
+    }
+
+    public function testWriteBySubscriberPermissionExceptionNegative() {
+        $post = $this->user->post("my first post");
+        $this->expectException(Exceptions\WriteByPermissionException::class);
+        $this->subscriber->edit($post)->setStatus("xyz");
+    }
+
 }

@@ -16,6 +16,9 @@ use Pho\Framework;
 
 class GraphAcl extends AbstractAcl implements AclInterface {
 
-   
+   public function isSubscriber(Framework\Actor $actor): bool
+    {
+        return $this->core->contains($actor->id());
+    }
 
 }

@@ -16,5 +16,13 @@ use Pho\Framework;
 
 class ObjectAcl extends AbstractAcl implements AclInterface {
 
+    public function isSubscriber(Framework\Actor $actor): bool
+    {
+        return
+            (
+                in_array(\Pho\Framework\ActorOut\Subscribe::class, $this->core->creator()->getRegisteredIncomingEdges()) 
+                && $this->core->creator()->hasSubscriber($actor->id())
+            );
+    }
 
 }

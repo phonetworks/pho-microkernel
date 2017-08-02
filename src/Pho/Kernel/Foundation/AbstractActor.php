@@ -39,4 +39,12 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
         }
        
     }
+
+    public function edit(ParticleInterface $obj): ParticleInterface
+    {
+        if(!$obj->acl()->writeable($this))
+            throw new Exceptions\WriteByPermissionException($obj, $this);
+        // $obj->lock($this);
+        return $obj;
+    }
 }

@@ -10,10 +10,12 @@ abstract class AbstractPermissionException extends \Exception
     {
         parent::__construct();
         $this->message = sprintf(
-            "The node %s cannot be %s by the node %s",
+            "The node %s (a %s) cannot be %s by the node %s (a %s)",
             (string) $head->id(),
+            get_class($head),
             $verb,
-            (string) $tail->id()
+            (string) $tail->id(),
+            get_class($tail)
         );
     }
 }

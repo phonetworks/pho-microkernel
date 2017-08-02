@@ -29,7 +29,6 @@ class AttributeBag extends LibGraph\AttributeBag
             "Hydration of AttributeBag with data:",
             print_r($this->bag, true)
         );
-        if(isset($GLOBALS["emre"])) eval(\Psy\sh());
         foreach($this->bag as $key=>$value) {
             if(!is_string($value))
                 continue;

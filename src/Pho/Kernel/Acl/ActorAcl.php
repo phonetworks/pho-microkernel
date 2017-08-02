@@ -30,5 +30,14 @@ class ActorAcl extends AbstractAcl implements AclInterface {
     }
     */
 
+    public function isSubscriber(Framework\Actor $actor): bool
+    {
+        return
+            (
+                in_array(Pho\Framework\ActorOut\Subscribe::class, $this->core->getRegisteredIncomingEdges()) 
+                && $this->core->hasSubscriber($actor->id())
+            );
+    }
+
 
 }

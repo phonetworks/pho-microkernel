@@ -231,10 +231,10 @@ abstract class AbstractAcl {
         if(is_a($actor, Framework\Admin::class)) {
             return "a::";
         }
-        if(isset($this->permissions["u:".(string) $actor->id().":"])) {
+        elseif(isset($this->permissions["u:".(string) $actor->id().":"])) {
             return "u:".(string) $actor->id().":";
         }
-        if($actor->id() == $this->core->creator()->id()) {
+        elseif($actor->id() == $this->core->creator()->id()) {
             return "u::";
         }
 
@@ -244,25 +244,16 @@ abstract class AbstractAcl {
             }
         }
         
-        if(
-            (
-                in_array(Pho\Framework\ActorOut\Subscribe::class, $this->core->getRegisteredIncomingEdges()) 
-                && $this->core->hasSubscriber($actor->id())
-            )
-            ||
-            (
-                $this->core instanceof \Pho\Lib\Graph\GraphInterface
-                &&
-                $this->core->contains($actor->id())
-            )
-        ) {
+        if($this->isSubscriber($actor)) {
             return "s::";
         }
-        if($this->core->context()->contains($actor->id())) {
+        elseif($this->core->context()->contains($actor->id())) {
             return "g::";
         }
         return "o::";
         
     }
+
+    abstract public function isSubscriber(Framework\Actor $actor): bool;
 
 }

@@ -9,7 +9,7 @@ namespace Pho\Kernel\Foundation;
  * 
  * @author Emre Sokullu <emre@phonetworks.org>
  */
-abstract class AbstractObjectDP extends AbstractGraph {
+abstract class AbstractObjectDP extends AbstractObject {
 
     public function __construct(...$args)
     { 
