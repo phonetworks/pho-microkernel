@@ -29,7 +29,9 @@ class RedisTest extends TestCase {
     $this->assertCount(1, $this->kernel->database()->smembers($list_name));
     $this->kernel->database()->sadd($list_name, "value2");
     $this->assertCount(2, $this->kernel->database()->smembers($list_name));
-    $this->assertEquals(["value1", "value2"], $this->kernel->database()->smembers($list_name));
+    $members = $this->kernel->database()->smembers($list_name);
+    sort($members);
+    $this->assertEquals(["value1", "value2"], $members);
     $this->assertTrue((bool)$this->kernel->database()->sismember($list_name, "value1"));
     $this->kernel->database()->srem($list_name, "value2");
     $this->assertCount(1, $this->kernel->database()->smembers($list_name));
