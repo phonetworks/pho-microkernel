@@ -1,9 +1,0 @@
-# pho-graphql-v1
-
-type Consume implements ReadEdge 
-@nodes(head:"User, Status", tail:"User")
-@properties(binding: false, persistent: true, consumer: true, formative: false, multiplicable: true)
-@labels(headSingular:"read", headPlural: "reads", tailSingular: "reader", tailPlural: "readers")
-{
-    id: ID!
-}

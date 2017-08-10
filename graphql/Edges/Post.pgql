@@ -1,9 +1,0 @@
-# pho-graphql-v1
-
-type Post implements WriteEdge 
-@nodes(head:"Status", tail:"User")
-@properties(binding: true, persistent: true, consumer: true, formative: true, multiplicable: false)
-@labels(headSingular:"post", headPlural: "posts", tailSingular: "author", tailPlural: "authors")
-{
-    id: ID!
-}
