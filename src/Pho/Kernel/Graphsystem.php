@@ -6,6 +6,7 @@ use Pho\Kernel\Kernel;
 use Pho\Framework;
 use Pho\Lib\Graph;
 use Pho\Lib\Graph\EntityInterface;
+use Pho\Kernel\Foundation;
 
 /**
  * Graphsystem
@@ -44,6 +45,12 @@ class Graphsystem
     $node = unserialize($node);
     if(!$node instanceof Framework\ParticleInterface && !$node instanceof Foundation\World) {
       throw new Exceptions\InvalidTypeException(sprintf("The id \"%s\" does not pertain to a Node.", (string) $node_id));
+    }
+    if($node instanceof Foundation\AbstractActor) {
+        $node->registerHandler(
+            "form",
+            \Pho\Kernel\Foundation\Handlers\Form::class
+        );
     }
     return $node;
   }
