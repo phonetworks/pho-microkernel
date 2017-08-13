@@ -2,6 +2,14 @@
 
 A simple microkernel implementation with Twitter-like functionality.
 
+## Requirements
+
+The default pho-kernel requires:
+
+* Redis server
+* PHP 7.1+
+* [Composer](https://getcomposer.org/)
+
 ## Install
 
 The recommended way to install pho-kernel is through composer.
@@ -10,7 +18,8 @@ The recommended way to install pho-kernel is through composer.
 
 ## Getting Started
 
-Run ```php -a``` on your terminal to switch to PHP shell. Then,
+1. Make sure your .env file is functional; addressing Redis properly.
+2. Run ```php -a``` on your terminal to switch to PHP shell. Then,
 
 ```php
 include("play.php"); // this will set it up.
@@ -29,6 +38,13 @@ var_dump($tweet->getAuthors());
 var_dump($new_user->getLikes());
 var_dump($founder->getPosts());
 ```
+
+## Customizing
+
+If you are running pho-kernel on a custom set of compiled pgql files, make sure:
+
+1. The ```default_objects``` variables in Kernel configs (as shown by ```$configs``` in [play.php](https://github.com/phonetworks/pho-kernel/blob/master/play.php)) have a proper set of "graph" and "user" classes set.
+2. Before booting up the kernel, a custom founder object is initialized and passed as an argument to the ```boot``` method.
 
 ## License
 
