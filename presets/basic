@@ -1,0 +1,23 @@
+{
+  "name": "phonetworks/pho-kernel",
+  "type": "project",
+  "description": "A simple microkernel implementation with Twitter-like functionality.",
+  "homepage": "https://phonetworks.org",
+  "license": "MIT",
+  "authors": [
+        {
+            "name": "Emre Sokullu",
+            "email": "emre@phonetworks.org",
+            "homepage": "http://www.emresokullu.com"
+        }
+    ],
+    "require": {
+        "php":"^7.1",
+        "phonetworks/pho-microkernel": "dev-master",
+        "pho-recipes/basic": "dev-master",
+        "pho-adapters/storage-filesystem": "dev-master",
+        "pho-adapters/database-redis": "dev-master",
+        "pho-adapters/events-local": "dev-master",
+	    "vlucas/phpdotenv": "^2.4"
+    }
+}
