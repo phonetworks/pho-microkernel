@@ -47,4 +47,11 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
         // $obj->lock($this);
         return $obj;
     }
+
+    public function join(AbstractGraph $graph): void
+    {
+        if(!$graph->acl()->executable($this))
+            throw new Exceptions\ExecutePermissionException($graph, $this);
+        $graph->add($this);
+    }
 }

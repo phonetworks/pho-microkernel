@@ -45,4 +45,4 @@ return array(
         "editors" => Standards\VirtualGraph::class
       )
 
-    );
+);
