@@ -3,6 +3,7 @@
 namespace Pho\Kernel\Traits\Node;
 
 use Pho\Kernel\Kernel;
+use Pho\Kernel\Hooks;
 use Pho\Kernel\Acl;
 use Pho\Framework;
 use Pho\Lib\Graph\ID;
@@ -102,9 +103,8 @@ trait PersistentTrait {
                 continue;
             }
             $edge_id = (string) ID::fromString($notification["edge"]);
-            $notifications[] = eval("new class(\"".$edge_id."\") extends ".$class." {
-                use Bridge\NotificationHydratorTrait;
-            };");
+            $notifications[] = eval("new class(\"".$edge_id."\") extends ".$class." {};");
+            Hooks::setup($notifications[(count($notifications)-1)]);
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
     }
