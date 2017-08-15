@@ -10,7 +10,6 @@ use Pho\Lib\Graph\ID;
 use Pho\Lib\Graph;
 use Pho\Kernel\Standards;
 use Pho\Kernel\Foundation;
-use Pho\Kernel\Bridge;
 use Pho\Kernel\Foundation\AttributeBag;
 
 /**
