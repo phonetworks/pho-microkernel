@@ -42,14 +42,16 @@ class Form extends \Pho\Framework\Handlers\Form {
     {
         $class = static::findFormativeClass($name, $args, $pack);
         if(count($args)>0) {
-            return new $class(
+            $new_obj =  new $class(
                 $particle->kernel(), 
                 $particle, 
                 $particle->where(), 
                 ...$args
             );
         }
-        $new_obj = new $class($particle->kernel(), $particle, $particle->where());
+        else {
+            $new_obj = new $class($particle->kernel(), $particle, $particle->where());
+        }
         if($new_obj instanceof AbstractGraph) {
             $particle->join($new_obj);
         }
