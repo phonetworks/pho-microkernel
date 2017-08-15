@@ -103,7 +103,7 @@ trait PersistentTrait {
             }
             $edge_id = (string) ID::fromString($notification["edge"]);
             $edge = $this->kernel->gs()->edge($edge_id);
-            $notifications[] = eval("new class(\"".$edge."\") extends ".$class." {};");
+            $notifications[] = new $class($edge); // eval("new class(\$edge) extends ".$class." {};");
             Hooks::setup($notifications[(count($notifications)-1)]);
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor

@@ -7,7 +7,7 @@ namespace Pho\Kernel\Hooks;
  */
 class Notification
 {
-    public static function setup(AbstractNotification $notification): void
+    public static function setup(\Pho\Framework\AbstractNotification $notification): void
     {
         $notification->hook("edge", (function(string $edge_id) {
                 $this->_ensureKernel();
