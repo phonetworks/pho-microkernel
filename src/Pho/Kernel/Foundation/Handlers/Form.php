@@ -12,6 +12,7 @@
 namespace Pho\Kernel\Foundation\Handlers;
 
 use Pho\Framework\ParticleInterface;
+use Pho\Kernel\Foundation\AbstractGraph;
 
 /**
  * Kernel adapter of the Form Handler class.
@@ -48,7 +49,11 @@ class Form extends \Pho\Framework\Handlers\Form {
                 ...$args
             );
         }
-        return new $class($particle->kernel(), $particle, $particle->where());
+        $new_obj = new $class($particle->kernel(), $particle, $particle->where());
+        if($new_obj instanceof AbstractGraph) {
+            $particle->join($new_obj);
+        }
+        return $new_obj;
     }
 
 }
