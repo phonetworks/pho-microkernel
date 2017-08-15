@@ -54,4 +54,12 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
             throw new Exceptions\ExecutePermissionException($graph, $this);
         $graph->add($this);
     }
+
+    public function manage(ParticleInterface $obj): ParticleInterface
+    {
+        if(!$obj->acl()->manageable($this))
+            throw new Exceptions\ManagePermissionException($obj, $this);
+        // $obj->lock($this);
+        return $obj;
+    }
 }
