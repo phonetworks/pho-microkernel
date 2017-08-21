@@ -18,4 +18,15 @@ namespace Pho\Kernel\Exceptions;
  */
 class NodeDoesNotExistException extends \Exception {
 
+    /**
+     * Constructor
+     *
+     * @param string $id
+     */
+    public function __construct(string $id)
+    {
+        parent::__construct();
+        $this->message = sprintf("There is no node registered with the uuid %s.", (string) $id);
+    }
+
 }

@@ -40,11 +40,11 @@ class Graphsystem
     $query = sprintf("node:%s", (string) $node_id);
     $node = $this->database->get($query);
     if(is_null($node)) {
-      throw new Exceptions\NodeDoesNotExistException(sprintf("There is no node registered with the uuid %s", (string) $node_id));
+      throw new Exceptions\NodeDoesNotExistException($node_id);
     }
     $node = unserialize($node);
     if(!$node instanceof Framework\ParticleInterface && !$node instanceof Foundation\World) {
-      throw new Exceptions\InvalidTypeException(sprintf("The id \"%s\" does not pertain to a Node.", (string) $node_id));
+      throw new Exceptions\NotANodeException($node_id);
     }
     if($node instanceof Foundation\AbstractActor) {
         $node->registerHandler(
@@ -72,13 +72,33 @@ class Graphsystem
     $query = sprintf("edge:%s", (string) $edge_id);
     $edge = $this->database->get($query);
     if(is_null($edge)) {
-      throw new Exceptions\EdgeDoesNotExistException(sprintf("No edge with the id: %s", (string) $edge_id));
+      throw new Exceptions\EdgeDoesNotExistException($edge_id);
     }
     $edge = unserialize($edge);
     if(!$edge instanceof Graph\EdgeInterface) {
-      throw new Exceptions\NotAnEdgeException(sprintf("The id %s does not belong to a a valid edge entity.", (string) $edge_id));
+      throw new Exceptions\NotAnEdgeException($edge_id);
     }
     return $edge;
+  }
+
+  public function entity(string $entity_id): EntityInterface
+  {
+    $node = null;
+    try {
+      $node = $this->node($entity_id);
+    }
+    catch(\Exception $node_exception) {}
+    finally {
+      if(!is_null($node))
+        return $node;
+      try {
+        $edge = $this->edge($entity_id);
+      }
+      catch(\Exception $edge_exception) {
+        throw new Exceptions\EntityDoesNotExistException($entity_id);
+      }
+      return $edge;
+    }
   }
 
   /**
@@ -88,7 +108,7 @@ class Graphsystem
    * 
    * @return void
    */
-  public function touch(Graph\EntityInterface $entity): void
+  public function touch(EntityInterface $entity): void
   {
     $key = "node";
     if($entity instanceof Graph\EdgeInterface) {

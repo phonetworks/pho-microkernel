@@ -12,12 +12,14 @@
 namespace Pho\Kernel\Exceptions;
 
 /**
- * Thrown when given the uuid, there is no such edge stored in the database.
+ * Thrown when given the uuid, the corresponding an element is not an edge
+ * that implements the standard EdgeInterface. This exception extends
+ * EdgeDoesNotExistException
  *
  * @author Emre Sokullu
  */
-class EdgeDoesNotExistException extends \Exception {
-
+class NotAnEdgeException extends EdgeDoesNotExistException {
+    
     /**
      * Constructor
      *
@@ -25,8 +27,8 @@ class EdgeDoesNotExistException extends \Exception {
      */
     public function __construct(string $id)
     {
-        parent::__construct();
-        $this->message = sprintf("There is no edge registered with the uuid %s.", (string) $id);
+        parent::__construct($id);
+        $this->message = sprintf("The id %s does not belong to an edge.", (string) $id);
     }
 
 }

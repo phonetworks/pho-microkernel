@@ -19,5 +19,16 @@ namespace Pho\Kernel\Exceptions;
  * @author Emre Sokullu
  */
 class NotANodeException extends NodeDoesNotExistException {
+    
+    /**
+     * Constructor
+     *
+     * @param string $id
+     */
+    public function __construct(string $id)
+    {
+        parent::__construct($id);
+        $this->message = sprintf("The id %s does not belong to a valid node.", (string) $id);
+    }
 
 }

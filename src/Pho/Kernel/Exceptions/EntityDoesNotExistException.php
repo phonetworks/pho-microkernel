@@ -12,11 +12,12 @@
 namespace Pho\Kernel\Exceptions;
 
 /**
- * Thrown when given the uuid, there is no such edge stored in the database.
+ * Thrown when given the uuid, there is no such node or edge (aka entity) 
+ * stored in the database.
  *
  * @author Emre Sokullu
  */
-class EdgeDoesNotExistException extends \Exception {
+class EntityDoesNotExistException extends \Exception {
 
     /**
      * Constructor
@@ -26,7 +27,7 @@ class EdgeDoesNotExistException extends \Exception {
     public function __construct(string $id)
     {
         parent::__construct();
-        $this->message = sprintf("There is no edge registered with the uuid %s.", (string) $id);
+        $this->message = sprintf("There is no entity (node or edge) registered with the uuid %s", (string) $id);
     }
 
 }
