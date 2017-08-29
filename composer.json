@@ -20,7 +20,8 @@
         "phonetworks/pho-framework": "^8.2",
         "webmozart/assert": "^1.2",
         "danielstjules/stringy": "^3.0",
-        "vlucas/phpdotenv": "^2.4"
+        "vlucas/phpdotenv": "^2.4",
+        "elasticsearch/elasticsearch": "~5.0"
     },
     "require-dev": {
         "pho-adapters/storage-filesystem": "dev-master",
