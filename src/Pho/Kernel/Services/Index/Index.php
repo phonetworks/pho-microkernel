@@ -61,14 +61,7 @@ class Index implements IndexInterface, ServiceInterface
      */
     public function search(string $value, string $key = "", array $classes = array()): array
     {
-        $founded = $this->db->searchInIndex($value, $key, $classes);
-
-        $return = [];
-        foreach ($founded as $entitys) {
-            $return[] = $entitys['id'];
-        }
-        
-        return $return;
+        return $this->db->searchInIndex($value, $key, $classes);
     }
 
     /**
