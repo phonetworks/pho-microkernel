@@ -7,6 +7,9 @@ namespace Pho\Kernel\Hooks;
  */
 class Notification
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function setup(\Pho\Framework\AbstractNotification $notification): void
     {
         $notification->hook("edge", (function(string $edge_id) {
