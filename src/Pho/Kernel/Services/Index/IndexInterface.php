@@ -34,13 +34,28 @@ interface IndexInterface
 
     /**
      * Searches through the index with given key and its value.
+     *
+     * Returns the entities as objects.
      * 
      * @param string $value Value to search
      * @param string $key The key to search for. Optional.
      * @param array $classes The object classes to search for. Optional.
      *
-     * @return array
+     * @return array Entities in question
      */
     public function search(string $value, string $key = "", array $classes = array()): array;
+    
+    /**
+     * Searches through the index with given key and its value.
+     *
+     * Returns the entity IDs as string
+     * 
+     * @param string $value Value to search
+     * @param string $key The key to search for. Optional.
+     * @param array $classes The object classes to search for. Optional.
+     *
+     * @return array Entity IDs (in string format) in question
+     */
+    public function searchFlat(string $value, string $key = "", array $classes = array()): array;
 
 }
