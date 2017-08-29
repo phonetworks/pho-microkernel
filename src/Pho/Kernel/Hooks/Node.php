@@ -21,6 +21,9 @@ use Pho\Framework\Actor;
  */
 class Node 
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function setup(NodeInterface $node): void
     {
         $node->hook("context", (function(): GraphInterface {
