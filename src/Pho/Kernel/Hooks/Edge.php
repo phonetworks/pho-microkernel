@@ -18,6 +18,9 @@ use Pho\Lib\Graph;
  */
 class Edge implements HookInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function setup(/*Graph\EdgeInterface*/ $edge): void
     {
         $edge->hook("head", (function(): Graph\NodeInterface  {
