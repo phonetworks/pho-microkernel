@@ -31,6 +31,9 @@ use Pho\Kernel\Exceptions\NodeDoesNotExistException;
  */
 class Graph
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function setup(GraphInterface $graph): void
     {
         $graph->hook("add", (function(NodeInterface $node): void {
