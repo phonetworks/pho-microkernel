@@ -10,6 +10,7 @@
  */
 namespace Pho\Kernel\Services\Index;
 
+use Pho\Lib\Graph\EntityInterface;
 use Pho\Kernel\Services\ServiceInterface;
 use Pho\Kernel\Services\Index\Adapters;
 
@@ -20,12 +21,12 @@ class Index implements IndexInterface, ServiceInterface
 {
     private $db;
 
-    /**
+   /**
    * Constructor.
    */
-    public function __construct(string $dbtype = '', array $params = [])
+    public function __construct(array $params = [])
     {
-        switch ($dbtype) {
+        switch ($type['type'] ?:get_env('INDEX_TYPE')) {
             default:
                 $this->db = new Elasticsearch($params);
                 break;
@@ -40,7 +41,7 @@ class Index implements IndexInterface, ServiceInterface
      *
      * @return void
      */
-    public function index(EntityInterface $entity, bool $new = false): void
+    public function index(EntityInterface $entity, bool $new=false):void
     {
         $classes = get_class($entity) + class_parents($entity);
         if ($new) {
@@ -75,6 +76,9 @@ class Index implements IndexInterface, ServiceInterface
      *
      * @return array Entity IDs (in string format) in question
      */
-    public function searchFlat(string $value, string $key = "", array $classes = array()): array;
+    public function searchFlat(string $value, string $key = "", array $classes = array()): array
+    {
+        return [];
+    }
 
 }

@@ -12,6 +12,7 @@
 namespace Pho\Kernel\Services\Index\Adapters;
 
 use Elasticsearch\ClientBuilder;
+use Pho\Kernel\Services\Index\IndexDbInterface;
 
 /**
  * File based logging. The log files specified at the kernel
@@ -27,11 +28,11 @@ class Elasticsearch implements IndexDbInterface
 
     public function __construct(array $params = [])
     {
+        $host         = $params['host'] ?: get_env('INDEX_URL') ?: 'http://127.0.0.1:9200/';
         $this->client = ClientBuilder::create();
-        if (isset($params['hosts'])) {
-            $this->client->setHosts($params['hosts']);
-            $this->client->build();
-        }
+        $this->client->setHosts($host);
+        $this->client->build(); 
+        $this->client->indices()->create(['index' => $this->dbname]);
     }
 
     /**
@@ -52,7 +53,7 @@ class Elasticsearch implements IndexDbInterface
     }
 
     /**
-     * Updating existing, remove unused and append new entity attributes to the Indexing DB
+     * Updating existing entity attributes to the Indexing DB
      * @param  string $id      uuid/id of entity
      * @param  array  $results array of attributes with key => value structure (toArray() method)
      * @param array  $classes classes of the current entity
@@ -97,7 +98,7 @@ class Elasticsearch implements IndexDbInterface
         }
         if (!empty($classes)) {
             //$query['query']['match']['classes'] = $classes; //Search by classes not ready yet
-         }
+        }
 
         $params = $this->createQuery(null, $query);
 
@@ -116,6 +117,8 @@ class Elasticsearch implements IndexDbInterface
                     'classes'    => $founded['_source']['classes'],
                 ];
             }
+        } else if (isset($return['hits']) && isset($return['hits']['hits'])) {
+
         }
         return $return;
     }
