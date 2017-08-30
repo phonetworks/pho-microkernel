@@ -11,8 +11,10 @@
 
 namespace Pho\Kernel\Services\Index\Adapters;
 
+use Pho\Kernel\Kernel;
+use Pho\Kernel\Services\Index\Index;
+use Pho\Kernel\Services\ServiceInterface;
 use Elasticsearch\ClientBuilder;
-use Pho\Kernel\Services\Index\IndexDbInterface;
 
 /**
  * File based logging. The log files specified at the kernel
@@ -20,19 +22,55 @@ use Pho\Kernel\Services\Index\IndexDbInterface;
  *
  * @author Emre Sokullu
  */
-class Elasticsearch implements IndexDbInterface
+class Elasticsearch extends Index
 {
-    private $client;
+    private $kernel;
+    public  $client;
     private $dbname    = 'phonetworks';
-    private $tablename = 'indexes';
+    private $tablename = 'phoindex';
 
-    public function __construct(array $params = [])
+    public function __construct(Kernel $kernel, array $params = [])
     {
-        $host         = $params['host'] ?: get_env('INDEX_URL') ?: 'http://127.0.0.1:9200/';
-        $this->client = ClientBuilder::create();
-        $this->client->setHosts($host);
-        $this->client->build(); 
-        $this->client->indices()->create(['index' => $this->dbname]);
+
+        $this->kernel = $kernel;
+        $this->dbname = getenv('INDEX_DB')?: $this->dbname;
+        $this->tablename = getenv('INDEX_TABLE')?: $this->tablename;
+
+        $host         = [$params['host'] ?: getenv('INDEX_URL') ?: 'http://127.0.0.1:9200/'];
+        $client = new \Elasticsearch\ClientBuilder($host);
+        $this->client = $client->build();
+        $indexParams['index'] = $this->dbname;
+        if ($this->client->indices()->exists($indexParams)) {
+            $this->client->indices()->delete($indexParams);
+        }
+        if ( ! $this->client->indices()->exists($indexParams)) {
+            $params = [
+                'index' => $this->dbname,
+                'body' => [
+                    'mappings' => [
+                        $this->tablename => [
+                            '_source' => [
+                                'enabled' => true
+                            ],
+                            'properties' =>
+                            [
+                                'id' => ['type' => 'string'],
+                                'attr' => 
+                                [
+                                    'properties' =>
+                                    [
+                                        'k' => ['type' => 'string'],
+                                        'v' => ['type' => 'string']
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+
+            $this->client->indices()->create($params);
+        }
     }
 
     /**
@@ -43,13 +81,12 @@ class Elasticsearch implements IndexDbInterface
      */
     public function addToIndex(string $id, array $params, array $classes = []): void
     {
-
         $body = ['attr' => [], 'classes' => $classes, 'id' => $id];
         foreach ($params as $key => $value) {
             $body['attr'][] = ['k' => $key, 'v' => $value];
         }
 
-        $this->client->insert($this->createQuery($id, $body));
+        $this->client->index($this->createQuery($id, $body));
     }
 
     /**
@@ -58,17 +95,21 @@ class Elasticsearch implements IndexDbInterface
      * @param  array  $results array of attributes with key => value structure (toArray() method)
      * @param array  $classes classes of the current entity
      */
-    public function editInIndex(string $id, array $params, array $clasess = []): void
+    public function editInIndex(string $id, array $params, array $classes = []): void
     {
+        //If node not founded in index - add it.
+        if ( ! empty($this->searchById($id))) {
+            $this->removeById($id);
+        }
 
-        $body = ['attr' => [], 'classes' => $classes, 'id' => $id];
+        //Update document if node are exists
+        $body = ['attr' => [], 'classes' => $classes];
         foreach ($params as $key => $value) {
             $body['attr'][] = ['k' => $key, 'v' => $value];
         }
 
         $params = $this->createQuery($id, $body);
-
-        $this->db->update($params);
+        $this->client->index($params);
     }
 
     /**
@@ -78,10 +119,23 @@ class Elasticsearch implements IndexDbInterface
      */
     public function searchById(string $id): array
     {
-        $params = $this->createQuery($id, []);
-        unset($params['body']);
-        $results = $client->get($params);
+        try {
+            $results = $this->client->get($this->createQuery($id, false));
+        } catch (Elasticsearch\Common\Exceptions\TransportException $e)
+        {
+            return false;
+        }
         return $this->remapReturn($results);
+    }
+
+    /**
+     * Search in indexing DB all attributes of entity by its ID
+     * @param  string $id uuid string
+     * @return array     array with keys id, key, value
+     */
+    public function removeById(string $id): array
+    {
+        return $this->client->delete($this->createQuery($id, false));
     }
 
     /**
@@ -101,29 +155,37 @@ class Elasticsearch implements IndexDbInterface
         }
 
         $params = $this->createQuery(null, $query);
+        unset($params['type']);
+        $results = $this->client->search($params);
 
-        $results = $client->search($params);
         return $this->getIdsList($this->remapReturn($results));
     }
 
     public function remapReturn(array $results)
     {
         $return = array();
-        if (isset($return['hits']) && isset($return['hits']['hits'])) {
-            foreach ($return['hits']['hits'] as $founded) {
-                $return = [
+        if (isset($results['hits']) && isset($results['hits']['hits'])) {
+            foreach ($results['hits']['hits'] as $founded) {
+                $results = [
                     'id'         => $founded['id'],
-                    'attributes' => $founded['_source']['attr'],
+                    'attributes' => [],
                     'classes'    => $founded['_source']['classes'],
                 ];
+                foreach ($founded['_source']['attr'] as $attribute) {
+                    $results['attributes'][$attribute['k']] = $attribute['v']; 
+                }
             }
-        } else if (isset($return['hits']) && isset($return['hits']['hits'])) {
-
+        } else if (isset($results['_id']) && isset($results['_source'])) {
+            $return['id'] = $results['_source']['id'];
+            $return['classes'] = $results['_source']['classes'];
+            foreach ($results['_source']['attr'] as $attribute) {
+                $results['attributes'][$attribute['k']] = $attribute['v']; 
+            }   
         }
         return $return;
     }
 
-    public function getIdsList($lit)
+    public function getIdsList($founded)
     {
         $ids = [];
         foreach ($founded as $entitys) {
@@ -133,13 +195,17 @@ class Elasticsearch implements IndexDbInterface
         return $ids;
     }
 
-    public function createQuery(string $id = null, array $where = []): array
+    public function createQuery(string $id = null, $where = []): array
     {
         $query = [
             'index' => $this->dbname,
             'type'  => $this->tablename,
-            'body'  => $where,
         ];
+
+        if ($where !== false)
+        {
+            $query['body'] = $where;
+        }
 
         if (!is_null($id)) {
             $query['id'] = $id;
