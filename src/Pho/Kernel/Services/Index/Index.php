@@ -49,9 +49,9 @@ class Index implements IndexInterface, ServiceInterface
      *
      * @return array
      */
-    public function search(string $value, string $key = "", array $classes = array()): array
+    public function search(string $value, string $key = null, array $classes = array()): array
     {
-        return $this->searchInIndex($value, $key, $classes);
+       return $this->searchInIndex($value, $key, $classes);
     }
 
     /**

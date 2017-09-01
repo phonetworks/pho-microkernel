@@ -43,31 +43,9 @@ class Elasticsearch extends Index
         if ($this->client->indices()->exists($indexParams)) {
             $this->client->indices()->delete($indexParams);
         }
+
         if ( ! $this->client->indices()->exists($indexParams)) {
-            $params = [
-                'index' => $this->dbname,
-                'body' => [
-                    'mappings' => [
-                        $this->tablename => [
-                            '_source' => [
-                                'enabled' => true
-                            ],
-                            'properties' =>
-                            [
-                                'id' => ['type' => 'string'],
-                                'attr' => 
-                                [
-                                    'properties' =>
-                                    [
-                                        'k' => ['type' => 'string'],
-                                        'v' => ['type' => 'string']
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ];
+            $params = ['index' => $this->dbname];
 
             $this->client->indices()->create($params);
         }
@@ -83,10 +61,12 @@ class Elasticsearch extends Index
     {
         $body = ['attr' => [], 'classes' => $classes, 'id' => $id];
         foreach ($params as $key => $value) {
-            $body['attr'][] = ['k' => $key, 'v' => $value];
+            $body['attr'][] = ['k' => $key, 'v' => (string)$value];
         }
+        $class = $this->getTypeFromClass($classes);
 
-        $this->client->index($this->createQuery($id, $body));
+        $query = $this->createQuery($class, $id, $body);
+        $this->client->index($query);
     }
 
     /**
@@ -98,17 +78,19 @@ class Elasticsearch extends Index
     public function editInIndex(string $id, array $params, array $classes = []): void
     {
         //If node not founded in index - add it.
-        if ( ! empty($this->searchById($id))) {
-            $this->removeById($id);
+        $founded = $this->searchById($id);
+        if ( ! empty($founded)) {
+            $type = $this->getTypeFromClass($founded['classes']);
+            $this->removeById($type, $id);
         }
 
         //Update document if node are exists
         $body = ['attr' => [], 'classes' => $classes];
         foreach ($params as $key => $value) {
-            $body['attr'][] = ['k' => $key, 'v' => $value];
+            $body['attr'][] = ['k' => $key, 'v' => (string)$value];
         }
 
-        $params = $this->createQuery($id, $body);
+        $params = $this->createQuery($this->getTypeFromClass($classes), $id, $body);
         $this->client->index($params);
     }
 
@@ -120,12 +102,21 @@ class Elasticsearch extends Index
     public function searchById(string $id): array
     {
         try {
-            $results = $this->client->get($this->createQuery($id, false));
-        } catch (Elasticsearch\Common\Exceptions\TransportException $e)
-        {
+            $query = ['query' => ['match' => ['id' => $id]]];
+            $params = $this->createQuery(null, null, $query);
+            
+            $results = $this->client->search($params);
+        } catch (Elasticsearch\Common\Exceptions\TransportException $e) {
+            return false;
+        } catch (Elasticsearch\Common\Exceptions\Missing404Exception $e) {
             return false;
         }
-        return $this->remapReturn($results);
+        $founded = $this->remapReturn($results);
+        if (isset($founded[0])) {
+            return $founded[0];
+        } else {
+            return $founded;
+        }
     }
 
     /**
@@ -133,9 +124,10 @@ class Elasticsearch extends Index
      * @param  string $id uuid string
      * @return array     array with keys id, key, value
      */
-    public function removeById(string $id): array
+    public function removeById(string $type, string $id): array
     {
-        return $this->client->delete($this->createQuery($id, false));
+        $params = $this->createQuery($type, $id, false);
+        return $this->client->delete($params);
     }
 
     /**
@@ -143,22 +135,37 @@ class Elasticsearch extends Index
      * @param  string $id uuid string
      * @return array     array with keys id, key, value
      */
-    public function searchInIndex(string $value, string $key = "", array $classes = array()): array
+    public function searchInIndex(string $value, string $key = null, array $classes = array()): array
     {
-        $query                             = ['query' => []];
-        $query['query']['match']['attr.v'] = $value;
-        if (!empty($key)) {
-            $query['query']['match']['attr.k'] = $key;
+        $query                             = ['query' => ['bool' => ['must' => []]]];
+        $query['query']['bool']['must'][]['match']['attr.v'] = $value;
+        if ( ! is_null($key)) {
+            $query['query']['bool']['must'][]['match']['attr.k'] = $key;
         }
-        if (!empty($classes)) {
-            //$query['query']['match']['classes'] = $classes; //Search by classes not ready yet
-        }
-
-        $params = $this->createQuery(null, $query);
-        unset($params['type']);
+        
+        $params = $this->createQuery(implode(',', (array)$classes), null, $query);
         $results = $this->client->search($params);
-
         return $this->getIdsList($this->remapReturn($results));
+    }
+
+    public function getTypeFromClass($classes) {
+        $type = 'entity';
+        $class = false;
+
+        if (is_array($classes)) {
+            $class = array_shift($classes);
+        }
+
+        if (is_string($classes)) {
+            $class = $classes;
+        }
+
+        if ($class){
+            $type = substr($class, strrpos($class, '\\') + 1);
+        }
+
+
+        return $type;
     }
 
     public function remapReturn(array $results)
@@ -166,26 +173,28 @@ class Elasticsearch extends Index
         $return = array();
         if (isset($results['hits']) && isset($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $founded) {
-                $results = [
-                    'id'         => $founded['id'],
+                $a = [
+                    'id'         => $founded['_source']['id'],
                     'attributes' => [],
                     'classes'    => $founded['_source']['classes'],
                 ];
                 foreach ($founded['_source']['attr'] as $attribute) {
-                    $results['attributes'][$attribute['k']] = $attribute['v']; 
+                    $a['attributes'][$attribute['k']] = $attribute['v']; 
                 }
+                array_push($return, $a);
             }
         } else if (isset($results['_id']) && isset($results['_source'])) {
             $return['id'] = $results['_source']['id'];
             $return['classes'] = $results['_source']['classes'];
+            $return['type'] = $results['_type'];
             foreach ($results['_source']['attr'] as $attribute) {
-                $results['attributes'][$attribute['k']] = $attribute['v']; 
+                $return['attributes'][$attribute['k']] = $attribute['v']; 
             }   
         }
         return $return;
     }
 
-    public function getIdsList($founded)
+    public function getIdsList($founded): array
     {
         $ids = [];
         foreach ($founded as $entitys) {
@@ -195,12 +204,12 @@ class Elasticsearch extends Index
         return $ids;
     }
 
-    public function createQuery(string $id = null, $where = []): array
+    public function createQuery(string $type = null, string $id = null, $where = []): array
     {
-        $query = [
-            'index' => $this->dbname,
-            'type'  => $this->tablename,
-        ];
+        $query = ['index' => $this->dbname];
+        if ($type) {
+            $query['type'] = $type;
+        }
 
         if ($where !== false)
         {
