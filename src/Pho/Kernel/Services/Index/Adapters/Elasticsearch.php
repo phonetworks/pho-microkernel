@@ -29,26 +29,35 @@ class Elasticsearch extends Index
     private $dbname    = 'phonetworks';
     private $tablename = 'phoindex';
 
+    /**
+     * Setup function.
+     * Init elasticsearch connection. Run indexing on runned events
+     * @param Kernel $kernel Kernel of pho
+     * @param array  $params Sended params to the index.
+     */
     public function __construct(Kernel $kernel, array $params = [])
     {
-
-        $this->kernel = $kernel;
         $this->dbname = getenv('INDEX_DB')?: $this->dbname;
         $this->tablename = getenv('INDEX_TABLE')?: $this->tablename;
 
         $host         = [$params['host'] ?: getenv('INDEX_URL') ?: 'http://127.0.0.1:9200/'];
         $client = new \Elasticsearch\ClientBuilder($host);
         $this->client = $client->build();
+
         $indexParams['index'] = $this->dbname;
-        if ($this->client->indices()->exists($indexParams)) {
-            $this->client->indices()->delete($indexParams);
-        }
 
         if ( ! $this->client->indices()->exists($indexParams)) {
-            $params = ['index' => $this->dbname];
-
-            $this->client->indices()->create($params);
+            $this->client->indices()->create($indexParams);
+            $this->kernel->logger()->info("Created Elasticsearch index with name: %s", $this->dbname);
         }
+
+        $kernel->on('kernel.booted_up', array($this, 'kernelBooted'));
+    }
+
+    public function kernelBooted()
+    {
+        var_dump('Kernel booted');
+        $this->kernel->graph()->on('node.added', array($this, 'index'));
     }
 
     /**

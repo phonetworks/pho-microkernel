@@ -27,13 +27,24 @@ class IndexTest extends TestCase
         putenv('INDEX_TABLE=phoindex');
 
         parent::setUp();
+
         $client = new \Elasticsearch\ClientBuilder();
+        $this->client = $client->build();
+
+        $indexParams = [];
+        $indexParams['index'] = getenv("INDEX_DB");
+        if ($this->client->indices()->exists($indexParams)) {
+            $this->client->indices()->delete($indexParams);
+        }
+        
+        $this->client->indices()->create($indexParams);
+
         $this->client = $client->build();
     }
 
     public function tearDown()
     {
-        //$this->client->indices()->delete(['index' => getenv('INDEX_DB')]);
+        $this->client->indices()->delete(['index' => getenv('INDEX_DB')]);
     }
 
     public function testCreatedIndex()

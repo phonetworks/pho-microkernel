@@ -22,6 +22,11 @@ class Index implements IndexInterface, ServiceInterface
 {
     private $kernel;
 
+    public function __construct(Kernel $kernel, array $params = [])
+    {
+        $this->kernel = $kernel;
+    }
+
     /**
      * Indexes an entity.
      *
@@ -30,7 +35,7 @@ class Index implements IndexInterface, ServiceInterface
      *
      * @return void
      */
-    public function index(EntityInterface $entity, bool $new=false):void
+    public function index(EntityInterface $entity, bool $new = false): void
     {
         $classes = [get_class($entity) => get_class($entity)] + class_parents($entity);
         if ($new) {
@@ -51,14 +56,14 @@ class Index implements IndexInterface, ServiceInterface
      */
     public function search(string $value, string $key = null, array $classes = array()): array
     {
-       return $this->searchInIndex($value, $key, $classes);
+        return $this->searchInIndex($value, $key, $classes);
     }
 
     /**
      * Searches through the index with given key and its value.
      *
      * Returns the entity IDs as string
-     * 
+     *
      * @param string $value Value to search
      * @param string $key The key to search for. Optional.
      * @param array $classes The object classes to search for. Optional.
