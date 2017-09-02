@@ -37,7 +37,7 @@ class Graphsystem
    */
   public function node(string $node_id): Graph\NodeInterface
   {
-    $query = sprintf("node:%s", (string) $node_id);
+    $query = (string) $node_id; // sprintf("node:%s", (string) $node_id);
     $node = $this->database->get($query);
     if(is_null($node)) {
       throw new Exceptions\NodeDoesNotExistException($node_id);
@@ -69,7 +69,7 @@ class Graphsystem
    */
   public function edge(string $edge_id): Graph\EdgeInterface
   {
-    $query = sprintf("edge:%s", (string) $edge_id);
+    $query = (string) $edge_id; // sprintf("edge:%s", (string) $edge_id);
     $edge = $this->database->get($query);
     if(is_null($edge)) {
       throw new Exceptions\EdgeDoesNotExistException($edge_id);
@@ -109,25 +109,20 @@ class Graphsystem
    * @return void
    */
   public function touch(EntityInterface $entity): void
-  {
-    $key = "node";
-    if($entity instanceof Graph\EdgeInterface) {
-      $key = "edge";
-    }
-    
+  { 
     $this->database->set(
-        sprintf("%s:%s", $key, (string) $entity->id()), serialize($entity)
+        (string) $entity->id(), serialize($entity)
     );
   }
 
   public function delEdge(Graph\ID $id): void
   {
-      $this->database->del(sprintf("edge:%s", $id));
+      $this->database->del($id);
   }
 
   public function delNode(Graph\ID $id): void
   {
-      $this->database->del(sprintf("node:%s", $id));
+      $this->database->del($id);
   }
 
   public function expire(Graph\ID $id, int $timeout = (60*60*24)): void
