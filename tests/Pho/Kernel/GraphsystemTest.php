@@ -16,7 +16,7 @@ class GraphsystemTest extends TestCase
 
     public function testNoEntity() {
         $this->expectException(Exceptions\EntityDoesNotExistException::class);
-        $this->kernel->gs()->entity(\Pho\Lib\Graph\ID::generate());
+        $this->kernel->gs()->entity(\Pho\Lib\Graph\ID::generate(new \Pho\Lib\Graph\Node($this->graph)));
     }  
 
     public function testNoEdge() {
