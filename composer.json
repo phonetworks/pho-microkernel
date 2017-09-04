@@ -14,19 +14,19 @@
     "require": {
         "php":"^7.1",
         "monolog/monolog": "^1.22",
-	    "zendframework/zend-config": "*",
+	       "zendframework/zend-config": "*",
         "pimple/pimple": "^1.1",
         "phonetworks/pho-lib-graph": "^5.3",
         "phonetworks/pho-framework": "^8.2",
         "webmozart/assert": "^1.2",
         "danielstjules/stringy": "^3.0",
-        "vlucas/phpdotenv": "^2.4",
-        "elasticsearch/elasticsearch": "~5.0"
+        "vlucas/phpdotenv": "^2.4"
     },
     "require-dev": {
         "pho-adapters/storage-filesystem": "dev-master",
         "pho-adapters/database-redis": "dev-master",
         "pho-adapters/events-local": "dev-master",
+        "pho-adapters/index-elasticsearch": "dev-master",
         "phpunit/phpunit": "^6.0",
 	    "phpdocumentor/phpdocumentor": "*",
          "fzaninotto/faker": "^1.6",
