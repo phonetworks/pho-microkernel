@@ -18,7 +18,16 @@ use Pho\Kernel\TestCase;
 
 class IndexTest extends TestCase
 {
+    /**
+     * Pho-kernel 
+     * @var \Pimple
+     */
+    protected $kernel;
 
+    /**
+     * Elasticsearch php sdk client connect 
+     * @var \Elasticsearch\Client
+     */
     protected $client;
 
     public function setUp()
@@ -49,7 +58,7 @@ class IndexTest extends TestCase
 
     public function testCreatedIndex()
     {
-        $this->assertTrue($this->kernel->index()->client->indices()->exists(['index' => getenv('INDEX_DB')]));
+        $this->assertTrue($this->client->indices()->exists(['index' => getenv('INDEX_DB')]));
     }
 
     public function testSearchIndex()
