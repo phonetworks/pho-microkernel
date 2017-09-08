@@ -84,6 +84,7 @@ class Init extends Container
    {
        $service_factory = new Services\ServiceFactory($this);
        foreach($this->config()->services->toArray() as $key => $service) {
+        var_dump('Try create new service:'. $key. ' |'.$service);
            $this[$key] = $this->share( function($c) use($key, $service, $service_factory) {
              $parameters = parse_url($service); // first parameter scheme, the rest optional ones.
              try {

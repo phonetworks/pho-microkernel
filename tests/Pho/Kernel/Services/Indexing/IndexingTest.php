@@ -51,6 +51,18 @@ class IndexTest extends TestCase
         $this->client = $client->build();
     }
 
+    protected function getKernelConfig()
+    {
+        return array(
+          "services"=>array(
+            "database" => getenv('DATABASE_URI'),
+            "storage" => getenv("STORAGE_URI"),
+            'logger' => 'file:output.log',
+            "index" => 'elasticsearch:'
+          )
+        );
+    }
+
     public function tearDown()
     {
         $this->client->indices()->delete(['index' => getenv('INDEX_DB')]);
@@ -177,7 +189,7 @@ class IndexTest extends TestCase
         $node->attributes()->Key = 'Value';
         $class                   = $index->getTypeFromClass(get_class($node));
 
-        $index->index($node, true);
+        //$index->index($node, true);
 
         sleep(1);
 
