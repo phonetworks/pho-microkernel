@@ -50,6 +50,8 @@ class ServiceFactory {
     }
 
     $service = $this->convertTypeToServiceClassName($category, $type);
+
+    var_dump($type. " service start loading.");
     return new $service($this->kernel, $options);
   }
 
@@ -69,6 +71,7 @@ class ServiceFactory {
    */
   private function convertTypeToServiceClassName(string $category, string $type): ?string
   {
+
     if( class_exists($type)) { // custom service
       return $type;
     }

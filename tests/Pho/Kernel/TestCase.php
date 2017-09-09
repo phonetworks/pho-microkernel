@@ -47,8 +47,12 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function startKernel($founder=null): void
     {
       $this->configs = $this->getKernelConfig();
+      var_dump('Created config: '.json_encode($this->configs));
       $this->kernel = new Kernel($this->configs);
+      var_dump('Test config loaded');
       $this->kernel->boot($founder);
+
+      var_dump('Boot finished');
       $this->graph = $this->kernel->graph();
       $this->kernel->logger()->info("Test started for: %s", get_class($this));
     }

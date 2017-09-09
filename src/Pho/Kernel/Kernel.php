@@ -129,6 +129,7 @@ class Kernel extends Init
     $this->seedRoot($founder);
     $this["logger"]->info("Root seeded");
     //$this->registerListeners($this["graph"]);
+    var_dump('Kernel fired booted_up');
     $this->events()->emit("kernel.booted_up");
     $this["logger"]->info("Boot complete.");
   }

@@ -24,6 +24,7 @@ return array(
           "database" => "apcu:", // ["type"=>"apcu", "uri"=> "" ],
           "logger" => "stdout:", // ["type"=>"stdout", "uri"=> "" ],
           "storage" => "filesystem:", // ["type"=>"filesystem", "uri"=> "" ],
+          "index" => "elasticsearch:", // ["type"=>"filesystem", "uri"=> "" ],
           "events" => "local:", // ["type"=>"local", "uri"=> "" ]
       ),
       "tmp_path" => sys_get_temp_dir(), // Temporary folder to store files. For example uploaded files may go there.
