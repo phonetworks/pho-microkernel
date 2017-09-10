@@ -12,6 +12,8 @@
       <env name="DATABASE_URI" value="redis://127.0.0.1:6379" />
       <env name="STORAGE_TYPE" value="filesystem" />
       <env name="STORAGE_URI" value="filesystem:// /tmp/pho" />
+      <env name="INDEX_TYPE" value="mysql" />
+      <env name="INDEX_URI" value="'mysql://root:@localhost/?database=phonetworkstest'" />
     </php>
 
     <testsuites>

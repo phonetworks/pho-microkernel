@@ -50,8 +50,6 @@ class ServiceFactory {
     }
 
     $service = $this->convertTypeToServiceClassName($category, $type);
-
-    var_dump($type. " service start loading.");
     return new $service($this->kernel, $options);
   }
 

@@ -26,6 +26,7 @@
         "pho-adapters/storage-filesystem": "dev-master",
         "pho-adapters/database-redis": "dev-master",
         "pho-adapters/events-local": "dev-master",
+        "pho-adapters/index-mysql": "dev-master",
         "pho-adapters/index-elasticsearch": "dev-master",
         "phpunit/phpunit": "^6.0",
 	    "phpdocumentor/phpdocumentor": "*",
