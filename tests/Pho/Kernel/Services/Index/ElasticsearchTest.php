@@ -35,20 +35,23 @@ class IndexTest extends TestCase
     public function setUp()
     {
 
-        parent::setUp();
-
         $client       = new \Elasticsearch\ClientBuilder();
         $this->client = $client->build();
 
         $indexParams          = [];
         $indexParams['index'] = $this->index_db;
-        if ($this->client->indices()->exists($indexParams)) {
-            $this->client->indices()->delete($indexParams);
+        
+        try {
+            if ($this->client->indices()->exists($indexParams)) {
+                $this->client->indices()->delete($indexParams);
+            }
+        } catch (\Elasticsearch\Common\Exceptions\NoNodesAvailableException $e) {
+            $this->markTestSkipped('Elasticsearch server not response');
         }
 
         $this->client->indices()->create($indexParams);
 
-        $this->client = $client->build();
+        parent::setUp();
     }
 
     protected function getKernelConfig()
@@ -57,7 +60,7 @@ class IndexTest extends TestCase
           "services"=>array(
             "database" => getenv('DATABASE_URI'),
             "storage" => getenv("STORAGE_URI"),
-            "index" => 'elasticsearch://localhost/?index='.$this->index_db;
+            "index" => 'elasticsearch://localhost/?index='.$this->index_db
           )
         );
     }
