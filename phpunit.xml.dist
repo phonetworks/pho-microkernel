@@ -19,6 +19,7 @@
     <testsuites>
         <testsuite name="Pho Kernel Test Suite">
             <directory>./tests/</directory>
+            <exclude>./tests/Pho/Kernel/Services/Index/</exclude>
         </testsuite>
     </testsuites>
 
