@@ -82,6 +82,7 @@ class MySQLTest extends TestCase
 
         $node->attributes()->Key = 'Value';
         //$this->kernel->index()->index($node);
+        eval(\Psy\sh());
 
         $result = $this->client->query(sprintf('SELECT `uuid` FROM `index` WHERE `key` = "Key" AND `value` = "Value"'));
         $this->assertSame($result->num_rows, 1);
@@ -120,7 +121,7 @@ class MySQLTest extends TestCase
         $params['database'] = !empty($query['database']) ? $query['database'] : '';
         $params['table']    = !empty($query['table']) ? $query['table'] : 'index';
 
-        $this->client = new \mysqli($parms['host'], $params['user'], $params['pass'], $params['database'], (int) $params['port']);
+        $this->client = new \mysqli($params['host'], $params['user'], $params['pass'], $params['database'], (int) $params['port']);
 
         if ($this->client) {
             $this->client->query(sprintf('TRUNCATE TABLE `%s`', $params['table']));
