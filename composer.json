@@ -14,7 +14,7 @@
     "require": {
         "php":"^7.1",
         "monolog/monolog": "^1.22",
-	    "zendframework/zend-config": "*",
+	       "zendframework/zend-config": "*",
         "pimple/pimple": "^1.1",
         "phonetworks/pho-lib-graph": "^6.2",
         "phonetworks/pho-framework": "^8.5",
@@ -26,6 +26,8 @@
         "pho-adapters/storage-filesystem": "dev-master",
         "pho-adapters/database-redis": "dev-master",
         "pho-adapters/events-local": "dev-master",
+        "pho-adapters/index-mysql": "dev-master",
+        "pho-adapters/index-elasticsearch": "dev-master",
         "phpunit/phpunit": "^6.0",
 	    "phpdocumentor/phpdocumentor": "*",
          "fzaninotto/faker": "^1.6",

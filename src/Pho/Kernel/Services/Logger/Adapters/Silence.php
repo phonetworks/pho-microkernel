@@ -12,6 +12,7 @@
 namespace Pho\Kernel\Services\Logger\Adapters;
 
 use Pho\Kernel\Kernel;
+use Pho\Kernel\Services\Logger\LoggerBase;
 
 /**
  * You use this class when you do not want to log anything.

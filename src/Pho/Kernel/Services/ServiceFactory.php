@@ -69,6 +69,7 @@ class ServiceFactory {
    */
   private function convertTypeToServiceClassName(string $category, string $type): ?string
   {
+
     if( class_exists($type)) { // custom service
       return $type;
     }
