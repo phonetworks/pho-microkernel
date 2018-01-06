@@ -42,6 +42,11 @@ class Neo4jTest extends TestCase
         }
     }
 
+    public function testKernelService() {
+        $index_service = $this->kernel->index();
+        $this->assertInstanceOf($index_service, \Pho\Kernel\Services\Index\Adapters\Neo4j::class);
+    }
+
     public function testX() {
         $this->assertTrue(true);
         return;
@@ -54,6 +59,8 @@ class Neo4jTest extends TestCase
         $this->created[] = $post->id();
         $this->assertTrue(true);
     }  
+
+
 
 
 }
