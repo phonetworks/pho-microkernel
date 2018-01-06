@@ -4,6 +4,8 @@
   "description": "Social-Enabled App Infrastructure",
   "homepage": "https://phonetworks.org",
   "license": "MIT",
+  "minimum-stability": "beta",
+  "prefer-stable": true,
   "authors": [
         {
             "name": "Emre Sokullu",
@@ -26,11 +28,13 @@
         "pho-adapters/storage-filesystem": "dev-master",
         "pho-adapters/database-redis": "dev-master",
         "pho-adapters/events-local": "dev-master",
+        
         "phpunit/phpunit": "^6.0",
 	    "phpdocumentor/phpdocumentor": "*",
          "fzaninotto/faker": "^1.6",
          "psy/psysh": "*",
-         "squizlabs/php_codesniffer": "^2.5"
+         "squizlabs/php_codesniffer": "^2.5",
+         "pho-adapters/index-neo4j": "dev-master"
     },
     "autoload": {
 	     "psr-4": {

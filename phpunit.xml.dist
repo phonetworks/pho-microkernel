@@ -12,6 +12,8 @@
       <env name="DATABASE_URI" value="redis://127.0.0.1:6379" />
       <env name="STORAGE_TYPE" value="filesystem" />
       <env name="STORAGE_URI" value="filesystem:// /tmp/pho" />
+      <env name="INDEX_TYPE" value="neo4j" />
+      <env name="INDEX_URI" value="neo4j://neo4j:password@127.0.0.1:7474" />
     </php>
 
     <testsuites>

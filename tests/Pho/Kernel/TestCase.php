@@ -39,7 +39,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return array(
           "services"=>array(
             "database" => getenv('DATABASE_URI'),
-            "storage" => getenv("STORAGE_URI")
+            "storage" => getenv("STORAGE_URI"),
+            "index" => getenv('INDEX_URI')
           )
         );
     }

@@ -17,45 +17,27 @@ use Pho\Lib\Graph\EntityInterface;
  * Index Adapters for Pho Kernel
  * 
  * Indexing makes nodes and edges searchable by their attributes.
+ * Indexing is registered at construction and takes place via kernel event listeners.
+ * Currently openCypher language is supported to query the index.
  * 
  * @author  Emre Sokullu <emre@phonetworks.org>
  */
 interface IndexInterface
 {
     /**
-     * Indexes an entity.
+     * Direct access to the index service to query data.
      * 
-     * @param EntityInterface $entity An entity object; node or edge.
-     * @param bool $new Whether the object has just been initialized, hence never been indexed before.
+     * @param string $query Cypher query.
+     * @param array $params Query parameters.
      *
-     * @return void
+     * @return mixed
      */
-    public function index(EntityInterface $entity, bool $new=false): void;
+    public function query(string $query, array $params = []); //: void;
 
-    /**
-     * Searches through the index with given key and its value.
-     *
-     * Returns the entities as objects.
-     * 
-     * @param string $value Value to search
-     * @param string $key The key to search for. Optional.
-     * @param array $classes The object classes to search for. Optional.
-     *
-     * @return array Entities in question
-     */
-    public function search(string $value, string $key = "", array $classes = array()): array;
-    
-    /**
-     * Searches through the index with given key and its value.
-     *
-     * Returns the entity IDs as string
-     * 
-     * @param string $value Value to search
-     * @param string $key The key to search for. Optional.
-     * @param array $classes The object classes to search for. Optional.
-     *
-     * @return array Entity IDs (in string format) in question
-     */
-    public function searchFlat(string $value, string $key = "", array $classes = array()): array;
+    public function index(\Pho\Lib\Graph\EntityInterface $entity): void;
+
+    public function nodeDeleted(string $id): void;
+
+    public function edgeDeleted(string $id): void;
 
 }
