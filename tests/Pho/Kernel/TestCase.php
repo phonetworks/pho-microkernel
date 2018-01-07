@@ -87,6 +87,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      protected function flushDBandRestart()
     {
         $this->kernel->database()->flushdb();
+        $this->kernel->index()->flush();
         $this->stopKernel();
         $this->startKernel();
     }

@@ -120,7 +120,6 @@ class Graphsystem
     );
     $this->logger->info("Indexing %s", $entity->id()->toString());
     $arr = $entity->toArray();
-    $arr["label"] = $entity->label();
     $this->events->emit("graphsystem.touched", [$arr]);
     //$this->index->index($entity);
   }
