@@ -85,9 +85,8 @@ class Init extends Container
        $service_factory = new Services\ServiceFactory($this);
        foreach($this->config()->services->toArray() as $key => $service) {
            $this[$key] = $this->share( function($c) use($key, $service, $service_factory) {
-             $parameters = parse_url($service['uri']); // first parameter scheme, the rest optional ones.
              try {
-               return $service_factory->create($key, $service['type'], $parameters); 
+               return $service_factory->create($key, $service['type'], $service['uri']); 
              }
              catch(AdapterNonExistentException $e) {
               $this->logger()->warning("The service %s - %s does not exist.", $key, $service['type']);

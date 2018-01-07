@@ -24,7 +24,7 @@ class Silence extends LoggerBase {
   /**
    * Constructor.
    */
-  public function __construct(Kernel $kernel, array $params = []) {}
+  public function __construct(Kernel $kernel, string $uri = "") {}
 
   /**
    * {@inheritdoc}

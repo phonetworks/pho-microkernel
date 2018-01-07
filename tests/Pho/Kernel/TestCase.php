@@ -67,7 +67,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function setupRedis(): void
     {
       $config = $this->getKernelConfig();
-      if(substr($config["services"]["database"]["uri"],0,8)=="redis://") {
+      if($config["services"]["database"]["type"]=="redis") {
         $this->redis  = new \Predis\Client($config["services"]["database"]["uri"]);
       }
     }

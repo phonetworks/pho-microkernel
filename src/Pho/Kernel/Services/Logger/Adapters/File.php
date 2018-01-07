@@ -39,9 +39,9 @@ class File extends LoggerBase {
    *
    * @param string $uri  the path to log file in uri form.
    */
-  public function __construct(Kernel $kernel, array $params = []) {
+  public function __construct(Kernel $kernel, string $uri = "") {
     $this->channel = new Logger('default');
-    $this->channel->pushHandler(new StreamHandler($params["path"], Logger::INFO));
+    $this->channel->pushHandler(new StreamHandler($uri, Logger::INFO));
     $this->kernel = $kernel;
   }
 

@@ -43,14 +43,14 @@ class ServiceFactory {
    *
    * @throws AdapterNonExistentException
    */
-  public function create(string $category, string $type, array $options): ServiceInterface
+  public function create(string $category, string $type, string $uri): ServiceInterface
   {
     if(!self::serviceExists($category, $type)) {
       throw new AdapterNonExistentException();
     }
 
     $service = $this->convertTypeToServiceClassName($category, $type);
-    return new $service($this->kernel, $options);
+    return new $service($this->kernel, $uri);
   }
 
 

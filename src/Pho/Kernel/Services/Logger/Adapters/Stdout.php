@@ -36,7 +36,7 @@ class Stdout extends LoggerBase {
   /**
    * Constructor.
    */
-  public function __construct(Kernel $kernel, array $params = []) {
+  public function __construct(Kernel $kernel, string $uri = "") {
     $this->channel = new Logger('default');
     $this->channel->pushHandler(new StreamHandler('php://stdout', Logger::INFO));
     $this->kernel = $kernel;
