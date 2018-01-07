@@ -38,9 +38,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         return array(
           "services"=>array(
-            "database" => getenv('DATABASE_URI'),
-            "storage" => getenv("STORAGE_URI"),
-            "index" => getenv('INDEX_URI')
+            "database" => ["type" => getenv('DATABASE_TYPE'), "uri" => getenv('DATABASE_URI')],
+            "storage" => ["type" => getenv('STORAGE_TYPE'), "uri" =>  getenv("STORAGE_URI")],
+            "index" => ["type" => getenv('INDEX_TYPE'), "uri" => getenv('INDEX_URI')]
           )
         );
     }
@@ -67,8 +67,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function setupRedis(): void
     {
       $config = $this->getKernelConfig();
-      if(substr($config["services"]["database"],0,8)=="redis://") {
-        $this->redis  = new \Predis\Client($config["services"]["database"]);
+      if(substr($config["services"]["database"]["uri"],0,8)=="redis://") {
+        $this->redis  = new \Predis\Client($config["services"]["database"]["uri"]);
       }
     }
 

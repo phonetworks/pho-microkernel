@@ -39,7 +39,10 @@ class EventsUtils {
     "group.left",
     "edge.set_for_expiration",
     "node.set_for_expiration",
-    "user.reacted"
+    "user.reacted",
+    "graphsystem.touched",
+    "graphsystem.node_deleted",
+    "graphsystem.edge_deleted",
   ];
 
   /**

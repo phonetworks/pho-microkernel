@@ -27,10 +27,14 @@ interface EventsInterface {
   /**
    * Creates a listener for the given event name, and defines the callback
    * function to run in case of event trigger.
+   * 
+   * This method is chainable.
    *
    * @param string  $events Event name.
    * @param callable  $callback Methods to run in case of event trigger.
+   * 
+   * @return EventsInterface self
    */
-  public function on(string $event, callable $callback): void;
+  public function on(string $event, callable $callback): EventsInterface;
 
 }

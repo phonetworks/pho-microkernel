@@ -18,11 +18,15 @@ use Pho\Kernel\Foundation;
 class Graphsystem 
 {
     private $database;
+    private $index;
     private $logger;
+    private $events;
 
     public function __construct(Kernel $kernel) {
         $this->database = $kernel->database();
         $this->logger = $kernel->logger();
+        $this->index = $kernel->index();
+        $this->events = $kernel->events();
     }
 
   /**
@@ -110,19 +114,29 @@ class Graphsystem
    */
   public function touch(EntityInterface $entity): void
   { 
+    $this->logger->info("Touching %s", $entity->id()->toString());
     $this->database->set(
         (string) $entity->id(), serialize($entity)
     );
+    $this->logger->info("Indexing %s", $entity->id()->toString());
+    $arr = $entity->toArray();
+    $arr["label"] = $entity->label();
+    $this->events->emit("graphsystem.touched", [$arr]);
+    //$this->index->index($entity);
   }
 
   public function delEdge(Graph\ID $id): void
   {
       $this->database->del($id);
+      $this->events->emit("graphsystem.edge_deleted", [(string) $id]);
+      //$this->index->edgeDeleted((string) $id);
   }
 
   public function delNode(Graph\ID $id): void
   {
       $this->database->del($id);
+      $this->events->emit("graphsystem.node_deleted", [(string) $id]);
+      //$this->index->nodeDeleted((string) $id);
   }
 
   public function expire(Graph\ID $id, int $timeout = (60*60*24)): void

@@ -34,7 +34,7 @@ interface IndexInterface
      */
     public function query(string $query, array $params = []); //: void;
 
-    public function index(\Pho\Lib\Graph\EntityInterface $entity): void;
+    public function index(array $entity): void;
 
     public function nodeDeleted(string $id): void;
 

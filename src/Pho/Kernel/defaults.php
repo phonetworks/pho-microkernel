@@ -21,10 +21,10 @@ namespace Pho\Kernel;
 
 return array(
       "services" => array( // Services: type defines the adapter to use, and uri the service options.
-          "database" => "apcu:", // ["type"=>"apcu", "uri"=> "" ],
-          "logger" => "stdout:", // ["type"=>"stdout", "uri"=> "" ],
-          "storage" => "filesystem:", // ["type"=>"filesystem", "uri"=> "" ],
-          "events" => "local:", // ["type"=>"local", "uri"=> "" ]
+          "database" =>  ["type"=>"apcu", "uri"=> "" ],
+          "logger" =>  ["type"=>"stdout", "uri"=> "" ],
+          "storage" =>  ["type"=>"filesystem", "uri"=> "" ],
+          "events" =>  ["type"=>"local", "uri"=> "" ]
       ),
       "tmp_path" => sys_get_temp_dir(), // Temporary folder to store files. For example uploaded files may go there.
       "root_path" => __DIR__,
