@@ -175,13 +175,14 @@ class Init extends Container
        }
        else {
           $this->logger()->info("Creating a new graph from scratch");
+          if(!is_null($founder)) {
+            $founder->persist();
+          }
+          else {
+            throw new Exceptions\FounderMustBeSetException();
+          }
           $this["founder"] = $this->share(function($c) use ($founder) {
-              if(!is_null($founder)) {
-                  $founder->persist();
-                  return $founder;
-              }
-              $founder_class = $c["config"]->default_objects->founder;
-              return new $founder_class($c); // will turn into admin by Network
+              return $founder;
           });
           $this["graph"] = $this->share(function($c) {
             $graph_class = $c["config"]->default_objects->graph;

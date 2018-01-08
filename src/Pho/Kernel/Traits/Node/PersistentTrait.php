@@ -28,6 +28,11 @@ trait PersistentTrait {
         return (static::T_PERSISTENT && $this->kernel->live());
     }
 
+    /**
+     * Persists the node in the database.
+     *
+     * @return void
+     */
     public function persist(): void
     {
         if(!$this->persistable())

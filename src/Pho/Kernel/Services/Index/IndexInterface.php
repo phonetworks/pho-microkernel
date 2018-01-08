@@ -25,19 +25,68 @@ use Pho\Lib\Graph\EntityInterface;
 interface IndexInterface
 {
     /**
-     * Direct access to the index service to query data.
-     * 
-     * @param string $query Cypher query.
-     * @param array $params Query parameters.
+     * Searches through the index with given key and its value.
      *
-     * @return mixed
+     * @param string $query Cypher query
+     * @param array $param Query params. Optional.
+     *
+     * @return mixed Result set
      */
-    public function query(string $query, array $params = []); //: void;
+    public function query(string $query, array $params = []); //: mixed;
 
+    /**
+     * Direct access to the the index client
+     * 
+     * This class does also provide direct read-only access to the 
+     * client, for debugging purposes.
+     *
+     * @return mixed Client in its native form
+     */
+    public function client(); //: mixed
+
+    /**
+     * Indexes an entity
+     *
+     * Given in array form, indexes the entity (be it an 
+     * edge or node) making it searchable.
+     * 
+     * @param array $entity In array form.
+     * 
+     * @return void
+     * 
+     * @throws Exception if the entity header is not recognized.
+     */
     public function index(array $entity): void;
 
+    /**
+     * Notifies the index that a node was deleted
+     * 
+     * Removes the entity from the index, cleaning 
+     * up resources and making index results more efficient.
+     *
+     * @param string $id ID in string format.
+     * 
+     * @return void
+     */
     public function nodeDeleted(string $id): void;
 
+    /**
+     * Notifies the index that an edge was deleted
+     * 
+     * Removes the entity from the index, cleaning 
+     * up resources and making index results more efficient.
+     *
+     * @param string $id ID in string format.
+     * 
+     * @return void
+     */
     public function edgeDeleted(string $id): void;
+
+    /**
+     * Cleans up the index database
+     *
+     * @return void
+     */
+    public function flush(): void;
 
 }
