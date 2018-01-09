@@ -16,8 +16,9 @@ $dotenv->load();
 
 $configs = array(
     "services"=>array(
-        "database" => getenv('DATABASE_URI'),
-        "storage" => getenv("STORAGE_URI")
+        "database" => ["type" => getenv('DATABASE_TYPE'), "uri" => getenv('DATABASE_URI')],
+        "storage" => ["type" => getenv('STORAGE_TYPE'), "uri" =>  getenv("STORAGE_URI")],
+        "index" => ["type" => getenv('INDEX_TYPE'), "uri" => getenv('INDEX_URI')]
     )
 );
 
