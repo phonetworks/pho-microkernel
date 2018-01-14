@@ -30,9 +30,9 @@ interface IndexInterface
      * @param string $query Cypher query
      * @param array $param Query params. Optional.
      *
-     * @return mixed Result set
+     * @return QueryResult Result set
      */
-    public function query(string $query, array $params = []); //: mixed;
+    public function query(string $query, array $params = []): QueryResult;
 
     /**
      * Direct access to the the index client
