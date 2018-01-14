@@ -6,6 +6,7 @@ Existing services are:
 
 * Database: provides persistence for objects created in the framework.
 * Events: renders the platform extensible.
+* Index: enables advanced search capabilities.
 * Logger: dumps important debug info.
 * Storage: provides binary storage.
 
