@@ -23,6 +23,14 @@ trait ParticleTrait
     protected $deferred_persistence = false;
     protected $rewired = false;
 
+    protected function registerSetHandler(): void
+    {
+        $this->registerHandler(
+            "set",
+            \Pho\Kernel\Foundation\Handlers\Set::class
+        );
+    }
+
     protected function hydrate(
         Kernel $kernel, 
         Framework\ContextInterface $graph): void

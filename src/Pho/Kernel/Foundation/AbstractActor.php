@@ -29,6 +29,7 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
     public function __construct(Kernel $kernel, Framework\ContextInterface $graph)
     { 
         parent::__construct($graph);
+        $this->registerSetHandler();
         $this->registerHandler(
             "form",
             \Pho\Kernel\Foundation\Handlers\Form::class

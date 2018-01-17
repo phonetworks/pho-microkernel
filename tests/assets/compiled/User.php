@@ -25,7 +25,7 @@ class User extends Foundation\AbstractActorDP {
     const DEFAULT_MOD = 0x07554;
     const DEFAULT_MASK = 0xfffff;
 
-    const FIELDS = "{\"password\":{\"constraints\":{\"minLength\":null,\"maxLength\":null,\"uuid\":null,\"regex\":\"^[a-zA-Z0-9_]{4,12}$\",\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":true,\"now\":false,\"default\":\"|_~_~NO!-!VALUE!-!SET~_~_|\"}},\"join_time\":{\"constraints\":{\"minLength\":null,\"maxLength\":null,\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":false,\"now\":true,\"default\":\"|_~_~NO!-!VALUE!-!SET~_~_|\"}},\"birthday\":{\"constraints\":{\"minLength\":null,\"maxLength\":null,\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":false,\"now\":false,\"default\":411436800}},\"about\":{\"constraints\":{\"minLength\":null,\"maxLength\":\"255\",\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":false,\"now\":false,\"default\":\"\"}}}";
+    const FIELDS = "{\"password\":{\"constraints\":{\"minLength\":null,\"maxLength\":null,\"uuid\":null,\"regex\":\"^[a-zA-Z0-9_]{4,12}$\",\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":true,\"now\":false,\"default\":\"|_~_~NO!-!VALUE!-!SET~_~_|\"}},\"join_time\":{\"constraints\":{\"minLength\":null,\"maxLength\":null,\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":false,\"now\":true,\"default\":\"|_~_~NO!-!VALUE!-!SET~_~_|\"}},\"birthday\":{\"constraints\":{\"minLength\":null,\"maxLength\":null,\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{\"md5\":false,\"now\":false,\"default\":411436800}},\"about\":{\"constraints\":{\"minLength\":null,\"maxLength\":\"255\",\"uuid\":null,\"regex\":null,\"greaterThan\":null,\"lessThan\":null},\"directives\":{ \"md5\":false,\"now\":false,\"default\":\"\"}}}";
 
     public function __construct(\Pho\Kernel\Kernel $kernel, \Pho\Lib\Graph\GraphInterface $graph , string $password, ?int $birthday = 411436800, ?string $about = "")
     {
@@ -34,9 +34,12 @@ class User extends Foundation\AbstractActorDP {
         $this->registerIncomingEdges(UserOut\Consume::class);
         parent::__construct($kernel, $graph);
                 $this->setPassword($password, true);
-        $this->setJoinTime(time(), true);
-        $this->setBirthday($birthday, true);
-        $this->setAbout($about, true);
+
+        $this->setJoinTime(time(), true);
+
+        $this->setBirthday($birthday, true);
+
+        $this->setAbout($about, true);
 
         $this->persist();
     }

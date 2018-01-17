@@ -13,6 +13,7 @@ abstract class AbstractObject extends Framework\Object implements ParticleInterf
     public function __construct(Kernel $kernel, AbstractActor $actor, Framework\ContextInterface $graph)
     { 
         parent::__construct($actor, $graph);
+        $this->registerSetHandler();
         $this->hydrate($kernel, $graph);
         $this->kernel->space()->emit("particle.added", [$this]); 
 

@@ -24,7 +24,8 @@ return array(
           "database" =>  ["type"=>"apcu", "uri"=> "" ],
           "logger" =>  ["type"=>"stdout", "uri"=> "" ],
           "storage" =>  ["type"=>"filesystem", "uri"=> "" ],
-          "events" =>  ["type"=>"local", "uri"=> "" ]
+          "events" =>  ["type"=>"local", "uri"=> "" ],
+          "index" => ["type"=>"neo4j", "uri"=> ""]
       ),
       "tmp_path" => sys_get_temp_dir(), // Temporary folder to store files. For example uploaded files may go there.
       "root_path" => __DIR__,

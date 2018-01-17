@@ -89,4 +89,19 @@ interface IndexInterface
      */
     public function flush(): void;
 
+    /**
+     * Checks whether the given node exists in the database or not.
+     * 
+     * @param string $field_name Field Name
+     * @param mixed $field_value Field Value
+     * @param string $label The label of the node in question
+     * 
+     * @return bool
+     */
+    public function checkNodeUniqueness(
+        string $field_name, 
+        /*mixed*/ $field_value, 
+        string $label = ""
+    ): bool;
+
 }
