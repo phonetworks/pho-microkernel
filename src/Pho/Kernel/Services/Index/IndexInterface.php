@@ -104,4 +104,18 @@ interface IndexInterface
         string $label = ""
     ): bool;
 
+
+    /**
+     * Creates an index
+     * 
+     * May be run over and over with no effect if it's duplicate
+     * Although not recommended.
+     *
+     * @param string $label Node label
+     * @param string $field_name Field name (not value!)
+     * 
+     * @return void
+     */
+    public function createIndex(string $label, string $field_name): void;
+
 }

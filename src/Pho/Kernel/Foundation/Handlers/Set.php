@@ -44,15 +44,12 @@ class Set extends \Pho\Framework\Handlers\Set {
         }
         elseif($helper->withIndex()) {
             // check if there is an index
+            // see: https://github.com/phonetworks/pho-microkernel/issues/12
+            if($kernel->live()) {
+                $kernel->index()->createIndex($particle->label(), $field_name);
+            }
         }
         parent::saveField($particle, $field_name, $field_value, $defer_persist, $helper);
-        
-        /*if(!$defer_persist) {
-            $particle->attributes()->$field_name = $field_value;
-            return;
-        }
-        $particle->attributes()->quietSet($field_name, $field_value);
-        */
     }
 
 }
