@@ -42,6 +42,16 @@ trait PersistentTrait {
     {
         Hooks::setup($this);
         
+        $this->on("modified", function() {
+            $this->persist();
+        });
+
+        /*
+        $this->on("deleting", function() { // this must be the head.
+            $this->kernel->gs()->delEdge($this->id());
+        });
+        */
+
         return $this;
     }
 
