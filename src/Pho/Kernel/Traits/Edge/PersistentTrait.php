@@ -21,12 +21,6 @@ trait PersistentTrait {
         $this->injection("kernel")->gs()->touch($this);
     }
 
-    public function destroy(): void
-   {
-        $this->injection("kernel")->gs()->delEdge($this->id());
-        parent::destroy();
-   }
-
     /**
      * {@inheritDoc}
      */
@@ -46,11 +40,10 @@ trait PersistentTrait {
             $this->persist();
         });
 
-        /*
         $this->on("deleting", function() { // this must be the head.
-            $this->kernel->gs()->delEdge($this->id());
+            $this->injection("kernel")->gs()->delEdge($this->id());
+            //self::__destruct();
         });
-        */
 
         return $this;
     }

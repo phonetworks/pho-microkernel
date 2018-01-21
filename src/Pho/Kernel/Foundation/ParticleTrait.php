@@ -82,11 +82,10 @@ trait ParticleTrait
             $edge->persist();
         });
 
-        /*
         $this->on("deleting", function() { // this must be the head.
-            $this->kernel->gs()->delNode($this->id());
+            if($this->persistable())
+                $this->kernel->gs()->delNode($this->id());
         });
-        */
 
         $this->rewired = true;
         return $this;
