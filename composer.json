@@ -16,10 +16,10 @@
     "require": {
         "php":"^7.1",
         "monolog/monolog": "^1.22",
-	    "zendframework/zend-config": "*",
+	"zendframework/zend-config": "*",
         "pimple/pimple": "^1.1",
         "phonetworks/pho-lib-graph": "^6.2",
-        "phonetworks/pho-framework": "^8.5",
+        "phonetworks/pho-framework": "^9.0",
         "webmozart/assert": "^1.2",
         "danielstjules/stringy": "^3.0",
         "vlucas/phpdotenv": "^2.4"
@@ -30,10 +30,10 @@
         "pho-adapters/events-local": "dev-master",
         "pho-adapters/index-neo4j": "dev-master",
         "phpunit/phpunit": "^6.0",
-	    "phpdocumentor/phpdocumentor": "*",
-         "fzaninotto/faker": "^1.6",
-         "psy/psysh": "*",
-         "squizlabs/php_codesniffer": "^2.5"
+	"phpdocumentor/phpdocumentor": "*",
+        "fzaninotto/faker": "^1.6",
+        "psy/psysh": "*",
+        "squizlabs/php_codesniffer": "^2.5"
     },
     "autoload": {
 	     "psr-4": {
