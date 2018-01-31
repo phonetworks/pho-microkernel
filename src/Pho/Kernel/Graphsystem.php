@@ -50,6 +50,10 @@ class Graphsystem
     if(!$node instanceof Framework\ParticleInterface && !$node instanceof Foundation\World) {
       throw new Exceptions\NotANodeException($node_id);
     }
+    $node->registerHandler(
+            "set",
+            \Pho\Kernel\Foundation\Handlers\Set::class
+    );
     if($node instanceof Foundation\AbstractActor) {
         $node->registerHandler(
             "form",
