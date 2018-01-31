@@ -10,12 +10,12 @@ class Read extends \Pho\Framework\ActorOut\Read
 {
     //use \Pho\Kernel\Traits\Edge\PersistentTrait;
 
-    public function __construct(NodeInterface $tail, ?NodeInterface $head = null, ?PredicateInterface $predicate = null) 
+    public function __construct(NodeInterface $tail, ?NodeInterface $head = null, ?PredicateInterface $predicate = null, ...$args) 
     {
         if(!is_null($head)&&!$head->acl()->readable($tail)) {
             throw new ReadPermissionException($head, $tail);
         }
-        parent::__construct($tail, $head, $predicate);
+        parent::__construct($tail, $head, $predicate, ...$args);
         $this->kernel = $GLOBALS["kernel"];
     }
 }

@@ -9,9 +9,9 @@ class Mention extends \Pho\Framework\ObjectOut\Mention
 {
     //use \Pho\Kernel\Traits\Edge\PersistentTrait;
     
-    public function __construct(NodeInterface $tail, ?NodeInterface $head = null, ?PredicateInterface $predicate = null) 
+    public function __construct(NodeInterface $tail, ?NodeInterface $head = null, ?PredicateInterface $predicate = null, ...$args) 
     {
-        parent::__construct($tail, $head, $predicate);
+        parent::__construct($tail, $head, $predicate, ...$args);
         $this->kernel = $GLOBALS["kernel"];
     }
 }
