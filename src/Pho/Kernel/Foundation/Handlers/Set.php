@@ -39,7 +39,12 @@ class Set extends \Pho\Framework\Handlers\Set {
             // check if it is unique via index
             //eval(\Psy\sh());
             if($kernel->live() && !$kernel->index()->checkNodeUniqueness($field_name, $field_value, $particle->label())) {
-                throw new \InvalidArgumentException("Given field is not unique");
+                throw new \InvalidArgumentException(
+                    sprintf("Given field (%s) is not unique with the value (%s)", 
+                            $field_name, 
+                            $field_value
+                            )
+                );
             }
         }
         elseif($helper->withIndex()) {
