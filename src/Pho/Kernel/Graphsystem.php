@@ -82,6 +82,7 @@ class Graphsystem
     if(!$edge instanceof Graph\EdgeInterface) {
       throw new Exceptions\NotAnEdgeException($edge_id);
     }
+    $edge->setup();
     return $edge;
   }
 
