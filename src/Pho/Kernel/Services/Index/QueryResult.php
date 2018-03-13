@@ -70,5 +70,11 @@ class QueryResult
     {
         return $this->summary;
     }
+    
+    public function __call(string $name , array $arguments )/*: mixed*/
+    {
+        $func = call_user_func_array([$this, $name], $arguments);
+        return $func;
+    }
 
 }
