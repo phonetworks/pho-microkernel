@@ -51,20 +51,14 @@ class GraphsystemTest extends TestCase
         $this->kernel->gs()->edge($edge_id);
     }
 
-    /** 
-     * @todo needs to be thought through.
-     */
-    /*
     public function testEdgeDeletionsImpactOnNode() {
         $content = $this->kernel->founder()->post("emre sokullu");
         $content_id = (string) $content->id();
-        $edge = $content->edges()->in()->current();
-        $edge_id = (string) $edge->id();
+        $this->assertCount(1, ($content->edges()->all()->getArrayCopy()));
+        $edge = $content->edges()->all()->current();
         $edge->destroy();
-        $this->expectException(Exceptions\NodeDoesNotExistException::class);
-        $this->kernel->gs()->node($content_id);
+        $this->assertCount(0, ($content->edges()->all()->getArrayCopy()));
     }
-    */
 
     /**
      * @todo test subgraphs

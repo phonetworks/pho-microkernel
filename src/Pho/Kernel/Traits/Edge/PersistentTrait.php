@@ -41,6 +41,9 @@ trait PersistentTrait {
         });
 
         $this->on("deleting", function() { // this must be the head.
+            $this->tail()->edges()->delete($this->id());
+            if(!$this->orphan())
+                $this->head()->edges()->delete($this->id());
             $this->injection("kernel")->gs()->delEdge($this->id());
             //self::__destruct();
         });
