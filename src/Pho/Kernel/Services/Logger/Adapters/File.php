@@ -30,11 +30,6 @@ class File extends LoggerBase {
    private $kernel;
 
   /**
-   * @var Monolog\Logger
-   */
-  private $channel;
-
-  /**
    * Constructor.
    *
    * @param string $uri  the path to log file in uri form.

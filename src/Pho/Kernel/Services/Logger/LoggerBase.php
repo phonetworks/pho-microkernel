@@ -3,8 +3,14 @@
 namespace Pho\Kernel\Services\Logger;
 
 use Pho\Kernel\Services\ServiceInterface;
+use Monolog\Logger;
 
 abstract class LoggerBase implements LoggerInterface, ServiceInterface {
+    
+    /**
+     * @var Monolog\Logger
+     */
+    protected $channel;
 
     protected function processParams(array $message): string
     {
@@ -19,6 +25,13 @@ abstract class LoggerBase implements LoggerInterface, ServiceInterface {
             $message = array_shift($params);
             return sprintf($message, ...$params);
         }
+    }
+    
+    public function bare(): ?LoggerInterface
+    {
+        if($this->channel instanceof Logger)
+            return $this->channel;   
+        return null;
     }
 
 }
