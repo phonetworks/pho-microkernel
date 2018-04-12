@@ -20,5 +20,10 @@ abstract class LoggerBase implements LoggerInterface, ServiceInterface {
             return sprintf($message, ...$params);
         }
     }
+    
+    public function bare(): LoggerInterface
+    {
+        return $this->channel;   
+    }
 
 }
