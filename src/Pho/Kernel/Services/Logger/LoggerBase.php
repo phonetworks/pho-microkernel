@@ -27,7 +27,7 @@ abstract class LoggerBase implements LoggerInterface, ServiceInterface {
         }
     }
     
-    public function bare(): ?LoggerInterface
+    public function bare(): ?\Psr\Log\LoggerInterface
     {
         if($this->channel instanceof Logger)
             return $this->channel;   
