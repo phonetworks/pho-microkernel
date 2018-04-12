@@ -29,11 +29,6 @@ class Stdout extends LoggerBase {
    private $kernel;
 
   /**
-   * @var Monolog\Logger
-   */
-  private $channel;
-
-  /**
    * Constructor.
    */
   public function __construct(Kernel $kernel, string $uri = "") {
