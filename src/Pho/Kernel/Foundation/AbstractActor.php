@@ -64,6 +64,7 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
             throw new Exceptions\ExecutePermissionException($graph, $this);
         $graph->add($this);
         $this->memberships[] = (string) $graph->id();
+        $this->persist();
     }
     
     public function leave(AbstractGraph $graph): void
@@ -72,6 +73,7 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
             throw new \Exception(sprintf("No member with id %s", $this->id()->toString()));
         $graph->remove($this->id());
         unset($this->memberships[\array_search((string) $graph->id(), $this->memberships)]);
+        $this->persist();
     }
 
     public function manage(ParticleInterface $obj): ParticleInterface
