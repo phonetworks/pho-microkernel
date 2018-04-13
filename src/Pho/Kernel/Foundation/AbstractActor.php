@@ -26,6 +26,15 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
      */
     const FORMATIVE_TRIM_CUT = 3;
 
+    /**
+     * Lists the subgroup memberships of the Actor
+     * 
+     * An array of IDs in string format.
+     *
+     * @var array
+     */
+    protected $memberships;
+
     public function __construct(Kernel $kernel, Framework\ContextInterface $graph)
     { 
         parent::__construct($graph);
@@ -54,6 +63,7 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
         if(!$graph->acl()->executable($this))
             throw new Exceptions\ExecutePermissionException($graph, $this);
         $graph->add($this);
+        $this->memberships[] = (string) $graph->id();
     }
     
     public function leave(AbstractGraph $graph): void
@@ -61,6 +71,7 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
         if(!$graph->contains($this->id()))
             throw new \Exception(sprintf("No member with id %s", $this->id()->toString()));
         $graph->remove($this->id());
+        unset($this->memberships[\array_search((string) $graph->id(), $this->memberships)]);
     }
 
     public function manage(ParticleInterface $obj): ParticleInterface

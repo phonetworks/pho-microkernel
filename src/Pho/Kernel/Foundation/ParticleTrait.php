@@ -104,6 +104,9 @@ trait ParticleTrait
         if(isset($this->acl))
             $array["acl"] = $this->acl->toArray();
 
+        if(isset($this->memberships))
+            $array["memberships"] = $this->memberships;
+
         if(static::T_EDITABLE)
             $array["editors"] = (string) $this->editors->id();
         
