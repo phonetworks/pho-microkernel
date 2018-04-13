@@ -104,7 +104,7 @@ trait ParticleTrait
         if(isset($this->acl))
             $array["acl"] = $this->acl->toArray();
 
-        if(isset($this->memberships))
+        if($this instanceof AbstractActor)
             $array["memberships"] = $this->memberships;
 
         if(static::T_EDITABLE)

@@ -33,7 +33,7 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
      *
      * @var array
      */
-    protected $memberships;
+    protected $memberships = [];
 
     public function __construct(Kernel $kernel, Framework\ContextInterface $graph)
     { 

@@ -98,6 +98,9 @@ trait PersistentTrait {
     if(isset($data["editors"])) {
         $this->editors = $this->kernel->gs()->node($data["editors"]);
     }
+    if(isset($data["memberships"])) {
+        $this->memberships = $data["memberships"];
+    }
     if(isset($data["notifications"]) && $this instanceof Framework\Actor) {
         $notifications = array();
         foreach($data["notifications"] as $notification) {
