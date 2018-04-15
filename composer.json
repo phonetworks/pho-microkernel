@@ -34,7 +34,8 @@
 	"phpdocumentor/phpdocumentor": "*",
         "fzaninotto/faker": "^1.6",
         "psy/psysh": "*",
-        "squizlabs/php_codesniffer": "^2.5"
+        "squizlabs/php_codesniffer": "^2.5",
+        "get-stream/stream": "^2.6"
     },
     "autoload": {
 	     "psr-4": {

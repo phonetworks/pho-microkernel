@@ -40,9 +40,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         return array(
           "services"=>array(
-            "database" => ["type" => getenv('DATABASE_TYPE'), "uri" => getenv('DATABASE_URI')],
-            "storage" => ["type" => getenv('STORAGE_TYPE'), "uri" =>  getenv("STORAGE_URI")],
-            "index" => ["type" => getenv('INDEX_TYPE'), "uri" => getenv('INDEX_URI')]
+            "database" => [ "type" => getenv('DATABASE_TYPE'), "uri" => getenv('DATABASE_URI') ],
+            "storage" => [ "type" => getenv('STORAGE_TYPE'), "uri" =>  getenv("STORAGE_URI") ],
+            "index" => [ "type" => getenv('INDEX_TYPE'), "uri" => getenv('INDEX_URI') ],
+            "feed" => [ "type" => getenv('FEED_TYPE'), "uri" => getenv('FEED_URI') ]
           )
         );
     }
