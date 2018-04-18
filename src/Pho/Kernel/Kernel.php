@@ -41,6 +41,13 @@ class Kernel extends Init
 {
 
   /**
+   * Keeps a list of plugins to initialize at boot-up
+   *
+   * @var array 
+   */
+  protected $plugins;
+
+  /**
    * A constant used to define how particles in attributebags will be 
    * serialized and stored in the database.
    * 
@@ -132,4 +139,17 @@ class Kernel extends Init
     $this->events()->emit("kernel.booted_up");
     $this["logger"]->info("Boot complete.");
   }
+
+  public function registerPlugin(PluginInterface $plugin): void
+  {
+    $this->plugins[$plugin->name()] = $plugin;
+  }
+
+  public function plugin(string $name): PluginInterface
+  {
+    if(isset($this->plugins[$name]))
+      return $this->plugins[$name];
+     throw new \Exception(sprintf("No plugin with the name %s", $name)); 
+  }
+
 }
