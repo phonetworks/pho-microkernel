@@ -30,13 +30,19 @@ abstract class AbstractPlugin implements PluginInterface
         $this->kernel = $kernel;
     }
 
+    /**
+     * This abstract implementation does nothing
+     * but satisfies the specs.
+     * 
+     * @return void
+     */
     public function init(): void
     {
-        
+
     }
 
     public function name(): string
     {
-        return substr(get_class($this), 0, -1 * strlen("Plugin"));
+        return strtolower(substr(get_class($this), 0, -1 * strlen("Plugin")));
     }
 }
