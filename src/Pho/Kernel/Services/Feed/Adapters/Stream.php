@@ -22,6 +22,9 @@ use GetStream\Stream\Client;
  */
 class Stream implements ServiceInterface, FeedInterface {
 
+  const WALL = "wall";
+  const TIMELINE = "timeline";
+
   /**
    * @var \Pimple
    */
@@ -42,6 +45,55 @@ class Stream implements ServiceInterface, FeedInterface {
   public function __call(string $func, array $vars) //: mixed
   {
     return $this->client->$func(...$vars);
+  }
+
+  protected function instance(EntityInterface $entity, bool $write = false)
+  {
+    if($write)
+      return $this->client->feed(
+        self::WALL, 
+        (string) $entity->id()
+      );
+    else // subscribe
+      return $this->client->feed(
+        self::TIMELINE, 
+        (string) $entity->id()
+      );
+  }
+
+  public function add(EntityInterface $entity): void
+  {
+    if($entity instanceof AbstractActor)
+    {
+        $this->instance($entity, true)->addActivity([
+            "actor"  => (string) $entity->id(), // actor id
+            "verb"   => "_construct", // edge
+            "object" => "", // object id
+            "_text"  => $entity->feedUpdate()
+        ]);
+    }
+    elseif($entity instanceof Subscribe)
+    {
+      if(!$entity instanceof Write)
+      {
+          // bi de follow
+      }
+      $this->instance($entity->tail(), true)->addActivity([
+            "actor"=> (string) $entity->tail()->id(), // actor id
+            "verb"=> $entity->label(), // edge
+            "object"=> (string) $entity->head()->id(), // object id
+            "_text"=>""
+      ]);
+    }
+    
+    else {
+       // throw exception
+    }
+  }
+
+  public function follow(ParticleInterface $subject, ParticleInterface $object): void
+  {
+
   }
 
 }

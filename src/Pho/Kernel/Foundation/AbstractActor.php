@@ -46,6 +46,7 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
         $this->hydrate($kernel, $graph);
         if($kernel->live()) {
             $this->kernel()->space()->emit("particle.added", [$this]);
+            $this->kernel()->feed()->add($this);
         }
        
     }
