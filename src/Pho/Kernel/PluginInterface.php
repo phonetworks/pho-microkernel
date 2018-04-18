@@ -29,4 +29,11 @@ interface PluginInterface
      */
     public function name(): string;
 
+    /**
+     * Called at boot time.
+     *
+     * @return void
+     */
+    public function init(): void;
+
 }

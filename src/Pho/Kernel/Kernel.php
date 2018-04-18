@@ -136,13 +136,24 @@ class Kernel extends Init
     $this->seedRoot($founder);
     $this["logger"]->info("Root seeded");
     //$this->registerListeners($this["graph"]);
+    $this->initPlugins();
     $this->events()->emit("kernel.booted_up");
     $this["logger"]->info("Boot complete.");
   }
 
-  public function registerPlugin(PluginInterface $plugin): void
+  public function registerPlugin(/*mixed<string|PluginInterface>*/ $plugin): void
   {
-    $this->plugins[$plugin->name()] = $plugin;
+    if($plugin instanceof PluginInterface) {
+      $this->plugins[$plugin->name()] = $plugin;
+      return;
+    }
+    elseif(is_string($plugin)&&class_exists($plugin)) {
+      $o = new $plugin($this);
+      if(!$o instanceof PluginInterface)
+        throw new \Exception("Invalid Plugin");
+      return;
+    }
+    throw new \Exception("Invalid Plugin");
   }
 
   public function plugin(string $name): PluginInterface
