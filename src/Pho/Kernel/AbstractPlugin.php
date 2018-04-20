@@ -43,7 +43,7 @@ abstract class AbstractPlugin implements PluginInterface
 
     public function name(): string
     {
-        $reflect = new ReflectionClass($this);
+        $reflect = new \ReflectionClass($this);
         return strtolower(
                 substr(
                     $reflect->getShortName(), 
