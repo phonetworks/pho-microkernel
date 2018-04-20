@@ -40,6 +40,14 @@ class Init extends Container
   protected $class_registry = [];
 
 
+  protected function initPlugins(): void 
+  {
+    if(!isset($this->plugins))
+      return;
+    foreach($this->plugins as $plugin) {
+      $plugin->init();
+    }
+  }
 
   /**
    * Sets up the kernel settings.
