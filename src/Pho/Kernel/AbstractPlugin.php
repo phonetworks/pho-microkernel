@@ -36,7 +36,7 @@ abstract class AbstractPlugin implements PluginInterface
      * 
      * @return void
      */
-    public function init(): void
+    public function init(Kernel $kernel): void
     {
 
     }

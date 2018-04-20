@@ -31,9 +31,11 @@ interface PluginInterface
 
     /**
      * Called at boot time.
+     * 
+     * @param Kernel $kernel
      *
      * @return void
      */
-    public function init(): void;
+    public function init(Kernel $kernel): void;
 
 }
