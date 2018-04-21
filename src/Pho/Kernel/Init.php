@@ -11,6 +11,7 @@
 
 namespace Pho\Kernel;
 
+use Pho\Lib\Graph\Exceptions\NodeAlreadyMemberException;
 use Pho\Lib\Graph;
 use Pho\Framework;
 use Pho\Kernel\Services\Exceptions\AdapterNonExistentException;
@@ -205,6 +206,11 @@ class Init extends Container
            "New graph with id: %s and founder: %s", $this->graph()->id(), $this->founder()->id()
          );
        }
-       
+       try {
+          $this["space"]->add($this["graph"]);
+       }
+       catch(NodeAlreadyMemberException $e) {
+          // do nothing
+       }
    }
 }
