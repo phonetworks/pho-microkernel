@@ -23,7 +23,7 @@
         "webmozart/assert": "^1.2",
         "danielstjules/stringy": "^3.0",
         "vlucas/phpdotenv": "^2.4",
-	"psr/log": "^1.0"
+	    "psr/log": "^1.0"
     },
     "require-dev": {
         "pho-adapters/storage-filesystem": "dev-master",
@@ -31,7 +31,7 @@
         "pho-adapters/events-local": "dev-master",
         "pho-adapters/index-neo4j": "dev-master",
         "phpunit/phpunit": "^6.0",
-	"phpdocumentor/phpdocumentor": "*",
+	    "phpdocumentor/phpdocumentor": "*",
         "fzaninotto/faker": "^1.6",
         "psy/psysh": "*",
         "squizlabs/php_codesniffer": "^2.5"
