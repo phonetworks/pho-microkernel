@@ -101,18 +101,20 @@ trait PersistentTrait {
     if(isset($data["memberships"])) {
         $this->memberships = $data["memberships"];
     }
-    if(isset($data["notifications"]) && $this instanceof Framework\Actor) {
+    if($this instanceof Framework\Actor) {
         $notifications = array();
-        foreach($data["notifications"] as $notification) {
-            // let's recreate the objects
-            $class = $notification["class"];
-            if(!class_exists($class) || !preg_match("/^[a-z0-9_\\\\]+$/i", $class)) {
-                continue;
+        if(isset($data["notifications"])) {
+            foreach($data["notifications"] as $notification) {
+                // let's recreate the objects
+                $class = $notification["class"];
+                if(!class_exists($class) || !preg_match("/^[a-z0-9_\\\\]+$/i", $class)) {
+                    continue;
+                }
+                $edge_id = (string) ID::fromString($notification["edge"]);
+                $edge = $this->kernel->gs()->edge($edge_id);
+                $notifications[] = new $class($edge); 
+                Hooks::setup($notifications[(count($notifications)-1)]);
             }
-            $edge_id = (string) ID::fromString($notification["edge"]);
-            $edge = $this->kernel->gs()->edge($edge_id);
-            $notifications[] = new $class($edge); 
-            Hooks::setup($notifications[(count($notifications)-1)]);
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
     }
