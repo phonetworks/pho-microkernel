@@ -47,7 +47,6 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
         if($kernel->live()) {
             $this->kernel()->space()->emit("particle.added", [$this]);
         }
-       
     }
 
     public function edit(ParticleInterface $obj): ParticleInterface

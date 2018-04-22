@@ -104,11 +104,13 @@ trait ParticleTrait
         if(isset($this->acl))
             $array["acl"] = $this->acl->toArray();
 
-        if($this instanceof AbstractActor)
+        if($this instanceof AbstractActor) {
             $array["memberships"] = $this->memberships;
+        }
 
-        if(static::T_EDITABLE)
+        if(static::T_EDITABLE) {
             $array["editors"] = (string) $this->editors->id();
+        }
         
         // deflating attributes
         $tpl = implode("%s", Kernel::PARTICLE_IN_ATTRIBUTEBAG_TPL);

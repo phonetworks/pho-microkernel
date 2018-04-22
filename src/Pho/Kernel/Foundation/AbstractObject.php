@@ -16,7 +16,6 @@ abstract class AbstractObject extends Framework\Object implements ParticleInterf
         $this->registerSetHandler();
         $this->hydrate($kernel, $graph);
         $this->kernel->space()->emit("particle.added", [$this]); 
-
     }
 
 }
