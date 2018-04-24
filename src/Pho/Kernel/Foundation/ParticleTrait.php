@@ -67,28 +67,31 @@ trait ParticleTrait
 
         Hooks::setup($this);
 
-        $this->on("modified", function() {
-            $this->persist();
-        });
-        $this->on("edge.created", function($edge) {
-            $this->persist();
-            $edge->inject("kernel", $this->kernel);
-            $edge->rewire()->persist();
-            if(!$edge->orphan())
-                $edge->head()->persist();
-        });
-        $this->on("edge.connected", function($edge) { // this must be the head.
-            $this->persist();
-            $edge->persist();
-        });
-
-        $this->on("deleting", function() { // this must be the head.
-            if($this->persistable())
-                $this->kernel->gs()->delNode($this->id());
-        });
+        $this->on("modified", [$this, "persist"]);
+        $this->on("edge.created", [$this, "onEdgeCreated"]);
+        $this->on("edge.connected", [$this, "onEdgeConnected"]);
+        $this->on("deleting", [$this, "onDeleting"]);
 
         $this->rewired = true;
         return $this;
+    }
+
+    public function onEdgeCreated($edge) {
+        $this->persist();
+        $edge->inject("kernel", $this->kernel);
+        $edge->rewire()->persist();
+        if(!$edge->orphan())
+            $edge->head()->persist();
+    }
+
+    public function onEdgeConnected($edge) { // this must be the head.
+        $this->persist();
+        $edge->persist();
+    }
+
+    public function onDeleting() { // this must be the head.
+        if($this->persistable())
+            $this->kernel->gs()->delNode($this->id());
     }
 
     public function acl(): Acl\AbstractAcl

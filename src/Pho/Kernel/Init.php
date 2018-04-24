@@ -194,11 +194,16 @@ class Init extends Container
            "New graph with id: %s and founder: %s", $this->graph()->id(), $this->founder()->id()
          );
        }
+
+       
        try {
           $this["space"]->add($this["graph"]);
+          
        }
        catch(NodeAlreadyMemberException $e) {
           // do nothing
        }
+
+       $this["gs"]->warmUpCache($this);
    }
 }

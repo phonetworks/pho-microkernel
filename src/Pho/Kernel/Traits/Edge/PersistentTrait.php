@@ -37,19 +37,19 @@ trait PersistentTrait {
     {
         Hooks::setup($this);
         
-        $this->on("modified", function() {
-            $this->persist();
-        });
+        $this->on("modified", [$this, "persist"]);
 
-        $this->on("deleting", function() { // this must be the head.
+        $this->on("deleting", [$this, "onDeleting"]);
+
+        return $this;
+    }
+
+    public function onDeleting() { 
             $this->tail()->edges()->delete($this->id());
             if(!$this->orphan())
                 $this->head()->edges()->delete($this->id());
             $this->injection("kernel")->gs()->delEdge($this->id());
             //self::__destruct();
-        });
-
-        return $this;
     }
 
 }

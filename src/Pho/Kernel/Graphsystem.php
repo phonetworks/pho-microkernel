@@ -7,6 +7,7 @@ use Pho\Framework;
 use Pho\Lib\Graph;
 use Pho\Lib\Graph\EntityInterface;
 use Pho\Kernel\Foundation;
+use Pho\Lib\Graph\ID;
 
 /**
  * Graphsystem
@@ -22,11 +23,37 @@ class Graphsystem
     private $logger;
     private $events;
 
+    /**
+     * Keeps track of unserialized nodes
+     * 
+     * ID(string)=>Object
+     *
+     * @var array
+     */
+    protected $node_cache = [];
+
+    /**
+     * Keeps track of unserialized edges
+     * 
+     * ID(string)=>Object
+     *
+     * @var array
+     */
+    protected $edge_cache = [];
+
     public function __construct(Kernel $kernel) {
         $this->database = $kernel->database();
         $this->logger = $kernel->logger();
         $this->index = $kernel->index();
         $this->events = $kernel->events();
+        // warmup cache must not be here.
+    }
+
+    public function warmUpCache(Kernel $kernel): void
+    {
+        $this->node_cache[$kernel->space()->id()->toString()] = $kernel->space();
+        $this->node_cache[$kernel->graph()->id()->toString()] = $kernel->graph();
+        $this->node_cache[$kernel->founder()->id()->toString()] = $kernel->founder();
     }
 
   /**
@@ -41,6 +68,9 @@ class Graphsystem
    */
   public function node(string $node_id): Graph\NodeInterface
   {
+    if(isset($this->node_cache[$node_id])) {
+      return $this->node_cache[$node_id];
+    }
     $query = (string) $node_id; // sprintf("node:%s", (string) $node_id);
     $node = $this->database->get($query);
     if(is_null($node)) {
@@ -60,6 +90,9 @@ class Graphsystem
             \Pho\Kernel\Foundation\Handlers\Form::class
         );
     }
+    
+    $this->node_cache[$node_id] = $node;
+    
     return $node;
   }
 
@@ -77,6 +110,8 @@ class Graphsystem
    */
   public function edge(string $edge_id): Graph\EdgeInterface
   {
+    if(isset($this->edge_cache[$edge_id]))
+      return $this->edge_cache[$edge_id];
     $query = (string) $edge_id; // sprintf("edge:%s", (string) $edge_id);
     $edge = $this->database->get($query);
     if(is_null($edge)) {
@@ -87,6 +122,7 @@ class Graphsystem
       throw new Exceptions\NotAnEdgeException($edge_id);
     }
     $edge->setup();
+    $this->edge_cache[$edge_id] = $edge;
     return $edge;
   }
 

@@ -128,15 +128,20 @@ class Kernel extends Init
     }
     $GLOBALS["kernel"] = &$this; // one more time, yes.
     $this->is_running = true;
+    
     $this->setupServices();
     $this["gs"] = $this->share(function($c) {
       return new Graphsystem($c);
     });
+    
     $this["logger"]->info("Services set up. Root seed begins.");
+    
     $this->seedRoot($founder);
+    
     $this["logger"]->info("Root seeded");
     //$this->registerListeners($this["graph"]);
     $this->initPlugins();
+    
     $this->events()->emit("kernel.booted_up");
     $this["logger"]->info("Boot complete.");
   }

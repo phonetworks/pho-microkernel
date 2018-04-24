@@ -14,10 +14,10 @@ final class Space extends \Pho\Framework\Space implements \Serializable {
 
     public function __construct(Kernel $kernel) {
         $this->kernel = $kernel;
-        $this->on("particle.added", function($node) use ($kernel) {
+        //$this->on("particle.added", function($node) use ($kernel) {
             // $kernel->logger()->info("Node added %s", $node->id()->toString());
             // $node->persist();
-        });
+        //});
         // skip modified because the Space is stateless anyway.
     }
 
@@ -25,5 +25,16 @@ final class Space extends \Pho\Framework\Space implements \Serializable {
     {
         return "Space";
     }
+
+    public function persist(): void {}
+
+        public function onEdgeCreated($edge) {
+        }
+    
+        public function onEdgeConnected($edge) { 
+        }
+    
+        public function onDeleting() { 
+        }
 
 }

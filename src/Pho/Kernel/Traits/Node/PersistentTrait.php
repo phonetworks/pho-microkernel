@@ -118,11 +118,32 @@ trait PersistentTrait {
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
     }
+    if(isset($data["listeners"])) {
+        $this->listeners = $data["listeners"];
+        $this->listeners_flat = $data["listeners"];
+    }
     $this->kernel->logger()->info("Attributes as follows: %s", print_r($data["attributes"], true));
     $this->attributes = new AttributeBag($this, $data["attributes"]);
     $this->initializeHandler();
-    $this->rewire();
+    
     $this->init(); // for signals
+    $this->rewire();
+  }
+
+  function listeners(string $eventName, bool $flat=false) : array {
+      $res = parent::listeners($eventName, $flat);
+      if($flat)
+        return $res;
+      foreach($res as $k=>$r) {
+        if(!\is_callable($r)) {
+            $res[$k][0] = 
+                ID::root()->toString() === $r[0] ? 
+                    $this->kernel->space() : 
+                    $this->id()->toString() === $r[0] ? $this : $this->kernel->gs()->node($r[0])
+            ;
+        }
+      }
+      return $res;
   }
      
 
