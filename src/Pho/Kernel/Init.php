@@ -120,31 +120,20 @@ class Init extends Container
        "Total # of nodes for the graph \"%s\": %s", $graph->id(), (string) $node_count
       );
 
+      $graph->init();
+
      for($i=0; $i<$node_count; $i++) {
        $node = $nodes[$i];
        $this->logger()->info(
          "Registering listeners for node %s, a %s", $node->id(), $node->label()
         );
 
-       $ref = new \ReflectionObject($node);
-       $ref_methods = $ref->getMethods( \ReflectionMethod::IS_PUBLIC );
-
-       array_walk($ref_methods, function($item, $key) use ($node) {
-         if(preg_match("/^handle([A-Z][a-z]+)([A-Z][a-z]+)$/",$item->name,$item_parts)) {
-
-           $this->logger()->info(
-             "Adding a listener on %s with id %s", $node->label(), $node->id()
-           );
-
-           $this->events()->on(
-            strtolower($item_parts[1].".".$item_parts[2]), [$node, $item->name]
-          );
-         }
-       });
-
        // recursiveness
-       if($node instanceof Graph\GraphInterface and $node->id() != $graph->id())   {
+       if($node instanceof Graph\GraphInterface && $node->id() != $graph->id())   {
          $this->registerListeners($node);
+       }
+       else {
+         $node->init();
        }
 
        // memory management.
@@ -154,8 +143,7 @@ class Init extends Container
 
      }
    }
-
-
+   
    /**
     * Ensures that there is a root Graph attached to the kernel.
     * Used privately by the kernel.
