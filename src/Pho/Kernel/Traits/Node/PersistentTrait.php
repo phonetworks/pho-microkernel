@@ -124,7 +124,80 @@ trait PersistentTrait {
     $this->rewire();
     $this->init(); // for signals
   }
-     
+
+  public function fillIn(array $data): void
+    {
+      $this->id = ID::fromString($data["id"]);
+      $this->kernel->logger()->info("Unserialization begins for %s", $this->id());
+      $this->kernel->logger()->info("The edge list is as follows: %s", print_r($data["edge_list"], true));
+      $this->edge_list = new Graph\EdgeList($this, $data["edge_list"]);
+      if((string) ID::root() == $data["context"]) {
+          $space_class = $this->kernel->config()->default_objects->space;
+          $this->context = new $space_class($this->kernel);
+          $this->context_id = $data["context"];
+      }
+      else {
+          $this->context_id = $data["context"];
+      }
+      
+      $this->creator_id = $data["creator"];
+      if(isset($data["current_context"])) { // Actor
+          $this->current_context = $this->kernel->gs()->node($data["current_context"]);
+      }
+      if(isset($data["master"])) { // VirtualGraph
+          $this->master = $data["master"];
+      }
+      if(isset($data["registered_edges"])&&isset($data["registered_edges"]["out"])&&isset($data["registered_edges"]["in"])) { // VirtualGraph
+          $this->incoming_edges = $data["registered_edges"]["in"];
+          $this->outgoing_edges = $data["registered_edges"]["out"];
+      }
+      if(isset($data["members"])) { // Frame
+          $this->kernel->logger()->info(
+              "Extracting members for the frame %s: %s",
+              $this->id(),
+              print_r($data["members"], true)
+          );
+          $this->rewire()->loadNodesFromIDArray($data["members"]);
+      }
+      if(isset($data["acl"])) {
+          $this->acl = Acl\AclFactory::seed($this->kernel, $this, $data["acl"]["permissions"]);
+      }
+  
+      if(isset($data["editors"])) {
+          $this->editors = $this->kernel->gs()->node($data["editors"]);
+      }
+      if(isset($data["memberships"])) {
+          $this->memberships = $data["memberships"];
+      }
+      if($this instanceof Framework\Actor) {
+          $notifications = array();
+          if(isset($data["notifications"])) {
+              foreach($data["notifications"] as $notification) {
+                  // let's recreate the objects
+                  $class = $notification["class"];
+                  if(!class_exists($class) || !preg_match("/^[a-z0-9_\\\\]+$/i", $class)) {
+                      continue;
+                  }
+                  $edge_id = (string) ID::fromString($notification["edge"]);
+                  $edge = $this->kernel->gs()->edge($edge_id);
+                  $notifications[] = new $class($edge); 
+                  Hooks::setup($notifications[(count($notifications)-1)]);
+              }
+          }
+          $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
+      }
+      $this->kernel->logger()->info("Attributes as follows: %s", print_r($data["attributes"], true));
+      $this->attributes = new AttributeBag($this, $data["attributes"]);
+      $this->initializeHandler();
+      $this->rewire();
+      $this->init(); // for signals
+    }
+
+
+     public function rejuvenate(Kernel $kernel): void
+     {
+         $this->kernel = $kernel;
+     }
 
    public function destroy(): void
    {

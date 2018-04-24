@@ -17,6 +17,7 @@ use Pho\Kernel\Foundation;
  */
 class Graphsystem 
 {
+  private $kernel;
     private $database;
     private $index;
     private $logger;
@@ -27,6 +28,7 @@ class Graphsystem
         $this->logger = $kernel->logger();
         $this->index = $kernel->index();
         $this->events = $kernel->events();
+        $this->kernel = $kernel;
     }
 
   /**
@@ -47,9 +49,23 @@ class Graphsystem
       throw new Exceptions\NodeDoesNotExistException($node_id);
     }
     $node = unserialize($node);
+    
     if(!$node instanceof Framework\ParticleInterface && !$node instanceof Foundation\World) {
       throw new Exceptions\NotANodeException($node_id);
     }
+
+    /// EXPERIMENTAL
+    /// REMOVE
+    $ref = new \ReflectionClass(get_class($node));
+    $inst = $ref->newInstanceWithoutConstructor();
+    $inst->rejuvenate($this->kernel);
+    $inst->fillIn($node->toArray());
+    unset($node);
+    $node = $inst;
+    // EXPERIMENTAL STUFF
+    /// REMOVE!
+
+
     $node->registerHandler(
             "set",
             \Pho\Kernel\Foundation\Handlers\Set::class
