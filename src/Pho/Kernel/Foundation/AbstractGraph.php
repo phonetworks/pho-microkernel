@@ -16,6 +16,18 @@ abstract class AbstractGraph extends Framework\Graph implements ParticleInterfac
         $this->registerSetHandler();
         $this->hydrate($kernel, $graph);
         $this->kernel->space()->emit("particle.added", [$this]); 
+        $this->listenToMemberChanges();
+    }
+
+    protected function listenToMemberChanges(): void
+    {
+        return;
+        $this->on("node.added", function() {
+            $this->persist();
+        });
+        $this->on("node.removed", function() {
+            $this->persist();
+        });
     }
 
 }

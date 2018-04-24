@@ -60,6 +60,9 @@ class Graphsystem
             \Pho\Kernel\Foundation\Handlers\Form::class
         );
     }
+    elseif($node instanceof Foundation\AbstractGraph) {
+        $node->listenToMemberChanges();
+    }
     return $node;
   }
 
