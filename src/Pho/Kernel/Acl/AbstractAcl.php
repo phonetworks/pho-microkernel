@@ -208,7 +208,6 @@ abstract class AbstractAcl {
 
     public function readable(Actor $actor): bool
     {
-        //if(isset($GLOBALS["dur"])&&$GLOBALS["dur"]) eval(\Psy\sh());
         $role = $this->resolveRole($actor);
         return strpos($this->permissions[$role], self::R) !== false;
     }
