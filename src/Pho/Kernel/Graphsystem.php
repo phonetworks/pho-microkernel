@@ -50,10 +50,10 @@ class Graphsystem
 
     public function init(): void
     {
-        $this->database = $kernel->database();
-        $this->logger = $kernel->logger();
-        $this->index = $kernel->index();
-        $this->events = $kernel->events();
+        $this->database = $this->kernel->database();
+        $this->logger = $this->kernel->logger();
+        $this->index = $this->kernel->index();
+        $this->events = $this->kernel->events();
     }
 
     public function warmUpCache(Kernel $kernel): void
