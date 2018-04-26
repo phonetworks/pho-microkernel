@@ -120,14 +120,17 @@ trait PersistentTrait {
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
     }
+    $this->kernel->logger()->info("Unserialization almost complete 1 for %s", $this->id());
     if(isset($data["listeners"])) {
         $this->listeners = $data["listeners"];
         $this->listeners_flat = $data["listeners"];
     }
+    $this->kernel->logger()->info("Unserialization almost complete 2 for %s", $this->id());
     //$this->kernel->logger()->info("Attributes as follows: %s", print_r($data["attributes"], true));
     $this->attributes = new AttributeBag($this, $data["attributes"]);
+    $this->kernel->logger()->info("Unserialization almost complete 3 for %s", $this->id());
     $this->initializeHandler();
-    $this->kernel->logger()->info("Unserialization almost complete for %s", $this->id());
+    $this->kernel->logger()->info("Unserialization almost complete 4 for %s", $this->id());
     // $this->init(); // for signals
     $this->rewire();
     $this->kernel->logger()->info("Unserialization complete for %s", $this->id());
