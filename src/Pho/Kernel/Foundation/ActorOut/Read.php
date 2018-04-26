@@ -16,6 +16,8 @@ class Read extends \Pho\Framework\ActorOut\Read
             throw new ReadPermissionException($head, $tail);
         }
         parent::__construct($tail, $head, $predicate, ...$args);
+        
         $this->kernel = $GLOBALS["kernel"];
+        $this->kernel->gs()->cache($this); // we want this early because cache will be called.
     }
 }

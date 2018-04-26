@@ -6,6 +6,7 @@ use Pho\Kernel\Kernel;
 use Pho\Framework;
 use Pho\Lib\Graph;
 use Pho\Lib\Graph\EntityInterface;
+use Pho\Lib\Graph\EdgeInterface;
 use Pho\Kernel\Foundation;
 use Pho\Lib\Graph\ID;
 
@@ -54,6 +55,16 @@ class Graphsystem
         $this->node_cache[$kernel->space()->id()->toString()] = $kernel->space();
         $this->node_cache[$kernel->graph()->id()->toString()] = $kernel->graph();
         $this->node_cache[$kernel->founder()->id()->toString()] = $kernel->founder();
+    }
+
+    public function cache(EntityInterface $entity): EntityInterface
+    {
+      if($entity instanceof EdgeInterface) {
+        $this->edge_cache[$entity->id()->toString()] = $entity;
+        return $entity;
+      }
+      $this->node_cache[$entity->id()->toString()] = $entity;
+      return $entity;
     }
 
   /**
