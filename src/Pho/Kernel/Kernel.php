@@ -139,7 +139,7 @@ class Kernel extends Init
     $this->seedRoot($founder);
     
     $this["logger"]->info("Root seeded");
-    //$this->registerListeners($this["graph"]);
+    $this->registerListeners($this["graph"]);
     $this->initPlugins();
     
     $this->events()->emit("kernel.booted_up");

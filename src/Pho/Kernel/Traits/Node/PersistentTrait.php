@@ -128,7 +128,7 @@ trait PersistentTrait {
     $this->attributes = new AttributeBag($this, $data["attributes"]);
     $this->initializeHandler();
     
-    $this->init(); // for signals
+    // $this->init(); // for signals
     $this->rewire();
   }
 

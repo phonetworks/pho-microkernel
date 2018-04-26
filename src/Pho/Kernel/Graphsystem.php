@@ -90,7 +90,7 @@ class Graphsystem
             \Pho\Kernel\Foundation\Handlers\Form::class
         );
     }
-    
+    $node->init();
     $this->node_cache[$node_id] = $node;
     
     return $node;
@@ -122,6 +122,7 @@ class Graphsystem
       throw new Exceptions\NotAnEdgeException($edge_id);
     }
     $edge->setup();
+    $edge->init();
     $this->edge_cache[$edge_id] = $edge;
     return $edge;
   }
