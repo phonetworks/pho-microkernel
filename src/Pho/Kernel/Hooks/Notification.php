@@ -2,6 +2,8 @@
 
 namespace Pho\Kernel\Hooks;
 
+use Pho\Lib\Graph\EdgeInterface;
+
 /**
  * {@inheritDoc}
  */
@@ -12,9 +14,10 @@ class Notification
      */
     public static function setup(\Pho\Framework\AbstractNotification $notification): void
     {
-        $notification->hook("edge", (function(string $edge_id) {
+        $notification->hook("edge", (function(): EdgeInterface 
+            {
                 $this->_ensureKernel();
-                return $this->kernel->gs()->edge($this->edge_id);
+                return $this->owner->kernel()->gs()->edge($this->edge_id->toString());
             })
         );
     }

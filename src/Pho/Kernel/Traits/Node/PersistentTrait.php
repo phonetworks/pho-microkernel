@@ -114,10 +114,15 @@ trait PersistentTrait {
                 if(!class_exists($class) || !preg_match("/^[a-z0-9_\\\\]+$/i", $class)) {
                     continue;
                 }
-                $edge_id = (string) ID::fromString($notification["edge"]);
-                $edge = $this->kernel->gs()->edge($edge_id);
-                $notifications[] = new $class($edge); 
-                Hooks::setup($notifications[(count($notifications)-1)]);
+                $edge_id = ID::fromString($notification["edge"]);
+                //$edge = $this->kernel->gs()->edge($edge_id);
+                $notification = \ReflectionClass::newInstanceWithoutConstructor($class);// new $class($edge); 
+                $n_ = new \ReflectionObject($notification);
+                $property = $n_->getProperty("edge_id");
+                $property->setAccessible(true);
+                $property->setValue($notification, $edge_id);
+                Hooks::setup($notification);
+                $notifications[] = $notification;
             }
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
