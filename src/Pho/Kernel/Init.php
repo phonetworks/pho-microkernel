@@ -199,6 +199,7 @@ class Init extends Container
          );
        }
 
+       $this->logger()->info("Root seed complete. Time to integrate space & graph");
        
        try {
           $this["space"]->add($this["graph"]);
