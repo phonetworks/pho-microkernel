@@ -47,7 +47,7 @@ class Container extends \Pimple
                   } 
                 };
               }
-              throw new \InvalidArgumentException("The method %s is not defined", $name);
+              throw new \InvalidArgumentException(sprintf("The method %s is not defined", $name));
             }
             return $this[$name];
         }
