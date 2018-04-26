@@ -166,4 +166,12 @@ class Kernel extends Init
      throw new \Exception(sprintf("No plugin with the name %s", $name)); 
   }
 
+  public function flush(): void
+  {
+    if(!$this->live())
+      return; // may throw an exception
+    // database: flushdb
+    // index: match (n) detach delete n;
+  }
+
 }

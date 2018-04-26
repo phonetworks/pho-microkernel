@@ -59,8 +59,11 @@ class Graphsystem
     public function warmUpCache(): void
     {
         $this->node_cache[$this->kernel->space()->id()->toString()] = $this->kernel->space();
+        $this->logger->info("Space warmed up");
         $this->node_cache[$this->kernel->graph()->id()->toString()] = $this->kernel->graph();
+        $this->logger->info("Graph warmed up");
         $this->node_cache[$this->kernel->founder()->id()->toString()] = $this->kernel->founder();
+        $this->logger->info("Founder warmed up");
     }
 
     public function cache(EntityInterface $entity): EntityInterface
