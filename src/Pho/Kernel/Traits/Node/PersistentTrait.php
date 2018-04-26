@@ -47,7 +47,7 @@ trait PersistentTrait {
        }
         $this->kernel->logger()->info("About to serialize the node  %s, a %s", $this->id(), $this->label());
         $_ = serialize($this->toArray());
-        $this->kernel->logger()->info("The node serialized as: %s", $_);
+        // $this->kernel->logger()->info("The node serialized as: %s", $_);
         return $_;
     }
 
@@ -61,7 +61,7 @@ trait PersistentTrait {
     $data = unserialize($data);
     $this->id = ID::fromString($data["id"]);
     $this->kernel->logger()->info("Unserialization begins for %s", $this->id());
-    $this->kernel->logger()->info("The edge list is as follows: %s", print_r($data["edge_list"], true));
+    // $this->kernel->logger()->info("The edge list is as follows: %s", print_r($data["edge_list"], true));
     $this->edge_list = new Graph\EdgeList($this, $data["edge_list"]);
     if((string) ID::root() == $data["context"]) {
         $space_class = $this->kernel->config()->default_objects->space;
@@ -84,11 +84,13 @@ trait PersistentTrait {
         $this->outgoing_edges = $data["registered_edges"]["out"];
     }
     if(isset($data["members"])) { // Frame
+        /*
         $this->kernel->logger()->info(
             "Extracting members for the frame %s: %s",
             $this->id(),
             print_r($data["members"], true)
         );
+        */
         $this->rewire()->loadNodesFromIDArray($data["members"]);
     }
     if(isset($data["acl"])) {
@@ -122,7 +124,7 @@ trait PersistentTrait {
         $this->listeners = $data["listeners"];
         $this->listeners_flat = $data["listeners"];
     }
-    $this->kernel->logger()->info("Attributes as follows: %s", print_r($data["attributes"], true));
+    //$this->kernel->logger()->info("Attributes as follows: %s", print_r($data["attributes"], true));
     $this->attributes = new AttributeBag($this, $data["attributes"]);
     $this->initializeHandler();
     

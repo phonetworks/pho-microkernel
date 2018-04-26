@@ -25,10 +25,10 @@ class AttributeBag extends LibGraph\AttributeBag
      */
     private function hydrate(): void 
     {
-        $this->owner->kernel()->logger()->info(
+        /*($this->owner->kernel()->logger()->info(
             "Hydration of AttributeBag with data:",
             print_r($this->bag, true)
-        );
+        );*/
         foreach($this->bag as $key=>$value) {
             if(!is_string($value))
                 continue;
