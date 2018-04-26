@@ -14,7 +14,7 @@ class Notification
     {
         $notification->hook("edge", (function(string $edge_id) {
                 $this->_ensureKernel();
-                return $this->kernel->ns()->edge($this->edge_id);
+                return $this->kernel->gs()->edge($this->edge_id);
             })
         );
     }
