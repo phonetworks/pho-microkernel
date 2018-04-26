@@ -130,6 +130,7 @@ class Kernel extends Init
     $this->is_running = true;
     
     $this->setupServices();
+    $this->gs()->init(); // now that the services are ready, it may start
     
     $this["logger"]->info("Services set up. Root seed begins.");
     

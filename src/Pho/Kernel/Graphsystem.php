@@ -19,6 +19,7 @@ use Pho\Lib\Graph\ID;
  */
 class Graphsystem 
 {
+  private $kernel;
     private $database;
     private $index;
     private $logger;
@@ -43,11 +44,16 @@ class Graphsystem
     protected $edge_cache = [];
 
     public function __construct(Kernel $kernel) {
+      $this->kernel = $kernel;
+        // warmup cache must not be here.
+    }
+
+    public function init(): void
+    {
         $this->database = $kernel->database();
         $this->logger = $kernel->logger();
         $this->index = $kernel->index();
         $this->events = $kernel->events();
-        // warmup cache must not be here.
     }
 
     public function warmUpCache(Kernel $kernel): void
