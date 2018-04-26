@@ -127,9 +127,10 @@ trait PersistentTrait {
     //$this->kernel->logger()->info("Attributes as follows: %s", print_r($data["attributes"], true));
     $this->attributes = new AttributeBag($this, $data["attributes"]);
     $this->initializeHandler();
-    
+    $this->kernel->logger()->info("Unserialization almost complete for %s", $this->id());
     // $this->init(); // for signals
     $this->rewire();
+    $this->kernel->logger()->info("Unserialization complete for %s", $this->id());
   }
 
   function listeners(string $eventName, bool $flat=false) : array {
