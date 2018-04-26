@@ -63,6 +63,7 @@ trait PersistentTrait {
     $this->kernel->logger()->info("Unserialization begins for %s", $this->id());
     // $this->kernel->logger()->info("The edge list is as follows: %s", print_r($data["edge_list"], true));
     $this->edge_list = new Graph\EdgeList($this, $data["edge_list"]);
+    $this->kernel->logger()->info("Unserialization begins 1 for %s", $this->id());
     if((string) ID::root() == $data["context"]) {
         $space_class = $this->kernel->config()->default_objects->space;
         $this->context = new $space_class($this->kernel);
@@ -71,7 +72,7 @@ trait PersistentTrait {
     else {
         $this->context_id = $data["context"];
     }
-    
+    $this->kernel->logger()->info("Unserialization begins 2 for %s", $this->id());
     $this->creator_id = $data["creator"];
     if(isset($data["current_context"])) { // Actor
         $this->current_context = $this->kernel->gs()->node($data["current_context"]);
@@ -83,6 +84,7 @@ trait PersistentTrait {
         $this->incoming_edges = $data["registered_edges"]["in"];
         $this->outgoing_edges = $data["registered_edges"]["out"];
     }
+    $this->kernel->logger()->info("Unserialization begins 3 for %s", $this->id());
     if(isset($data["members"])) { // Frame
         /*
         $this->kernel->logger()->info(
