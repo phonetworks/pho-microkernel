@@ -116,8 +116,8 @@ trait PersistentTrait {
                 }
                 $edge_id = ID::fromString($notification["edge"]);
                 //$edge = $this->kernel->gs()->edge($edge_id);
-                $notification = \ReflectionClass::newInstanceWithoutConstructor($class);// new $class($edge); 
-                $n_ = new \ReflectionObject($notification);
+                $n_ = new \ReflectionClass($class);
+                $notification = $n_->newInstanceWithoutConstructor();// new $class($edge); 
                 $property = $n_->getProperty("edge_id");
                 $property->setAccessible(true);
                 $property->setValue($notification, $edge_id);
