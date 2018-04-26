@@ -79,6 +79,10 @@ class Init extends Container
          $space_class = $c["config"]->default_objects->space;
         return new $space_class($c);
        });
+    
+    $this["gs"] = $this->share(function($c) {
+        return new Graphsystem($c);
+    });
     $this->is_configured = true;
   }
 
