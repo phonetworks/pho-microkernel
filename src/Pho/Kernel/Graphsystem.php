@@ -56,11 +56,11 @@ class Graphsystem
         $this->events = $this->kernel->events();
     }
 
-    public function warmUpCache(Kernel $kernel): void
+    public function warmUpCache(): void
     {
-        $this->node_cache[$kernel->space()->id()->toString()] = $kernel->space();
-        $this->node_cache[$kernel->graph()->id()->toString()] = $kernel->graph();
-        $this->node_cache[$kernel->founder()->id()->toString()] = $kernel->founder();
+        $this->node_cache[$this->kernel->space()->id()->toString()] = $this->kernel->space();
+        $this->node_cache[$this->kernel->graph()->id()->toString()] = $this->kernel->graph();
+        $this->node_cache[$this->kernel->founder()->id()->toString()] = $this->kernel->founder();
     }
 
     public function cache(EntityInterface $entity): EntityInterface

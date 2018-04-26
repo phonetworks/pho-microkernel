@@ -200,15 +200,16 @@ class Init extends Container
        }
 
        $this->logger()->info("Root seed complete. Time to integrate space & graph");
-       
+       $this["gs"]->warmUpCache();
+
        try {
-          $this["space"]->add($this["graph"]);
+        //  $this["space"]->add($this["graph"]);
           
        }
        catch(NodeAlreadyMemberException $e) {
           // do nothing
        }
 
-       $this["gs"]->warmUpCache($this);
+       
    }
 }
