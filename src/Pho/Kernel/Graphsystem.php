@@ -66,6 +66,17 @@ class Graphsystem
         $this->logger->info("Founder warmed up");
     }
 
+    public function purge(ID $id): void
+    {
+        $id = (string) $id;
+        if(isset($this->node_cache[$id])) {
+          unset($this->node_cache[$id]);
+        }
+        elseif(isset($this->edge_cache[$id])) {
+          unset($this->edge_cache[$id]);
+        }
+    }
+
     public function cache(EntityInterface $entity): EntityInterface
     {
       if($entity instanceof EdgeInterface) {
@@ -186,21 +197,23 @@ class Graphsystem
     //$this->index->index($entity);
   }
 
-  public function delEdge(Graph\ID $id): void
+  public function delEdge(ID $id): void
   {
+    $this->purge($id);
       $this->database->del($id);
       $this->events->emit("graphsystem.edge_deleted", [(string) $id]);
       //$this->index->edgeDeleted((string) $id);
   }
 
-  public function delNode(Graph\ID $id): void
+  public function delNode(ID $id): void
   {
+    $this->purge($id);
       $this->database->del($id);
       $this->events->emit("graphsystem.node_deleted", [(string) $id]);
       //$this->index->nodeDeleted((string) $id);
   }
 
-  public function expire(Graph\ID $id, int $timeout = (60*60*24)): void
+  public function expire(ID $id, int $timeout = (60*60*24)): void
   {
     $this->database->expire((string) $id, $timeout);
   }

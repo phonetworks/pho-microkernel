@@ -22,6 +22,9 @@ namespace Pho\Kernel;
       include("tests/assets/compiled/UserOut/Post.php");
       include("tests/assets/compiled/UserOut/Consume.php");
 
+      include("tests/assets/group_upgrade/Group.php");
+      include("tests/assets/group_upgrade/UserOut/Create.php");
+
 use Pho\Kernel\Kernel;
 use Pho\Kernel\Standards\Space;
 

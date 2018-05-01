@@ -1,0 +1,1 @@
+Based on https://github.com/pho-recipes/Facebook/blob/master/.compiled/Group.php

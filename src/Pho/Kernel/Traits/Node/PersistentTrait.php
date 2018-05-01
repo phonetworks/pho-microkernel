@@ -179,7 +179,7 @@ trait PersistentTrait {
         $edge->destroy();
     }
     $this->kernel->logger()->info("Node %s with label: %s has been called for deletion", $this->id(), $this->label());
-   $this->kernel->database()->del(sprintf("node:%s", $this->id()));
+   $this->kernel->gs()->delNode($this->id());
    parent::destroy();
    }
 
