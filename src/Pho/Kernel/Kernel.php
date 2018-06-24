@@ -48,6 +48,13 @@ class Kernel extends Init
   protected $plugins;
 
   /**
+   * Realtime loop
+   *
+   * @var React\EventLoop\LoopInterface
+   */
+  public $loop;
+
+  /**
    * A constant used to define how particles in attributebags will be 
    * serialized and stored in the database.
    * 
@@ -65,6 +72,7 @@ class Kernel extends Init
   public function __construct( array $settings = [] )
   {
     $GLOBALS["kernel"] = &$this;
+    $this->loop = \React\EventLoop\Factory::create();
     $this->reconfigure( $settings );
     
   }
@@ -74,6 +82,7 @@ class Kernel extends Init
     if(!$this->is_running) {
       throw new Exceptions\KernelNotRunningException();
     }
+    $this->loop->stop();
     $this->is_running = false;
     unset($GLOBALS["kernel"]);
   }

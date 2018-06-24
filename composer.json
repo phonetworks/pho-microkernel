@@ -23,7 +23,8 @@
         "webmozart/assert": "^1.2",
         "danielstjules/stringy": "^3.0",
         "vlucas/phpdotenv": "^2.4",
-	    "psr/log": "^1.0"
+        "psr/log": "^1.0",
+        "react/event-loop": "^0.5.2"
     },
     "require-dev": {
         "pho-adapters/storage-filesystem": "dev-master",
