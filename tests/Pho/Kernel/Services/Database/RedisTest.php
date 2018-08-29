@@ -16,7 +16,8 @@ use Pho\Kernel\TestCase;
 class RedisTest extends TestCase {
 
  public function testRootMethods() {
-      $this->kernel->database()->set("field1", "value");
+    //$this->kernel->loop->run();
+    $this->kernel->database()->set("field1", "value");
     $this->assertEquals("value", $this->kernel->database()->get("field1"));
     $this->kernel->database()->del("field1");
     $this->assertNull($this->kernel->database()->get("field1"));
