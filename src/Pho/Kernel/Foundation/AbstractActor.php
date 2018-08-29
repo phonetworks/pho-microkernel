@@ -5,6 +5,8 @@ namespace Pho\Kernel\Foundation;
 use Pho\Framework;
 use Pho\Kernel\Kernel;
 use Pho\Kernel\Standards;
+use Pho\Lib\Graph\EntityInterface;
+use Pho\Lib\Graph\EdgeInterface;
 
 abstract class AbstractActor extends Framework\Actor implements ParticleInterface {
 
@@ -50,8 +52,15 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
         }
     }
 
-    public function edit(ParticleInterface $obj): ParticleInterface
+    public function edit(EntityInterface $obj): EntityInterface
     {
+        if($obj instanceof EdgeInterface)
+        {
+               if($this->equals($obj->tail()->node())
+                    return $obj;
+                else
+                    throw new Exceptions\WriteForEdgePermissionException($obj, $this);
+        }
         if(!$obj->acl()->writeable($this))
             throw new Exceptions\WriteByPermissionException($obj, $this);
         // $obj->lock($this);
