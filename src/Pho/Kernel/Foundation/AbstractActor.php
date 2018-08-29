@@ -56,7 +56,7 @@ abstract class AbstractActor extends Framework\Actor implements ParticleInterfac
     {
         if($obj instanceof EdgeInterface)
         {
-               if($this->equals($obj->tail()->node())
+               if($this->equals($obj->tail()->node()))
                     return $obj;
                 else
                     throw new Exceptions\WriteForEdgePermissionException($obj, $this);
