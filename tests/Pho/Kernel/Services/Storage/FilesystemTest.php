@@ -24,6 +24,8 @@ class FilesystemTest extends TestCase {
 
   public function setUp() {
     parent::setUp();
+    if($this->kernel->config()->services->storage->type!="filesystem")
+        $this->markTestSkipped('Filesystem storage service won\'t be tested');
     $this->bus_gif_file = $this->kernel->config()->tmp_path.DIRECTORY_SEPARATOR."bus.gif";
   }
 
