@@ -70,4 +70,14 @@ interface DatabaseInterface {
    */
   public function ttl(string $key): int;
 
+  /**
+   * Direct access to the database client
+   * 
+   * Read-only access for debugging and as the client
+   * may be reused by the Index service.
+   *
+   * @return mixed
+   */
+  public function client()/*: mixed*/;
+
 }

@@ -30,9 +30,9 @@ interface IndexInterface
      * @param string $query Cypher query
      * @param array $param Query params. Optional.
      *
-     * @return QueryResult Result set
+     * @return mixed Result set (for now in several forms) // QueryResult Result set
      */
-    public function query(string $query, array $params = []): QueryResult;
+    public function query(string $query, array $params = [])/*: QueryResult*/;
 
     /**
      * Direct access to the the index client
@@ -91,6 +91,8 @@ interface IndexInterface
 
     /**
      * Checks whether the given node exists in the database or not.
+     * 
+     * @todo Rename isNodeUnique
      * 
      * @param string $field_name Field Name
      * @param mixed $field_value Field Value
