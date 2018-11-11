@@ -42,6 +42,7 @@ return array(
       "default_objects" => array(
         "graph" => Standards\Graph::class,
         "founder" => Standards\Founder::class,
+        "alien" => Standards\Alien::class,
         "space" => Standards\Space::class,
         "editors" => Standards\VirtualGraph::class
       )
