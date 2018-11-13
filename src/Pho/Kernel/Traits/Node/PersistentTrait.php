@@ -150,9 +150,9 @@ trait PersistentTrait {
       foreach($res as $k=>$r) {
         if(!\is_callable($r)) {
             $res[$k][0] = 
-                ID::root()->toString() === $r[0] ? 
-                    $this->kernel->space() : 
-                    $this->id()->toString() === $r[0] ? $this : $this->kernel->gs()->node($r[0])
+                (ID::root()->toString() === $r[0]) ? 
+                    $this->kernel()->space() : 
+                    (($this->id()->toString() === $r[0]) ? $this : $this->kernel()->gs()->node($r[0]))
             ;
         }
       }
