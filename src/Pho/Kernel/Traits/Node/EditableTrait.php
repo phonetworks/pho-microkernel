@@ -45,11 +45,19 @@ trait EditableTrait {
         $this->editors = (new $editors_class(
             $this->kernel, $this->creator(), $this->context()
         ))->withMaster($this->id());
+        if($this->persistable()) {
+            $this->on("deleting", [$this, "delEditors"]);
+        }
         //if($this->acl()->sticky()) echo "x";
         //$this->acl()->sticky() ? $this->acl()->get("a::") : $this->acl()->get("u::");
         $this->acl()->set("g:".(string) $this->editors->id().":", 
             $this->acl()->sticky() ? $this->acl()->get("a::") : $this->acl()->get("u::")
         );
+    }
+
+    public function delEditors(): void
+    {
+        $this->editors()->destroy();
     }
 
     // not hydrated, can be .
