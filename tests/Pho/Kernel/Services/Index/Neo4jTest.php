@@ -42,7 +42,7 @@ class Neo4jTest extends TestCase
         $u->setAbout($about);
         $res = $this->kernel->index()->query("MATCH(n {About: {about}}) RETURN n", ["about" => $about]);
         //$this->assertEquals($res->firstRecord()->values()[0]->value("Birthday"), $u->getBirthday());
-        $this->assertEquals($res->results()[0]["Birthday"], $u->getBirthday());
+        $this->assertEquals($res->results()[0]["n.Birthday"], $u->getBirthday());
         $this->created[] = $u->id();
     }  
 
@@ -52,9 +52,9 @@ class Neo4jTest extends TestCase
         $content = "my first post";
         $post = $u->post($content);        
         $res = $this->kernel->index()->query("MATCH(n {Status: {content}}) RETURN n", ["content" => $content]);
-        $this->assertEquals($res->results()[0]["CreateTime"], $post->getCreateTime());
+        $this->assertEquals($res->results()[0]["n.CreateTime"], $post->getCreateTime());
         $res = $this->kernel->index()->query("MATCH(t {udid: {tail}})-[e]->(h {udid: {head}}) RETURN e", ["tail" => (string) $u->id(), "head" => (string) $post->id()]);
-        $this->assertEquals($res->results()[0]["udid"], (string) $post->edges()->in()->current()->id());
+        $this->assertEquals($res->results()[0]["e.udid"], (string) $post->edges()->in()->current()->id());
         $this->created[] = $u->id();
         $this->created[] = $post->id();
         $this->created[] = $post->edges()->in()->current()->id();
