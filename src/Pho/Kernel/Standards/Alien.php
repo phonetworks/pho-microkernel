@@ -13,6 +13,7 @@ namespace Pho\Kernel\Standards;
 
 use Pho\Kernel\Foundation;
 use Pho\Kernel\Kernel;
+use Pho\Lib\Graph\ID;
 
 /**
  * Alien represents unnamed, volatile, anonymous
@@ -49,6 +50,14 @@ class Alien extends Foundation\AbstractActorDP {
     public function __construct(Kernel $kernel)
     { 
         parent::__construct($kernel, $kernel->space());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function id(): ID
+    {
+        return new ID("40000000000000000000000000000000");
     }
 
 }
