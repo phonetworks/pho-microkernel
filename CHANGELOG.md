@@ -5,3 +5,6 @@
 
 ### 2.4 to 2.5
 * added ```alien``` function for anonymous users. Must be improved.
+
+### 2.5 to 2.6
+* subscribe notification tested & verified
