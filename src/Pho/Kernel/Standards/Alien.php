@@ -57,7 +57,7 @@ class Alien extends Foundation\AbstractActorDP {
      */
     public function id(): ID
     {
-        return new ID("40000000000000000000000000000000");
+        return ID::fromString("40000000000000000000000000000000");
     }
 
 }
