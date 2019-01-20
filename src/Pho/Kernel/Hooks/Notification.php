@@ -16,8 +16,8 @@ class Notification
     {
         $notification->hook("edge", (function(): EdgeInterface 
             {
-                //$this->kernel = $GLOBALS["kernel"];
-                return $this->owner->kernel()->gs()->edge($this->edge_id->toString());
+                $kernel = $GLOBALS["kernel"];
+                return $kernel->gs()->edge($this->edge_id->toString());
             })
         );
     }
