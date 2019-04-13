@@ -188,9 +188,41 @@ class Kernel extends Init
     }
     $import = json_decode($blob, true);
     foreach($import as $key=>$value) {
-        $this->database()->set($key, $value);
+        $this->database()->restore($key, 0, $value);
     }
     // rebuild index
+    // restart kernel
+  }
+
+  /**
+   * Reindexed the graph
+   *
+   * @param boolean $flush true by default. Whether to flush existing index.
+   * @return void
+   */
+  public function reindex(bool $flush = true): void
+  {
+    if(!$this->is_running) {
+      throw new Exceptions\KernelNotRunningException();
+    }
+
+    if($flush)
+      $this->index()->flush();
+
+    $nodes = array_values($graph->members());
+    $node_count = count($nodes);
+    $indexed_edges = [];
+
+    for($i=0; $i<$node_count; $i++) {
+      $this->gs()->index($nodes[$i]);
+      $edges = $nodes[$i]->edges()->out();
+      foreach($edges as $edge) {
+        if(!in_array($edge->id()->toString(), $indexed_edges)) {
+          $indexed_edges[] = $edge->id()->toString();
+          $this->gs()->index($edge);
+        }
+      }
+    }
   }
 
   /**
@@ -206,8 +238,8 @@ class Kernel extends Init
     $return = [];
     $keys = $this->database()->keys("*");
     foreach($keys as $key) {
-      if($key!="index") // skip list
-          $return[$key] = $this->database()->get($key);
+      // if($key!="index") // skip list
+          $return[$key] = $this->database()->dump($key);
     }
     return json_encode($return);
   }
