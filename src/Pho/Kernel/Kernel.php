@@ -174,4 +174,42 @@ class Kernel extends Init
     // index: match (n) detach delete n;
   }
 
+  /** 
+   * Imports from a given Pho backup file
+   * 
+   * @param string $blob 
+   * 
+   * @return void
+   */
+  public function import(string $blob): void
+  {
+    if(!$this->is_running) {
+      throw new Exceptions\KernelNotRunningException();
+    }
+    $import = json_decode($blob, true);
+    foreach($import as $key=>$value) {
+        $this->database()->set($key, $value);
+    }
+    // rebuild index
+  }
+
+  /**
+   * Exports in Pho backup file format
+   * 
+   * @return string 
+   */
+  public function export(): string
+  {
+    if(!$this->is_running) {
+      throw new Exceptions\KernelNotRunningException();
+    }
+    $return = [];
+    $keys = $this->database()->keys("*");
+    foreach($keys as $key) {
+      if($key!="index") // skip list
+          $return[$key] = $this->database()->get($key);
+    }
+    return json_encode($return);
+  }
+
 }
