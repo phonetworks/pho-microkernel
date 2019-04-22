@@ -1,6 +1,6 @@
 # Pho-Microkernel
 
-Enhances Pho Framework with Services (such as persistence) and ACL (access-control-lists).
+Enhances Phở Framework with Services (such as persistence) and ACL (access-control-lists).
 
 Existing services are:
 
