@@ -220,12 +220,12 @@ class Kernel extends Init
     $indexed_edges = [];
 
     for($i=0; $i<$node_count; $i++) {
-      $this->index()->index($nodes[$i]);
+      $this->index()->index($nodes[$i]->toArray());
       $edges = $nodes[$i]->edges()->out();
       foreach($edges as $edge) {
         if(!in_array($edge->id()->toString(), $indexed_edges)) {
           $indexed_edges[] = $edge->id()->toString();
-          $this->index()->index($edge);
+          $this->index()->index($edge->toArray());
         }
       }
     }
