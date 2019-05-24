@@ -211,6 +211,7 @@ class Kernel extends Init
     if($flush)
       $this->index()->flush();
 
+    $graph = $this->graph();
     $nodes = array_values($graph->members());
     $node_count = count($nodes);
     $indexed_edges = [];
