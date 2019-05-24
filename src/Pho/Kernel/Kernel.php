@@ -225,7 +225,7 @@ class Kernel extends Init
       foreach($edges as $edge) {
         if(!in_array($edge->id()->toString(), $indexed_edges)) {
           $indexed_edges[] = $edge->id()->toString();
-          $this->gs()->index($edge);
+          $this->index()->index($edge);
         }
       }
     }
