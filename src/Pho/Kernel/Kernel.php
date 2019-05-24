@@ -176,6 +176,8 @@ class Kernel extends Init
 
   /** 
    * Imports from a given Pho backup file
+   *
+   * @see Kernel::export()     
    * 
    * @param string $blob 
    * 
@@ -186,7 +188,7 @@ class Kernel extends Init
     if(!$this->is_running) {
       throw new Exceptions\KernelNotRunningException();
     }
-    $import = json_decode($blob, true);
+    $import = unserialize($blob);
     foreach($import as $key=>$value) {
         $this->database()->restore($key, 0, $value);
     }
@@ -227,6 +229,11 @@ class Kernel extends Init
 
   /**
    * Exports in Pho backup file format
+   *
+   * There was a problem with json_encode in large files
+   * hence switched to php serialize format instead.
+   *
+   * @see Kernel::import
    * 
    * @return string 
    */
@@ -241,7 +248,7 @@ class Kernel extends Init
       // if($key!="index") // skip list
           $return[$key] = $this->database()->dump($key);
     }
-    return json_encode($return);
+    return serialize($return);
   }
 
 }
