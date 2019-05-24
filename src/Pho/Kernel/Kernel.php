@@ -220,7 +220,7 @@ class Kernel extends Init
     $indexed_edges = [];
 
     for($i=0; $i<$node_count; $i++) {
-      $this->gs()->index($nodes[$i]);
+      $this->index()->index($nodes[$i]);
       $edges = $nodes[$i]->edges()->out();
       foreach($edges as $edge) {
         if(!in_array($edge->id()->toString(), $indexed_edges)) {
