@@ -177,6 +177,8 @@ class Kernel extends Init
   /** 
    * Imports from a given Pho backup file
    *
+   * This function flushes the database, use it with caution.
+   *
    * @see Kernel::export()     
    * 
    * @param string $blob 
@@ -188,6 +190,7 @@ class Kernel extends Init
     if(!$this->is_running) {
       throw new Exceptions\KernelNotRunningException();
     }
+    $this->database()->flushdb();
     $import = unserialize($blob);
     foreach($import as $key=>$value) {
         $this->database()->restore($key, 0, $value);
