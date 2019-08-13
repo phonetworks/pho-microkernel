@@ -25,6 +25,8 @@ microkernel [ACL](https://github.com/phonetworks/pho-microkernel/blob/master/src
 The recommended way to install pho-microkernel is through composer.
 
 ```composer require phonetworks/pho-microkernel```
+
+Please note, pho-microkernel works with PHP 7.2+ only.
  
  
 ## License

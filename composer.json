@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php":"^7.1",
+        "php":"^7.2",
         "monolog/monolog": "^1.22",
 	    "zendframework/zend-config": "*",
         "pimple/pimple": "^1.1",
