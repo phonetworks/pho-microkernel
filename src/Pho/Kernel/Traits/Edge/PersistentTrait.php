@@ -36,7 +36,10 @@ trait PersistentTrait {
         public function rewire(): self
     {
         Hooks::setup($this);
-        Hooks::setup($this->notifications());
+        $notifications = $this->notifications();
+        foreach($notifications as $notification) {
+            Hooks::setup($notification);
+        }
 
         $this->on("modified", [$this, "persist"]);
 
