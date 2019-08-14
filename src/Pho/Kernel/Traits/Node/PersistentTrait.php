@@ -110,19 +110,26 @@ trait PersistentTrait {
         if(isset($data["notifications"])) {
             foreach($data["notifications"] as $notification) {
                 // let's recreate the objects
+                
                 $class = $notification["class"];
                 if(!class_exists($class) || !preg_match("/^[a-z0-9_\\\\]+$/i", $class)) {
                     continue;
                 }
-                $edge_id = ID::fromString($notification["edge"]);
+                ///*
+                //$edge_id = ID::fromString($notification["edge"]);
                 //$edge = $this->kernel->gs()->edge($edge_id);
                 $n_ = new \ReflectionClass($class);
-                $notification = $n_->newInstanceWithoutConstructor();// new $class($edge); 
+                $notification_obj = $n_->newInstanceWithoutConstructor();// new $class($edge); 
                 $property = $n_->getProperty("edge_id");
                 $property->setAccessible(true);
-                $property->setValue($notification, $edge_id);
-                Hooks::setup($notification);
-                $notifications[] = $notification;
+                $this->kernel->logger()->info("Notification Edge ID is: ". $notification["edge"]);
+                $property->setValue($notification_obj, $notification["edge"]);
+                Hooks::setup($notification_obj);
+                //*/
+
+                //$edge = $this->kernel->gs()->edge($notification["edge"]);
+                //$notification = new $class($edge);
+                $notifications[] = $notification_obj;
             }
         }
         $this->notifications = new Framework\NotificationList($this, $notifications); // assuming it's an actor
