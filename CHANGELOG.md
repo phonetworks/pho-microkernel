@@ -8,3 +8,6 @@
 
 ### 2.5 to 2.6
 * subscribe notification tested & verified
+
+### 2.6 to 2.7
+* downstream update for DHT
