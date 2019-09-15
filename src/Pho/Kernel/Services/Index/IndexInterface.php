@@ -92,6 +92,8 @@ interface IndexInterface
     /**
      * Checks whether the given node exists in the database or not.
      * 
+     * @todo Rename isNodeUnique
+     * 
      * @param string $field_name Field Name
      * @param mixed $field_value Field Value
      * @param string $label The label of the node in question

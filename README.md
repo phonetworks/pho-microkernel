@@ -1,6 +1,10 @@
-# Pho-Microkernel
+<p align="center">
+  <img width="375" height="150" src="https://github.com/phonetworks/commons-php/raw/master/.github/cover-smaller.png">
+</p>
 
-Enhances Pho Framework with Services (such as persistence) and ACL (access-control-lists).
+# pho-microkernel
+
+Enhances Phở Framework with Services (such as persistence) and ACL (access-control-lists).
 
 Existing services are:
 
@@ -21,6 +25,8 @@ microkernel [ACL](https://github.com/phonetworks/pho-microkernel/blob/master/src
 The recommended way to install pho-microkernel is through composer.
 
 ```composer require phonetworks/pho-microkernel```
+
+Please note, pho-microkernel works with PHP 7.2+ only.
  
  
 ## License

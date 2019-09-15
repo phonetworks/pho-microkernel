@@ -15,6 +15,7 @@ namespace Pho\Kernel;
       include("tests/assets/compiled/Graph.php");
       include("tests/assets/compiled/User.php");
       include("tests/assets/compiled/UserWithUniqueFeatures.php");
+      include("tests/assets/compiled/UserEditable.php");
       include("tests/assets/compiled/Status.php");
       include("tests/assets/compiled/StatusOut/Mention.php");
       include("tests/assets/compiled/UserOut/Follow.php");

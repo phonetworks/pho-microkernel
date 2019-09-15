@@ -60,16 +60,25 @@ class ServiceFactory {
    * doesn't necessarily check if this class name conforms the
    * requirements to be a valid kernel service.
    *
+   * Warning: in cases such as the one with $type=redis
+   * convertTypeToServiceClassName returns "redis" if the native Redis
+   * extension \Redis is installed and then serviceExists fails because 
+   * \Redis does not implement the sought-after adapters.
+   * To mitigate this problem, we've added a bypass custom argument which will
+   * apply a second search in such circumastances, bypassing the custom class case
+   * and trying its luck with a class name based on $this->kernel->config()->namespaces->services
+   *
    * @see serviceExists
    *
    * @param string  $category Service category
    * @param string  $type Service type
+   * @param bool    $bypass_custom whether the function should take into consideration custom class case
    *
    * @return string|null
    */
-  private function convertTypeToServiceClassName(string $category, string $type): ?string
+  private function convertTypeToServiceClassName(string $category, string $type, bool $bypass_custom = false): ?string
   {
-    if( class_exists($type)) { // custom service
+    if( !$bypass_custom && class_exists($type)) { // custom service
       return $type;
     }
     else {
@@ -85,20 +94,32 @@ class ServiceFactory {
    * Checks if the given type matches any valid service that implements
    * appropriate service interfaces.
    *
+   * Warning: in cases such as the one with $type=redis
+   * convertTypeToServiceClassName returns "redis" if the native Redis
+   * extension \Redis is installed and then serviceExists fails because 
+   * \Redis does not implement the sought-after adapters.
+   * To mitigate this problem, we've added a bypass custom argument which will
+   * apply a second search in such circumastances, bypassing the custom class case
+   * and trying its luck with a class name based on $this->kernel->config()->namespaces->services
+   *
    * @param string  $category Service category
    * @param string  $type Service type
+   * @param $bypass_custom whether the function should take into consideration custom class case
    *
    * @return bool
    */
-  private function serviceExists(string $category, string $type): bool
+  private function serviceExists(string $category, string $type, bool $bypass_custom = false): bool
   {
-    $service_class = $this->convertTypeToServiceClassName($category, $type);
+    $service_class = $this->convertTypeToServiceClassName($category, $type, $bypass_custom);
     if(is_null($service_class))
       return false;
 
     $interfaces = class_implements($service_class);
-    if($interfaces===false || !is_array($interfaces))
+    if($interfaces===false || !is_array($interfaces)) {
+      if(!$bypass_custom)
+          return $this->serviceExists($category, $type, true);
       return false;
+    }
 
 
     $category = ucfirst(strtolower($category));

@@ -12,6 +12,7 @@
 namespace Pho\Kernel\Acl;
 
 use Pho\Kernel\Foundation\Exceptions;
+use Pho\Kernel\Standards\Alien;
 
 class DeniedPermissionAclTest extends AclTestCase 
 {
@@ -74,6 +75,25 @@ class DeniedPermissionAclTest extends AclTestCase
         $this->expectException(Exceptions\WriteByPermissionException::class);
         $this->anonymous->edit($post)->setStatus($content);
     }
+
+    public function testWriteByAlienPermissionExceptionNegative() {
+        $content = "some content";
+        $post = $this->user->post("my first post");
+        $post->acl()->chmod(0x07575);
+        $alien = $this->kernel->alien();
+        $this->assertInstanceOf(Alien::class, $alien);
+        $this->expectException(Exceptions\WriteByPermissionException::class);
+        $this->kernel->alien()->edit($post)->setStatus($content);
+    }
+
+    /*
+    public function testWriteAlienPermissionExceptionNegative() {
+        $content = "some content";
+        //$this->kernel->alien()->post("my first post"); // no such function
+        $this->anonymous->acl()->chmod(0x04000); // anonymized // can still post, because it's in the same graph
+        $this->anonymous->post("my first post");
+    }
+    */
 
     public function testWriteBySubscriberPermissionExceptionPositive() {
         $content = "some content";

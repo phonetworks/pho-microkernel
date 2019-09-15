@@ -183,4 +183,85 @@ class Kernel extends Init
     // index: match (n) detach delete n;
   }
 
+  /** 
+   * Imports from a given Pho backup file
+   *
+   * This function flushes the database, use it with caution.
+   *
+   * @see Kernel::export()     
+   * 
+   * @param string $blob 
+   * 
+   * @return void
+   */
+  public function import(string $blob): void
+  {
+    if(!$this->is_running) {
+      throw new Exceptions\KernelNotRunningException();
+    }
+    $this->database()->flushdb();
+    $import = unserialize($blob);
+    foreach($import as $key=>$value) {
+        $this->database()->restore($key, 0, $value);
+    }
+    // rebuild index
+    // restart kernel
+  }
+
+  /**
+   * Reindexed the graph
+   *
+   * @param boolean $flush true by default. Whether to flush existing index.
+   * @return void
+   */
+  public function reindex(bool $flush = true): void
+  {
+    if(!$this->is_running) {
+      throw new Exceptions\KernelNotRunningException();
+    }
+
+    if($flush)
+      $this->index()->flush();
+
+    $graph = $this->graph();
+    $nodes = array_values($graph->members());
+    $node_count = count($nodes);
+    $indexed_edges = [];
+
+    for($i=0; $i<$node_count; $i++) {
+      $this->index()->index($nodes[$i]->toArray());
+      $edges = $nodes[$i]->edges()->out();
+      foreach($edges as $edge) {
+        if(!in_array($edge->id()->toString(), $indexed_edges)) {
+          $indexed_edges[] = $edge->id()->toString();
+          $this->index()->index($edge->toArray());
+        }
+      }
+    }
+  }
+
+  /**
+   * Exports in Pho backup file format
+   *
+   * There was a problem with json_encode in large files
+   * hence switched to php serialize format instead.
+   *
+   * @see Kernel::import
+   * 
+   * @return string 
+   */
+  public function export(): string
+  {
+    if(!$this->is_running) {
+      throw new Exceptions\KernelNotRunningException();
+    }
+    $return = [];
+    $keys = $this->database()->keys("*");
+    foreach($keys as $key) {
+      // if($key!="index") // skip list
+          $return[$key] = $this->database()->dump($key);
+    }
+    return serialize($return);
+  }
+
 }

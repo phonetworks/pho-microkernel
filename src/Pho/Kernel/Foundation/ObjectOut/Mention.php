@@ -5,7 +5,7 @@ namespace Pho\Kernel\Foundation\ObjectOut;
 use Pho\Lib\Graph\NodeInterface;
 use Pho\Lib\Graph\PredicateInterface;
 
-class Mention extends \Pho\Framework\ObjectOut\Mention
+class Mention extends \Pho\Framework\ObjOut\Mention
 {
     //use \Pho\Kernel\Traits\Edge\PersistentTrait;
     
