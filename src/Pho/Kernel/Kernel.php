@@ -14,6 +14,7 @@ namespace Pho\Kernel;
 use Pho\Lib\Graph;
 use Pho\Framework;
 use Pho\Kernel\Services\Exceptions\AdapterNonExistentException;
+use React\EventLoop\LoopInterface;
 
 /**
  * Pho Kernel is a programmable social graph interface.
@@ -50,9 +51,9 @@ class Kernel extends Init
   /**
    * Realtime loop
    *
-   * @var React\EventLoop\LoopInterface
+   * @var ?React\EventLoop\LoopInterface
    */
-  public $loop;
+  protected $loop = null;
 
   /**
    * A constant used to define how particles in attributebags will be 
@@ -68,11 +69,12 @@ class Kernel extends Init
    * Constructor.
    *
    * @param $settings  array  Service configurations.
+   * @param $loop  if set, it works realtime
    */
-  public function __construct( array $settings = [] )
+  public function __construct( array $settings = [], ?LoopInterface $loop = null )
   {
     $GLOBALS["kernel"] = &$this;
-    $this->loop = \React\EventLoop\Factory::create();
+    $this->loop = $loop;
     $this->reconfigure( $settings );
     
   }
@@ -82,7 +84,7 @@ class Kernel extends Init
     if(!$this->is_running) {
       throw new Exceptions\KernelNotRunningException();
     }
-    $this->loop->stop();
+    // $this->loop->stop(); // has not much to do with the loop, loop may still be running
     $this->is_running = false;
     unset($GLOBALS["kernel"]);
   }

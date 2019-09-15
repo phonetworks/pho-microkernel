@@ -15,6 +15,13 @@ use React\EventLoop\Factory;
 use React\EventLoop\LoopInterface;
 use React\Socket\Server as SocketServer;
 
+/**
+ * Daemon for TCP connections to the kernel
+ * 
+ * Useful in testing real-time kernel setups.
+ * 
+ * @author Emre Sokullu <emre@phonetworks.org>
+ */
 class Runner
 {
     private $kernel;
