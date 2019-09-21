@@ -18,7 +18,7 @@
         "monolog/monolog": "^1.22",
 	    "zendframework/zend-config": "*",
         "pimple/pimple": "^1.1",
-        "phonetworks/pho-framework": "^11.5",
+        "phonetworks/pho-framework": "^11.6",
         "webmozart/assert": "^1.2",
         "danielstjules/stringy": "^3.0",
         "vlucas/phpdotenv": "^2.4",
