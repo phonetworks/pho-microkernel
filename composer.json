@@ -21,7 +21,7 @@
         "phonetworks/pho-framework": "^11.6",
         "webmozart/assert": "^1.2",
         "danielstjules/stringy": "^3.0",
-        "vlucas/phpdotenv": "^2.4",
+        "vlucas/phpdotenv": "^4.1",
 	    "psr/log": "^1.0"
     },
     "require-dev": {

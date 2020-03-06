@@ -11,7 +11,7 @@ spl_autoload_register(function ($class_name) {
     include($class_file);
 });
 
-$dotenv = new \Dotenv\Dotenv(__DIR__);
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $configs = array(
