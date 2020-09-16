@@ -282,6 +282,7 @@ class Kernel extends Init
         $this["logger"]->info("Cleared orphan entity: ".$id->toString());
       }
     }
+    $this->reindex(true);
   }
 
 }
