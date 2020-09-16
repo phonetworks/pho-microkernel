@@ -11,7 +11,7 @@
 
 namespace Pho\Kernel;
 
-use Pho\Lib\Graph;
+use Pho\Lib\{ID, Graph};
 use Pho\Framework;
 use Pho\Kernel\Services\Exceptions\AdapterNonExistentException;
 
@@ -253,6 +253,35 @@ class Kernel extends Init
           $return[$key] = $this->database()->dump($key);
     }
     return serialize($return);
+  }
+
+  /**
+   * Clears orphan graph members
+   * 
+   * Over time, the database may get corrupt and some 
+   * orphan members might remain in the members registry 
+   * of the Graph. This method cleans them up.
+   *
+   * @see Kernel::import
+   * 
+   * @return string 
+   */
+  public function cleanup(): void
+  {
+    if(!$this->is_running) {
+      throw new Exceptions\KernelNotRunningException();
+    }
+    $members = $this->graph()->members();
+    foreach($members as $member) {
+      $id =  $member->id();
+      try {
+        $this->entity($id->toString());
+      }
+      catch(Exceptions\EntityDoesNotExistException $e) {
+        $this->graph()->remove($id); // ID::fromString($id)
+        $this["logger"]->info("Cleared orphan entity: ".$id->toString());
+      }
+    }
   }
 
 }
